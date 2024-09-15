@@ -1,0 +1,7 @@
+<resources>
+    <color name="primary">#2196F3</color>
+    <color name="darker_grey_font">#868E96</color>
+    <color name="border_color">#DEE2E6</color>
+    <color name="grey_font">#ADB5BD</color>
+    <color name="black_font">#414141</color>
+</resources>

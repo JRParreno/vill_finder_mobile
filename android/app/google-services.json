@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "198767677720",
+    "project_id": "vill-finder-mobile",
+    "storage_bucket": "vill-finder-mobile.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:198767677720:android:c9f06059aee02b5349ce6d",
+        "android_client_info": {
+          "package_name": "com.thesis.vill_finder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "198767677720-jp5bcql0r2h91a0qum91ed70fs04h32b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyASfmF3oWKFdh4HRWM5TLJrFyHonzTcbFg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "198767677720-ilagq9rp8mo4ccegu6tqc8chskiah84o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
