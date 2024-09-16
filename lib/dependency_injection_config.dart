@@ -21,4 +21,6 @@ Future<void> initDependencies() async {
   initAuth(serviceLocator);
   // set Home feature
   homeBusinessInit(serviceLocator);
+  // set Map feature
+  mapBusinessInit(serviceLocator);
 }

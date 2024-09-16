@@ -12,6 +12,7 @@ import 'package:vill_finder/core/router/index.dart';
 import 'package:vill_finder/features/auth/presentation/pages/login_page.dart';
 import 'package:vill_finder/features/error_page/error_page.dart';
 import 'package:vill_finder/features/home/presentation/pages/home_page.dart';
+import 'package:vill_finder/features/map/presentation/pages/map_page.dart';
 import 'package:vill_finder/features/navigation/presentation/scaffold_with_bottom_nav.dart';
 import 'package:vill_finder/features/on_boarding/on_boarding.dart';
 
@@ -119,7 +120,7 @@ GoRouter routerConfig() {
                 pageBuilder: (context, state) {
                   return buildTransitionPage(
                     localKey: state.pageKey,
-                    child: const Placeholder(),
+                    child: const MapPage(),
                   );
                 },
               ),
