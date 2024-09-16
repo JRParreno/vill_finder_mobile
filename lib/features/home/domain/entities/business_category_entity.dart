@@ -22,4 +22,12 @@ class BusinessCategoryEntity {
       subCategories: subCategories ?? this.subCategories,
     );
   }
+
+  factory BusinessCategoryEntity.empty() {
+    return BusinessCategoryEntity(
+      id: -1,
+      name: 'Explore',
+      subCategories: [],
+    );
+  }
 }

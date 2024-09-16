@@ -30,16 +30,19 @@ class BusinessRemoteDataSourceImpl implements BusinessRemoteDataSource {
   }) async {
     String url = '$baseUrl/api/businesses/';
 
-    if (businessName != null && businessName.isNotEmpty) {
-      url += '?business_name=$businessName';
-    }
-
-    if (categoryId != null) {
-      url += '?category_id=$categoryId';
-    }
-
-    if (businessName != null && businessName.isNotEmpty && categoryId != null) {
+    if (businessName != null &&
+        businessName.isNotEmpty &&
+        categoryId != null &&
+        categoryId > -1) {
       url += '?category_id=$categoryId&business_name=$businessName';
+    } else {
+      if (businessName != null && businessName.isNotEmpty) {
+        url += '?business_name=$businessName';
+      }
+
+      if (categoryId != null && categoryId > -1) {
+        url += '?category_id=$categoryId';
+      }
     }
 
     try {

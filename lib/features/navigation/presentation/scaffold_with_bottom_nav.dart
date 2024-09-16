@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vill_finder/core/router/index.dart';
+import 'package:vill_finder/gen/colors.gen.dart';
 
 class ScaffoldWithBottomNav extends StatefulWidget {
   const ScaffoldWithBottomNav({
@@ -32,6 +33,8 @@ class _ScaffoldWithBottomNavState extends State<ScaffoldWithBottomNav> {
     return Scaffold(
       bottomNavigationBar: CurvedNavigationBar(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        buttonBackgroundColor: ColorName.primary,
+        color: ColorName.primary,
         items: List.generate(
           icons.length,
           (i) => buildIcon(i),
@@ -48,7 +51,7 @@ class _ScaffoldWithBottomNavState extends State<ScaffoldWithBottomNav> {
     return Icon(
       icons[i],
       size: 30,
-      color: Colors.black.withOpacity(selectedItemIndex == i ? 1 : 0.65),
+      color: Colors.white.withOpacity(selectedItemIndex == i ? 1 : 0.65),
     );
   }
 

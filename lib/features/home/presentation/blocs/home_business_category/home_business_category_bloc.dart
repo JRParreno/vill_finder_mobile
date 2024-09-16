@@ -41,7 +41,13 @@ class HomeBusinessCategoryBloc
 
     response.fold(
       (l) => emit(HomeBusinessCategoryFailure(l.message)),
-      (r) => emit(HomeBusinessCategorySuccess(data: r)),
+      (r) => emit(
+        HomeBusinessCategorySuccess(
+          data: r.copyWith(
+            results: [BusinessCategoryEntity.empty(), ...r.results],
+          ),
+        ),
+      ),
     );
   }
 

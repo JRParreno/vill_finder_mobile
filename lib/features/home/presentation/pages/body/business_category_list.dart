@@ -22,11 +22,8 @@ class BusinessCategoryList extends StatelessWidget {
         if (state is HomeBusinessCategorySuccess) {
           context.read<HomeBusinessBloc>().add(
                 GetHomeBusinessEvent(
-                  search: searchCtrl.value.text,
-                  categoryId: state.selected > 0
-                      ? state.data.results[state.selected].id
-                      : null,
-                ),
+                    search: searchCtrl.value.text,
+                    categoryId: state.data.results[state.selected].id),
               );
         }
       },
