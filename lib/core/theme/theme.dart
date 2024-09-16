@@ -48,7 +48,7 @@ class AppTheme with ThemeMixin {
         color: Color.fromRGBO(173, 181, 189, 1),
       ),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
-      selectedColor: ColorName.primary,
+      selectedColor: Colors.white,
       showCheckmark: false,
       backgroundColor: Colors.white,
       secondaryLabelStyle: GoogleFonts.poppins(

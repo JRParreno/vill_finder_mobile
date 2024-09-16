@@ -31,6 +31,7 @@ class _ScaffoldWithBottomNavState extends State<ScaffoldWithBottomNav> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: CurvedNavigationBar(
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         items: List.generate(
           icons.length,
           (i) => buildIcon(i),

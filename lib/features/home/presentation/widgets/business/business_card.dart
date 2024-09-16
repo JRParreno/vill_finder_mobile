@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:vill_finder/features/home/domain/entities/index.dart';
 import 'package:vill_finder/gen/colors.gen.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,7 @@ class BusinessCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    final width = MediaQuery.of(context).size.width * 0.75;
 
     return GestureDetector(
       onTap: onTap ??
@@ -28,27 +30,56 @@ class BusinessCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(
             10,
           ),
-        ),
-        padding: const EdgeInsets.all(15),
-        height: 124,
-        width: double.infinity,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    business.name,
-                    style: textTheme.labelMedium,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+          image: business.businessPhotos.isNotEmpty
+              ? DecorationImage(
+                  image: CachedNetworkImageProvider(
+                    business.businessPhotos.first.image,
                   ),
-                ],
+                  fit: BoxFit.cover,
+                )
+              : null,
+        ),
+        height: width,
+        width: double.infinity,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Flexible(
+              child: Align(
+                alignment: Alignment.topRight,
+                child: IconButton(
+                  color: Colors.white,
+                  onPressed: () {},
+                  icon: const Icon(Icons.favorite_outline),
+                ),
               ),
             ),
+            SizedBox(
+              width: double.infinity,
+              child: Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        business.name,
+                        style: textTheme.labelMedium,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      Text(
+                        business.address,
+                        style: textTheme.labelSmall,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            )
           ],
         ),
       ),
