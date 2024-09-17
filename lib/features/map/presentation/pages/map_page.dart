@@ -121,6 +121,9 @@ class _MapPageState extends State<MapPage> {
     List<Marker> tempMarkers = businesses
         .map(
           (e) => Marker(
+            icon: e.bitMapIcon != null
+                ? BitmapDescriptor.bytes(e.bitMapIcon!, height: 30, width: 30)
+                : BitmapDescriptor.defaultMarker,
             markerId: MarkerId(e.name),
             position: LatLng(e.latitude, e.longitude),
             infoWindow: InfoWindow(

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:vill_finder/features/home/data/models/index.dart';
 import 'package:vill_finder/features/home/domain/entities/index.dart';
 
@@ -16,6 +17,7 @@ class BusinessModel extends BusinessEntity {
     required super.latitude,
     required super.openTime,
     required super.closeTime,
+    super.bitMapIcon,
   });
 
   factory BusinessModel.fromJson(Map<String, dynamic> json) {
@@ -42,6 +44,9 @@ class BusinessModel extends BusinessEntity {
       latitude: json['latitude'] as double,
       openTime: json['open_time'] as String,
       closeTime: json['close_time'] as String,
+      bitMapIcon: json['map_icon_bitmap'] != null
+          ? base64Decode(json['map_icon_bitmap'])
+          : null,
     );
   }
 }

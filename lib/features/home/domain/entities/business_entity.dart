@@ -1,4 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:typed_data';
+
 import 'package:vill_finder/features/home/domain/entities/index.dart';
 
 class BusinessEntity {
@@ -15,6 +17,7 @@ class BusinessEntity {
   final double latitude;
   final String openTime;
   final String closeTime;
+  final Uint8List? bitMapIcon;
 
   BusinessEntity({
     required this.id,
@@ -30,6 +33,7 @@ class BusinessEntity {
     required this.latitude,
     required this.openTime,
     required this.closeTime,
+    this.bitMapIcon,
   });
 
   BusinessEntity copyWith({
@@ -46,6 +50,7 @@ class BusinessEntity {
     double? latitude,
     String? openTime,
     String? closeTime,
+    Uint8List? bitMapIcon,
   }) {
     return BusinessEntity(
       id: id ?? this.id,
@@ -61,6 +66,7 @@ class BusinessEntity {
       latitude: latitude ?? this.latitude,
       openTime: openTime ?? this.openTime,
       closeTime: closeTime ?? this.closeTime,
+      bitMapIcon: bitMapIcon ?? this.bitMapIcon,
     );
   }
 }
