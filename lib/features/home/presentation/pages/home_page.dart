@@ -1,6 +1,7 @@
 import 'package:vill_finder/core/extension/spacer_widgets.dart';
-import 'package:vill_finder/features/home/presentation/blocs/home_business/home_business_bloc.dart';
-import 'package:vill_finder/features/home/presentation/blocs/home_business_category/home_business_category_bloc.dart';
+import 'package:vill_finder/features/home/presentation/blocs/cubit/carousel_dots_cubit.dart';
+import 'package:vill_finder/features/home/presentation/blocs/home_food/home_food_bloc.dart';
+import 'package:vill_finder/features/home/presentation/blocs/home_rental/home_rental_bloc.dart';
 import 'package:vill_finder/features/home/presentation/pages/body/index.dart';
 import 'package:vill_finder/features/home/presentation/widgets/search_field.dart';
 import 'package:vill_finder/gen/colors.gen.dart';
@@ -28,61 +29,66 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFD5F2FF),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const HomeHeader(),
-              SearchField(
-                onChanged: () {
-                  setState(() {});
-                },
-                onClearText: () {
-                  searchCtrl.clear();
-                  setState(() {});
-                  handleOnSubmitSearch();
-                },
-                controller: searchCtrl,
-                hintText: 'Search',
-                prefixIcon: const Icon(
-                  Icons.search_outlined,
-                  color: ColorName.darkerGreyFont,
-                ),
-                onSubmit: () => handleOnSubmitSearch(searchCtrl.value.text),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                children: [
+                  const HomeHeader(),
+                  SearchField(
+                    onChanged: () {
+                      setState(() {});
+                    },
+                    onClearText: () {
+                      searchCtrl.clear();
+                      setState(() {});
+                    },
+                    controller: searchCtrl,
+                    hintText: 'Search',
+                    prefixIcon: const Icon(
+                      Icons.search_outlined,
+                      color: ColorName.darkerGreyFont,
+                    ),
+                    readOnly: true,
+                  ),
+                ],
               ),
-              BusinessCategoryList(searchCtrl: searchCtrl),
-              BusinessList(controller: businessScroll),
-            ].withSpaceBetween(height: 15),
-          ),
+            ),
+            Expanded(
+              child: Container(
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(25),
+                    topRight: Radius.circular(25),
+                  ),
+                ),
+                child: ListView(
+                  children: [
+                    BlocProvider(
+                      create: (context) => DotsCubit(),
+                      child: const HomeFoodBody(),
+                    ),
+                    BlocProvider(
+                      create: (context) => DotsCubit(),
+                      child: const HomeRentalBody(),
+                    ),
+                  ],
+                ),
+              ),
+            )
+          ].withSpaceBetween(height: 15),
         ),
       ),
     );
   }
 
   void handleGetInitialTask() {
-    context
-        .read<HomeBusinessCategoryBloc>()
-        .add(GetHomeBusinessCategoryEvent());
-  }
-
-  void handleOnSubmitSearch([String keyword = '']) {
-    Future.delayed(const Duration(milliseconds: 150), () {
-      FocusScope.of(context).unfocus();
-    });
-
-    final businessCategoryState =
-        context.read<HomeBusinessCategoryBloc>().state;
-
-    if (businessCategoryState is HomeBusinessCategorySuccess) {
-      context.read<HomeBusinessBloc>().add(
-            GetHomeBusinessEvent(
-              categoryId: businessCategoryState
-                  .data.results[businessCategoryState.selected].id,
-              search: keyword,
-            ),
-          );
-    }
+    context.read<HomeFoodBloc>().add(const GetHomeFoodEvent());
+    context.read<HomeRentalBloc>().add(const GetHomeRentalEvent());
   }
 }

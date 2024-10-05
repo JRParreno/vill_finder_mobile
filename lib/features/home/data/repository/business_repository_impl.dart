@@ -2,8 +2,7 @@ import 'package:fpdart/fpdart.dart';
 import 'package:vill_finder/core/error/exceptions.dart';
 import 'package:vill_finder/core/error/failure.dart';
 import 'package:vill_finder/features/home/data/data_sources/business_remote_data_source.dart';
-import 'package:vill_finder/features/home/domain/entities/business_category_list_response_entity.dart';
-import 'package:vill_finder/features/home/domain/entities/business_list_response_entity.dart';
+import 'package:vill_finder/features/home/domain/entities/index.dart';
 import 'package:vill_finder/features/home/domain/repository/business_repository.dart';
 
 class BusinessRepositoryImpl implements BusinessRepository {
@@ -12,15 +11,35 @@ class BusinessRepositoryImpl implements BusinessRepository {
   const BusinessRepositoryImpl(this._remoteDataSource);
 
   @override
-  Future<Either<Failure, BusinessListResponseEntity>> getHomeBusinessList({
+  Future<Either<Failure, RentalListResponseEntity>> getHomeRentalList({
     int? categoryId,
-    String? businessName,
+    String? name,
     String? previous,
     String? next,
   }) async {
     try {
-      final response = await _remoteDataSource.getHomeBusinessList(
-        businessName: businessName,
+      final response = await _remoteDataSource.getHomeRentalList(
+        name: name,
+        categoryId: categoryId,
+        next: next,
+        previous: previous,
+      );
+      return right(response);
+    } on ServerException catch (e) {
+      return left(Failure(e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, FoodEstablishmentListResponseEntity>> getHomeFoodList({
+    int? categoryId,
+    String? name,
+    String? previous,
+    String? next,
+  }) async {
+    try {
+      final response = await _remoteDataSource.getHomeFoodList(
+        name: name,
         categoryId: categoryId,
         next: next,
         previous: previous,
@@ -33,11 +52,16 @@ class BusinessRepositoryImpl implements BusinessRepository {
 
   @override
   Future<Either<Failure, BusinessCategoryListResponseEntity>>
-      getHomeBusinessCategoryList({String? previous, String? next}) async {
+      getHomeBusinessCategoryList({
+    String? previous,
+    String? next,
+    String? name,
+  }) async {
     try {
       final response = await _remoteDataSource.getHomeBusinessCategoryList(
         next: next,
         previous: previous,
+        name: name,
       );
       return right(response);
     } on ServerException catch (e) {

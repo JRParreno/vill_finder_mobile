@@ -1,36 +1,36 @@
-part of 'home_business_bloc.dart';
+part of 'rental_bloc.dart';
 
-sealed class HomeBusinessState extends Equatable {
-  const HomeBusinessState();
+sealed class RentalState extends Equatable {
+  const RentalState();
 
   @override
   List<Object?> get props => [];
 }
 
-final class HomeBusinessInitial extends HomeBusinessState {}
+final class RentalInitial extends RentalState {}
 
-final class HomeBusinessLoading extends HomeBusinessState {}
+final class RentalLoading extends RentalState {}
 
-final class HomeBusinessSuccess extends HomeBusinessState {
-  final BusinessListResponseEntity data;
+final class RentalSuccess extends RentalState {
+  final RentalListResponseEntity data;
   final bool isPaginate;
   final String? search;
   final int? categoryId;
 
-  const HomeBusinessSuccess({
+  const RentalSuccess({
     required this.data,
     this.categoryId,
     this.search,
     this.isPaginate = false,
   });
 
-  HomeBusinessSuccess copyWith({
-    BusinessListResponseEntity? data,
+  RentalSuccess copyWith({
+    RentalListResponseEntity? data,
     bool? isPaginate,
     int? categoryId,
     String? search,
   }) {
-    return HomeBusinessSuccess(
+    return RentalSuccess(
       data: data ?? this.data,
       search: search ?? this.search,
       categoryId: categoryId ?? this.categoryId,
@@ -47,10 +47,10 @@ final class HomeBusinessSuccess extends HomeBusinessState {
       ];
 }
 
-final class HomeBusinessFailure extends HomeBusinessState {
+final class RentalFailure extends RentalState {
   final String message;
 
-  const HomeBusinessFailure(this.message);
+  const RentalFailure(this.message);
 
   @override
   List<Object> get props => [

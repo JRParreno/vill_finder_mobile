@@ -18,6 +18,7 @@ class SearchField extends StatelessWidget {
     this.keyboardType,
     this.validator,
     this.onSubmit,
+    this.readOnly = false,
   });
 
   final TextEditingController controller;
@@ -28,10 +29,11 @@ class SearchField extends StatelessWidget {
   final VoidCallback? onSubmit;
   final VoidCallback onChanged;
   final VoidCallback onClearText;
-
+  final bool readOnly;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      readOnly: readOnly,
       keyboardType: keyboardType,
       controller: controller,
       style: GoogleFonts.poppins(

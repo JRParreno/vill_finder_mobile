@@ -1,3 +1,3 @@
 export 'home_header.dart';
-export 'business_category_list.dart';
-export 'business_list.dart';
+export 'home_rental_body.dart';
+export 'home_food_body.dart';

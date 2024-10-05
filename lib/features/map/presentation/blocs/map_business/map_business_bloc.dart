@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:vill_finder/features/home/domain/entities/index.dart';
+import 'package:vill_finder/features/map/domain/entities/search_map_response_entity.dart';
 import 'package:vill_finder/features/map/domain/usecase/get_business_map_list.dart';
 
 part 'map_business_event.dart';
@@ -56,7 +56,7 @@ class MapBusinessBloc extends Bloc<MapBusinessEvent, MapBusinessState> {
             maxLongitude: state.params.maxLongitude,
             minLatitude: state.params.minLatitude,
             minLongitude: state.params.minLongitude,
-            businessName: state.params.businessName,
+            name: state.params.name,
             next: state.data.next,
             previous: state.data.previous,
           ),
@@ -67,7 +67,13 @@ class MapBusinessBloc extends Bloc<MapBusinessEvent, MapBusinessState> {
           (r) => emit(
             state.copyWith(
               data: r.copyWith(
-                results: [...state.data.results, ...r.results],
+                results: state.data.results.copyWith(foods: [
+                  ...state.data.results.foods,
+                  ...r.results.foods
+                ], rentals: [
+                  ...state.data.results.rentals,
+                  ...r.results.rentals
+                ]),
               ),
               isPaginate: false,
             ),

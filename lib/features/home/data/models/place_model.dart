@@ -1,12 +1,11 @@
 import 'dart:convert';
+
 import 'package:vill_finder/features/home/data/models/index.dart';
 import 'package:vill_finder/features/home/domain/entities/index.dart';
 
-class BusinessModel extends BusinessEntity {
-  BusinessModel({
-    required super.id,
-    required super.category,
-    required super.businessPhotos,
+class PlaceModel extends PlaceEntity {
+  PlaceModel({
+    required super.categories,
     required super.userProfile,
     required super.createdAt,
     required super.updatedAt,
@@ -15,22 +14,16 @@ class BusinessModel extends BusinessEntity {
     required super.address,
     required super.longitude,
     required super.latitude,
-    required super.openTime,
-    required super.closeTime,
+    required super.isFoodEstablishment,
+    required super.photos,
     super.bitMapIcon,
   });
 
-  factory BusinessModel.fromJson(Map<String, dynamic> json) {
-    return BusinessModel(
-      id: json['id'] as int,
-      category: List.from(
-        (json['category']).map(
-          (x) => BusinessSubCategoryModel.fromJson(x as Map<String, dynamic>),
-        ),
-      ),
-      businessPhotos: List.from(
-        (json['business_photos']).map(
-          (x) => BusinessPhotoModel.fromJson(x as Map<String, dynamic>),
+  factory PlaceModel.fromJson(Map<String, dynamic> json) {
+    return PlaceModel(
+      categories: List.from(
+        json['categories'].map<BusinessCategoryModel>(
+          (x) => BusinessCategoryModel.fromJson(x as Map<String, dynamic>),
         ),
       ),
       userProfile: BusinessUserProfileModel.fromJson(
@@ -42,11 +35,15 @@ class BusinessModel extends BusinessEntity {
       address: json['address'] as String,
       longitude: json['longitude'] as double,
       latitude: json['latitude'] as double,
-      openTime: json['open_time'] as String,
-      closeTime: json['close_time'] as String,
+      isFoodEstablishment: json['is_food_establishment'] as bool,
       bitMapIcon: json['map_icon_bitmap'] != null
           ? base64Decode(json['map_icon_bitmap'])
           : null,
+      photos: List<BusinessPhotoModel>.from(
+        json['photos'].map<BusinessPhotoModel>(
+          (x) => BusinessPhotoModel.fromJson(x as Map<String, dynamic>),
+        ),
+      ),
     );
   }
 }

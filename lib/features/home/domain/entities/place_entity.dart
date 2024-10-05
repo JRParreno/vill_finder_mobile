@@ -1,12 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:vill_finder/features/home/domain/entities/index.dart';
 import 'dart:typed_data';
 
-import 'package:vill_finder/features/home/domain/entities/index.dart';
-
-class BusinessEntity {
-  final int id;
-  final List<BusinessSubCategoryEntity> category;
-  final List<BusinessPhotoEntity> businessPhotos;
+class PlaceEntity {
+  final List<BusinessCategoryEntity> categories;
   final BusinessUserProfileEntity userProfile;
   final DateTime createdAt;
   final DateTime updatedAt;
@@ -15,14 +12,12 @@ class BusinessEntity {
   final String address;
   final double longitude;
   final double latitude;
-  final String openTime;
-  final String closeTime;
+  final bool isFoodEstablishment;
+  final List<BusinessPhotoEntity> photos;
   final Uint8List? bitMapIcon;
 
-  BusinessEntity({
-    required this.id,
-    required this.category,
-    required this.businessPhotos,
+  PlaceEntity({
+    required this.categories,
     required this.userProfile,
     required this.createdAt,
     required this.updatedAt,
@@ -31,15 +26,13 @@ class BusinessEntity {
     required this.address,
     required this.longitude,
     required this.latitude,
-    required this.openTime,
-    required this.closeTime,
+    required this.isFoodEstablishment,
+    required this.photos,
     this.bitMapIcon,
   });
 
-  BusinessEntity copyWith({
-    int? id,
-    List<BusinessSubCategoryEntity>? category,
-    List<BusinessPhotoEntity>? businessPhotos,
+  PlaceEntity copyWith({
+    List<BusinessCategoryEntity>? categories,
     BusinessUserProfileEntity? userProfile,
     DateTime? createdAt,
     DateTime? updatedAt,
@@ -48,14 +41,12 @@ class BusinessEntity {
     String? address,
     double? longitude,
     double? latitude,
-    String? openTime,
-    String? closeTime,
+    bool? isFoodEstablishment,
+    List<BusinessPhotoEntity>? photos,
     Uint8List? bitMapIcon,
   }) {
-    return BusinessEntity(
-      id: id ?? this.id,
-      category: category ?? this.category,
-      businessPhotos: businessPhotos ?? this.businessPhotos,
+    return PlaceEntity(
+      categories: categories ?? this.categories,
       userProfile: userProfile ?? this.userProfile,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
@@ -64,8 +55,8 @@ class BusinessEntity {
       address: address ?? this.address,
       longitude: longitude ?? this.longitude,
       latitude: latitude ?? this.latitude,
-      openTime: openTime ?? this.openTime,
-      closeTime: closeTime ?? this.closeTime,
+      isFoodEstablishment: isFoodEstablishment ?? this.isFoodEstablishment,
+      photos: photos ?? this.photos,
       bitMapIcon: bitMapIcon ?? this.bitMapIcon,
     );
   }

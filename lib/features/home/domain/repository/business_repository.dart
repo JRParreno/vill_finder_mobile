@@ -3,14 +3,21 @@ import 'package:vill_finder/core/error/failure.dart';
 import 'package:vill_finder/features/home/domain/entities/index.dart';
 
 abstract interface class BusinessRepository {
-  Future<Either<Failure, BusinessListResponseEntity>> getHomeBusinessList({
+  Future<Either<Failure, RentalListResponseEntity>> getHomeRentalList({
     int? categoryId,
-    String? businessName,
+    String? name,
+    String? previous,
+    String? next,
+  });
+  Future<Either<Failure, FoodEstablishmentListResponseEntity>> getHomeFoodList({
+    int? categoryId,
+    String? name,
     String? previous,
     String? next,
   });
   Future<Either<Failure, BusinessCategoryListResponseEntity>>
       getHomeBusinessCategoryList({
+    String? name,
     String? previous,
     String? next,
   });

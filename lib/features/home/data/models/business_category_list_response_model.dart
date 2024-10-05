@@ -16,7 +16,7 @@ class BusinessCategoryListResponseModel
       next: json['next'] != null ? json['next'] as String : null,
       previous: json['previous'] != null ? json['previous'] as String : null,
       results: List.from(
-        (json['results']).map(
+        json['results'].map(
           (x) => BusinessCategoryModel.fromJson(x as Map<String, dynamic>),
         ),
       ),

@@ -5,15 +5,22 @@ import 'package:vill_finder/core/interceptor/api_interceptor.dart';
 import 'package:vill_finder/features/home/data/models/index.dart';
 
 abstract interface class BusinessRemoteDataSource {
-  Future<BusinessListResponseModel> getHomeBusinessList({
+  Future<RentalListResponseModel> getHomeRentalList({
     int? categoryId,
-    String? businessName,
+    String? name,
+    String? previous,
+    String? next,
+  });
+  Future<FoodEstablishmentListResponseModel> getHomeFoodList({
+    int? categoryId,
+    String? name,
     String? previous,
     String? next,
   });
   Future<BusinessCategoryListResponseModel> getHomeBusinessCategoryList({
     String? previous,
     String? next,
+    String? name,
   });
 }
 
@@ -22,22 +29,22 @@ class BusinessRemoteDataSourceImpl implements BusinessRemoteDataSource {
   final baseUrl = Env.apiURL;
 
   @override
-  Future<BusinessListResponseModel> getHomeBusinessList({
+  Future<FoodEstablishmentListResponseModel> getHomeFoodList({
     int? categoryId,
-    String? businessName,
+    String? name,
     String? previous,
     String? next,
   }) async {
-    String url = '$baseUrl/api/businesses/';
+    String url = '$baseUrl/api/places/food/';
 
-    if (businessName != null &&
-        businessName.isNotEmpty &&
+    if (name != null &&
+        name.isNotEmpty &&
         categoryId != null &&
         categoryId > -1) {
-      url += '?category_id=$categoryId&business_name=$businessName';
+      url += '?category_id=$categoryId&search=$name';
     } else {
-      if (businessName != null && businessName.isNotEmpty) {
-        url += '?business_name=$businessName';
+      if (name != null && name.isNotEmpty) {
+        url += '?search=$name';
       }
 
       if (categoryId != null && categoryId > -1) {
@@ -47,7 +54,43 @@ class BusinessRemoteDataSourceImpl implements BusinessRemoteDataSource {
 
     try {
       final response = await apiInstance.get(next ?? previous ?? url);
-      return BusinessListResponseModel.fromJson(response.data);
+      return FoodEstablishmentListResponseModel.fromMap(response.data);
+    } on DioException catch (e) {
+      throw ServerException(
+        e.response?.data['error_message'] ?? 'Something went wrong.',
+      );
+    } catch (e) {
+      throw ServerException(e.toString());
+    }
+  }
+
+  @override
+  Future<RentalListResponseModel> getHomeRentalList({
+    int? categoryId,
+    String? name,
+    String? previous,
+    String? next,
+  }) async {
+    String url = '$baseUrl/api/places/rental/';
+
+    if (name != null &&
+        name.isNotEmpty &&
+        categoryId != null &&
+        categoryId > -1) {
+      url += '?category_id=$categoryId&search=$name';
+    } else {
+      if (name != null && name.isNotEmpty) {
+        url += '?search=$name';
+      }
+
+      if (categoryId != null && categoryId > -1) {
+        url += '?category_id=$categoryId';
+      }
+    }
+
+    try {
+      final response = await apiInstance.get(next ?? previous ?? url);
+      return RentalListResponseModel.fromMap(response.data);
     } on DioException catch (e) {
       throw ServerException(
         e.response?.data['error_message'] ?? 'Something went wrong.',
@@ -61,8 +104,13 @@ class BusinessRemoteDataSourceImpl implements BusinessRemoteDataSource {
   Future<BusinessCategoryListResponseModel> getHomeBusinessCategoryList({
     String? previous,
     String? next,
+    String? name,
   }) async {
-    String url = '$baseUrl/api/business-categories/?limit=50';
+    String url = '$baseUrl/api/categories/?limit=50';
+
+    if (name != null) {
+      url += 'q=$name';
+    }
 
     try {
       final response = await apiInstance.get(next ?? previous ?? url);

@@ -1,3 +1,6 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:vill_finder/features/home/presentation/blocs/home_food/home_food_bloc.dart';
+import 'package:vill_finder/features/home/presentation/blocs/home_rental/home_rental_bloc.dart';
 import 'package:vill_finder/gen/colors.gen.dart';
 import 'package:flutter/material.dart';
 
@@ -17,12 +20,15 @@ class HomeHeader extends StatelessWidget {
             'Vill Finder',
             style: textTheme.titleLarge?.copyWith(
               fontSize: 24,
-              color: ColorName.primary,
+              color: ColorName.blackFont,
               fontWeight: FontWeight.bold,
             ),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              context.read<HomeFoodBloc>().add(const GetHomeFoodEvent());
+              context.read<HomeRentalBloc>().add(const GetHomeRentalEvent());
+            },
             icon: const Icon(
               Icons.notifications_outlined,
               size: 30,

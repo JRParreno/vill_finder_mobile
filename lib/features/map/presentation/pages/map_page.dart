@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:vill_finder/features/home/domain/entities/index.dart';
 import 'package:vill_finder/features/home/presentation/widgets/search_field.dart';
+import 'package:vill_finder/features/map/domain/entities/search_map_response_entity.dart';
 import 'package:vill_finder/features/map/domain/usecase/get_business_map_list.dart';
 import 'package:vill_finder/features/map/presentation/blocs/map_business/map_business_bloc.dart';
 import 'package:vill_finder/gen/colors.gen.dart';
@@ -38,31 +38,37 @@ class _MapPageState extends State<MapPage> {
           ),
         ),
       ),
-      body: BlocListener<MapBusinessBloc, MapBusinessState>(
-        listener: (context, state) {
-          if (state is MapBusinessSuccess) {
-            _setMarker(state.data.results);
-          }
-        },
-        child: Expanded(
+      body: SizedBox(
+        height: double.infinity,
+        width: double.infinity,
+        child: BlocListener<MapBusinessBloc, MapBusinessState>(
+          listener: (context, state) {
+            if (state is MapBusinessSuccess) {
+              _setMarker(state.data.results);
+            }
+          },
           child: Stack(
             children: [
-              GoogleMap(
-                mapType: MapType.normal,
-                initialCameraPosition: const CameraPosition(
-                  target: LatLng(14.5231427, 121.0164655),
-                  zoom: 14.4746,
+              SizedBox(
+                height: double.infinity,
+                width: double.infinity,
+                child: GoogleMap(
+                  mapType: MapType.normal,
+                  initialCameraPosition: const CameraPosition(
+                    target: LatLng(14.5231427, 121.0164655),
+                    zoom: 14.4746,
+                  ),
+                  onMapCreated: (GoogleMapController controller) {
+                    googleMapController.complete(controller);
+                  },
+                  onCameraIdle: () {
+                    _fetchBusinesses();
+                  },
+                  markers: _markers,
+                  mapToolbarEnabled: false,
+                  zoomControlsEnabled: false,
+                  zoomGesturesEnabled: false,
                 ),
-                onMapCreated: (GoogleMapController controller) {
-                  googleMapController.complete(controller);
-                },
-                onCameraIdle: () {
-                  _fetchBusinesses();
-                },
-                markers: _markers,
-                mapToolbarEnabled: false,
-                zoomControlsEnabled: false,
-                zoomGesturesEnabled: false,
               ),
               Padding(
                 padding: const EdgeInsets.all(15.0),
@@ -117,25 +123,44 @@ class _MapPageState extends State<MapPage> {
     }
   }
 
-  void _setMarker(List<BusinessEntity> businesses) {
-    List<Marker> tempMarkers = businesses
+  void _setMarker(SearchMapResultsEntity mapResults) {
+    List<Marker> tempFoodMarkers = mapResults.foods
         .map(
           (e) => Marker(
-            icon: e.bitMapIcon != null
-                ? BitmapDescriptor.bytes(e.bitMapIcon!, height: 30, width: 30)
+            icon: e.place.bitMapIcon != null
+                ? BitmapDescriptor.bytes(e.place.bitMapIcon!,
+                    height: 30, width: 30)
                 : BitmapDescriptor.defaultMarker,
-            markerId: MarkerId(e.name),
-            position: LatLng(e.latitude, e.longitude),
+            markerId: MarkerId(e.place.name),
+            position: LatLng(e.place.latitude, e.place.longitude),
             infoWindow: InfoWindow(
-              title: e.name,
-              snippet: '${e.latitude}, ${e.longitude}',
+              title: e.place.name,
+              snippet: '${e.place.latitude}, ${e.place.longitude}',
+            ),
+          ),
+        )
+        .toList();
+
+    List<Marker> tempRentalMarkers = mapResults.rentals
+        .map(
+          (e) => Marker(
+            icon: e.place.bitMapIcon != null
+                ? BitmapDescriptor.bytes(e.place.bitMapIcon!,
+                    height: 30, width: 30)
+                : BitmapDescriptor.defaultMarker,
+            markerId: MarkerId(e.place.name),
+            position: LatLng(e.place.latitude, e.place.longitude),
+            infoWindow: InfoWindow(
+              title: e.place.name,
+              snippet: '${e.place.latitude}, ${e.place.longitude}',
             ),
           ),
         )
         .toList();
 
     setState(() {
-      _markers.addAll(tempMarkers);
+      _markers.addAll(tempFoodMarkers);
+      _markers.addAll(tempRentalMarkers);
     });
   }
 }

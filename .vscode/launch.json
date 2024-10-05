@@ -16,13 +16,19 @@
             "name": "vill_finder (profile mode)",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "profile"
+            "flutterMode": "profile",
+            "args": [
+                "--dart-define-from-file=.env"
+            ]
         },
         {
             "name": "vill_finder (release mode)",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "release"
+            "flutterMode": "release",
+            "args": [
+                "--dart-define-from-file=.env"
+            ]
         }
     ]
 }

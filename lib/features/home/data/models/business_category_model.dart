@@ -12,11 +12,14 @@ class BusinessCategoryModel extends BusinessCategoryEntity {
     return BusinessCategoryModel(
       id: json['id'] as int,
       name: json['name'] as String,
-      subCategories: List.from(
-        (json['category']).map(
-          (x) => BusinessSubCategoryModel.fromJson(x as Map<String, dynamic>),
-        ),
-      ),
+      subCategories: json['subcategories'] != null
+          ? List.from(
+              (json['subcategories']).map(
+                (x) => BusinessSubCategoryModel.fromJson(
+                    x as Map<String, dynamic>),
+              ),
+            )
+          : [],
     );
   }
 }

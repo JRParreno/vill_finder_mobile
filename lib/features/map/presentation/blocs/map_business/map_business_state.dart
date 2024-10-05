@@ -12,7 +12,7 @@ final class MapBusinessInitial extends MapBusinessState {}
 final class MapBusinessLoading extends MapBusinessState {}
 
 final class MapBusinessSuccess extends MapBusinessState {
-  final BusinessListResponseEntity data;
+  final SearchMapResponseEntity data;
   final bool isPaginate;
   final GetBusinessMapListParams params;
 
@@ -23,7 +23,7 @@ final class MapBusinessSuccess extends MapBusinessState {
   });
 
   MapBusinessSuccess copyWith({
-    BusinessListResponseEntity? data,
+    SearchMapResponseEntity? data,
     bool? isPaginate,
     GetBusinessMapListParams? params,
   }) {

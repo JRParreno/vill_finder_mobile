@@ -4,20 +4,19 @@ import 'package:vill_finder/gen/colors.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
-class BusinessCard extends StatelessWidget {
-  const BusinessCard({
+class RentalCard extends StatelessWidget {
+  const RentalCard({
     super.key,
-    required this.business,
+    required this.rentalEntity,
     this.onTap,
   });
 
-  final BusinessEntity business;
+  final RentalEntity rentalEntity;
   final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    final width = MediaQuery.of(context).size.width * 0.75;
 
     return GestureDetector(
       onTap: onTap ??
@@ -30,16 +29,15 @@ class BusinessCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(
             10,
           ),
-          image: business.businessPhotos.isNotEmpty
+          image: rentalEntity.place.photos.isNotEmpty
               ? DecorationImage(
                   image: CachedNetworkImageProvider(
-                    business.businessPhotos.first.image,
+                    rentalEntity.place.photos.first.image,
                   ),
                   fit: BoxFit.cover,
                 )
               : null,
         ),
-        height: width,
         width: double.infinity,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
@@ -64,13 +62,13 @@ class BusinessCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        business.name,
+                        rentalEntity.place.name,
                         style: textTheme.labelMedium,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
                       Text(
-                        business.address,
+                        rentalEntity.place.address,
                         style: textTheme.labelSmall,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,

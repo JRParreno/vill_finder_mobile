@@ -2,8 +2,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:vill_finder/core/common/cubit/app_user_cubit.dart';
 import 'package:vill_finder/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:vill_finder/features/home/presentation/blocs/home_business/home_business_bloc.dart';
-import 'package:vill_finder/features/home/presentation/blocs/home_business_category/home_business_category_bloc.dart';
+import 'package:vill_finder/features/home/presentation/blocs/home_food/home_food_bloc.dart';
+import 'package:vill_finder/features/home/presentation/blocs/home_rental/home_rental_bloc.dart';
 import 'package:vill_finder/features/map/presentation/blocs/map_business/map_business_bloc.dart';
 
 class BlocProviders {
@@ -16,10 +16,10 @@ class BlocProviders {
         create: (context) => serviceLocator<AuthBloc>(),
       ),
       BlocProvider(
-        create: (context) => serviceLocator<HomeBusinessBloc>(),
+        create: (context) => serviceLocator<HomeRentalBloc>(),
       ),
       BlocProvider(
-        create: (context) => serviceLocator<HomeBusinessCategoryBloc>(),
+        create: (context) => serviceLocator<HomeFoodBloc>(),
       ),
       BlocProvider(
         create: (context) => serviceLocator<MapBusinessBloc>(),

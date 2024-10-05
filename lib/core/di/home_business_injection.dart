@@ -4,8 +4,8 @@ import 'package:vill_finder/features/home/data/data_sources/business_remote_data
 import 'package:vill_finder/features/home/data/repository/business_repository_impl.dart';
 import 'package:vill_finder/features/home/domain/repository/business_repository.dart';
 import 'package:vill_finder/features/home/domain/usecase/index.dart';
-import 'package:vill_finder/features/home/presentation/blocs/home_business/home_business_bloc.dart';
-import 'package:vill_finder/features/home/presentation/blocs/home_business_category/home_business_category_bloc.dart';
+import 'package:vill_finder/features/home/presentation/blocs/home_food/home_food_bloc.dart';
+import 'package:vill_finder/features/home/presentation/blocs/home_rental/home_rental_bloc.dart';
 
 void homeBusinessInit(GetIt serviceLocator) {
   serviceLocator
@@ -22,13 +22,20 @@ void homeBusinessInit(GetIt serviceLocator) {
       () => GetHomeBusinessCategoryList(serviceLocator()),
     )
     ..registerFactory(
-      () => GetHomeBusinessList(serviceLocator()),
+      () => GetHomeRentalList(serviceLocator()),
+    )
+    ..registerFactory(
+      () => GetHomeFoodList(serviceLocator()),
     )
     // Bloc
     ..registerFactory(
-      () => HomeBusinessBloc(serviceLocator()),
+      () => HomeFoodBloc(
+        getHomeFoodList: serviceLocator(),
+      ),
     )
     ..registerFactory(
-      () => HomeBusinessCategoryBloc(serviceLocator()),
+      () => HomeRentalBloc(
+        getHomeRentalList: serviceLocator(),
+      ),
     );
 }
