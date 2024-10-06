@@ -1,36 +1,36 @@
-part of 'rental_bloc.dart';
+part of 'rental_list_bloc.dart';
 
-sealed class RentalState extends Equatable {
-  const RentalState();
+sealed class RentalListState extends Equatable {
+  const RentalListState();
 
   @override
   List<Object?> get props => [];
 }
 
-final class RentalInitial extends RentalState {}
+final class RentalListInitial extends RentalListState {}
 
-final class RentalLoading extends RentalState {}
+final class RentalListLoading extends RentalListState {}
 
-final class RentalSuccess extends RentalState {
+final class RentalListSuccess extends RentalListState {
   final RentalListResponseEntity data;
   final bool isPaginate;
   final String? search;
   final int? categoryId;
 
-  const RentalSuccess({
+  const RentalListSuccess({
     required this.data,
     this.categoryId,
     this.search,
     this.isPaginate = false,
   });
 
-  RentalSuccess copyWith({
+  RentalListSuccess copyWith({
     RentalListResponseEntity? data,
     bool? isPaginate,
     int? categoryId,
     String? search,
   }) {
-    return RentalSuccess(
+    return RentalListSuccess(
       data: data ?? this.data,
       search: search ?? this.search,
       categoryId: categoryId ?? this.categoryId,
@@ -47,10 +47,10 @@ final class RentalSuccess extends RentalState {
       ];
 }
 
-final class RentalFailure extends RentalState {
+final class RentalListFailure extends RentalListState {
   final String message;
 
-  const RentalFailure(this.message);
+  const RentalListFailure(this.message);
 
   @override
   List<Object> get props => [

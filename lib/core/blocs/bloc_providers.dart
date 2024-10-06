@@ -7,7 +7,7 @@ import 'package:vill_finder/features/home/presentation/blocs/home_food/home_food
 import 'package:vill_finder/features/home/presentation/blocs/home_rental/home_rental_bloc.dart';
 import 'package:vill_finder/features/home/presentation/blocs/search/search_bloc.dart';
 import 'package:vill_finder/features/map/presentation/blocs/map_business/map_business_bloc.dart';
-import 'package:vill_finder/features/rental/presentation/blocs/rental_bloc/rental_bloc.dart';
+import 'package:vill_finder/features/rental/presentation/blocs/rental_list_bloc/rental_list_bloc.dart';
 
 class BlocProviders {
   static blocs(GetIt serviceLocator) {
@@ -19,7 +19,7 @@ class BlocProviders {
         create: (context) => serviceLocator<AuthBloc>(),
       ),
       BlocProvider(
-        create: (context) => serviceLocator<HomeRentalBloc>(),
+        create: (context) => serviceLocator<HomeRentalListBloc>(),
       ),
       BlocProvider(
         create: (context) => serviceLocator<HomeFoodBloc>(),
@@ -34,7 +34,7 @@ class BlocProviders {
         create: (context) => serviceLocator<FoodBloc>(),
       ),
       BlocProvider(
-        create: (context) => serviceLocator<RentalBloc>(),
+        create: (context) => serviceLocator<RentalListBloc>(),
       ),
     ];
   }

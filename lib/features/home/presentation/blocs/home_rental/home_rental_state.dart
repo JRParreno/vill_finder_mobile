@@ -1,37 +1,37 @@
 part of 'home_rental_bloc.dart';
 
-sealed class HomeRentalState extends Equatable {
-  const HomeRentalState();
+sealed class HomeRentalListState extends Equatable {
+  const HomeRentalListState();
 
   @override
   List<Object?> get props => [];
 }
 
-final class HomeRentalInitial extends HomeRentalState {}
+final class HomeRentalInitial extends HomeRentalListState {}
 
-final class HomeRentalLoading extends HomeRentalState {}
+final class HomeRentalListLoading extends HomeRentalListState {}
 
-final class HomeRentalSuccess extends HomeRentalState {
+final class HomeRentalListSuccess extends HomeRentalListState {
   final RentalListResponseEntity featureRentals;
   final RentalListResponseEntity nonFeatureRentals;
 
   final String? search;
   final int? categoryId;
 
-  const HomeRentalSuccess({
+  const HomeRentalListSuccess({
     required this.featureRentals,
     required this.nonFeatureRentals,
     this.categoryId,
     this.search,
   });
 
-  HomeRentalSuccess copyWith({
+  HomeRentalListSuccess copyWith({
     RentalListResponseEntity? featureRentals,
     RentalListResponseEntity? nonFeatureRentals,
     int? categoryId,
     String? search,
   }) {
-    return HomeRentalSuccess(
+    return HomeRentalListSuccess(
       featureRentals: featureRentals ?? this.featureRentals,
       nonFeatureRentals: nonFeatureRentals ?? this.nonFeatureRentals,
       search: search ?? this.search,
@@ -48,10 +48,10 @@ final class HomeRentalSuccess extends HomeRentalState {
       ];
 }
 
-final class HomeRentalFailure extends HomeRentalState {
+final class HomeRentalListFailure extends HomeRentalListState {
   final String message;
 
-  const HomeRentalFailure(this.message);
+  const HomeRentalListFailure(this.message);
 
   @override
   List<Object> get props => [

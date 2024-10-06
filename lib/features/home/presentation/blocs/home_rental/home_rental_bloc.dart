@@ -10,10 +10,10 @@ import 'package:vill_finder/features/home/domain/usecase/index.dart';
 part 'home_rental_event.dart';
 part 'home_rental_state.dart';
 
-class HomeRentalBloc extends Bloc<HomeRentalEvent, HomeRentalState> {
+class HomeRentalListBloc extends Bloc<HomeRentalEvent, HomeRentalListState> {
   final GetHomeRentalList _getHomeRentalList;
 
-  HomeRentalBloc({
+  HomeRentalListBloc({
     required GetHomeRentalList getHomeRentalList,
   })  : _getHomeRentalList = getHomeRentalList,
         super(HomeRentalInitial()) {
@@ -23,13 +23,13 @@ class HomeRentalBloc extends Bloc<HomeRentalEvent, HomeRentalState> {
   }
 
   FutureOr<void> onRefreshHomeRentalEvent(
-      RefreshHomeRentalEvent event, Emitter<HomeRentalState> emit) async {
-    emit(HomeRentalLoading());
+      RefreshHomeRentalEvent event, Emitter<HomeRentalListState> emit) async {
+    emit(HomeRentalListLoading());
   }
 
   FutureOr<void> onGetHomeRentalEvent(
-      GetHomeRentalEvent event, Emitter<HomeRentalState> emit) async {
-    emit(HomeRentalLoading());
+      GetHomeRentalEvent event, Emitter<HomeRentalListState> emit) async {
+    emit(HomeRentalListLoading());
 
     final futureFeaturedRentals = _getHomeRentalList.call(
       GetHomeRentalListParams(
@@ -53,7 +53,7 @@ class HomeRentalBloc extends Bloc<HomeRentalEvent, HomeRentalState> {
 
     if (featuredRentalsResponse.isLeft() ||
         featuredNonRentalsResponse.isLeft()) {
-      return emit(const HomeRentalFailure("Something went wrong."));
+      return emit(const HomeRentalListFailure("Something went wrong."));
     }
 
     final featureRentals = featuredRentalsResponse
@@ -65,7 +65,7 @@ class HomeRentalBloc extends Bloc<HomeRentalEvent, HomeRentalState> {
         .getOrElse(() => throw Exception('something went wrong'));
 
     emit(
-      HomeRentalSuccess(
+      HomeRentalListSuccess(
         featureRentals: featureRentals,
         nonFeatureRentals: nonFeatureRentals,
         categoryId: event.categoryId,

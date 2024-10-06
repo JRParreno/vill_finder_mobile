@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
+import 'package:go_router/go_router.dart';
 import 'package:vill_finder/core/common/widgets/loader.dart';
+import 'package:vill_finder/core/config/shared_prefences_keys.dart';
+import 'package:vill_finder/core/notifier/shared_preferences_notifier.dart';
+import 'package:vill_finder/core/router/index.dart';
 import 'package:vill_finder/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:vill_finder/features/auth/presentation/widgets/login_footer.dart';
 import 'package:vill_finder/gen/assets.gen.dart';
@@ -41,15 +46,25 @@ class _LoginPageState extends State<LoginPage> {
                 padding: const EdgeInsets.all(15),
                 child: Column(
                   children: [
-                    Container(
-                      height: MediaQuery.of(context).size.height * 0.45,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        color: Colors.blue,
+                    Expanded(
+                      child: Column(
+                        children: [
+                          Container(
+                            height: MediaQuery.of(context).size.height * 0.45,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              color: Colors.blue,
+                            ),
+                            child: Assets.lottie.lottieMap.lottie(),
+                          ),
+                          const LoginFooter(),
+                        ],
                       ),
-                      child: Assets.lottie.lottieMap.lottie(),
                     ),
-                    const LoginFooter(),
+                    TextButton(
+                      onPressed: handleSkipForNow,
+                      child: const Text('Skip for now'),
+                    ),
                   ],
                 ),
               );
@@ -66,5 +81,14 @@ class _LoginPageState extends State<LoginPage> {
     );
 
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  void handleSkipForNow() {
+    final sharedPreferencesNotifier =
+        GetIt.instance<SharedPreferencesNotifier>();
+
+    sharedPreferencesNotifier.setValue(SharedPreferencesKeys.isOnBoarded, true);
+
+    context.goNamed(AppRoutes.home.name);
   }
 }

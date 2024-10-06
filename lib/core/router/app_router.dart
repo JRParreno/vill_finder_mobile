@@ -20,7 +20,7 @@ import 'package:vill_finder/features/map/presentation/pages/map_page.dart';
 import 'package:vill_finder/features/navigation/presentation/scaffold_with_bottom_nav.dart';
 import 'package:vill_finder/features/on_boarding/on_boarding.dart';
 import 'package:vill_finder/features/home/presentation/pages/search/home_search_page.dart';
-import 'package:vill_finder/features/rental/presentation/blocs/rental_bloc/rental_bloc.dart';
+import 'package:vill_finder/features/rental/presentation/blocs/rental_list_bloc/rental_list_bloc.dart';
 import 'package:vill_finder/features/rental/presentation/pages/rental_view_all/rental_view_all_page.dart';
 
 GoRouter routerConfig() {
@@ -48,18 +48,11 @@ GoRouter routerConfig() {
     redirect: (BuildContext context, GoRouterState state) async {
       final sharedPreferencesNotifier =
           GetIt.instance<SharedPreferencesNotifier>();
-      final bool isLoggedIn = sharedPreferencesNotifier.getValue(
-          SharedPreferencesKeys.isLoggedIn, false);
+      final bool isOnBoarded = sharedPreferencesNotifier.getValue(
+          SharedPreferencesKeys.isOnBoarded, false);
 
-      final onBoardingPath = state.matchedLocation == AppRoutes.onBoarding.path;
-      final profilePath = state.matchedLocation == AppRoutes.profile.path;
-
-      if (isLoggedIn && onBoardingPath) {
+      if (isOnBoarded) {
         return AppRoutes.home.path;
-      }
-
-      if (!isLoggedIn && (onBoardingPath || profilePath)) {
-        return AppRoutes.onBoarding.path;
       }
 
       return null;
@@ -166,8 +159,8 @@ GoRouter routerConfig() {
         pageBuilder: (context, state) {
           final extra = state.extra! as Map<String, dynamic>;
 
-          context.read<RentalBloc>().add(
-                SetRentalStateEvent(
+          context.read<RentalListBloc>().add(
+                SetRentalListStateEvent(
                   data: extra['data'] as RentalListResponseEntity,
                   search: extra['search'],
                 ),

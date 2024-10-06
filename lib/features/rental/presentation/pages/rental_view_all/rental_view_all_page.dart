@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vill_finder/core/common/widgets/shimmer_loading.dart';
 import 'package:vill_finder/features/home/presentation/widgets/business/index.dart';
-import 'package:vill_finder/features/rental/presentation/blocs/rental_bloc/rental_bloc.dart';
+import 'package:vill_finder/features/rental/presentation/blocs/rental_list_bloc/rental_list_bloc.dart';
 import 'package:vill_finder/gen/colors.gen.dart';
 
 class RentalViewAllPage extends StatefulWidget {
@@ -36,9 +36,9 @@ class _RentalViewAllPageState extends State<RentalViewAllPage> {
           ),
         ),
       ),
-      body: BlocBuilder<RentalBloc, RentalState>(
+      body: BlocBuilder<RentalListBloc, RentalListState>(
         builder: (context, state) {
-          if (state is RentalLoading) {
+          if (state is RentalListLoading) {
             return ListView.separated(
               shrinkWrap: true,
               itemBuilder: (context, index) {
@@ -61,7 +61,7 @@ class _RentalViewAllPageState extends State<RentalViewAllPage> {
             );
           }
 
-          if (state is RentalFailure) {
+          if (state is RentalListFailure) {
             return const Expanded(
               child: Center(
                 child: Text(
@@ -71,7 +71,7 @@ class _RentalViewAllPageState extends State<RentalViewAllPage> {
             );
           }
 
-          if (state is RentalSuccess) {
+          if (state is RentalListSuccess) {
             final search = state.search;
             return Expanded(
               child: Padding(
@@ -119,7 +119,7 @@ class _RentalViewAllPageState extends State<RentalViewAllPage> {
   void handleEventScrollListener() {
     controller.addListener(() {
       if (controller.position.pixels > (controller.position.pixels * 0.75)) {
-        context.read<RentalBloc>().add(GetRentalPaginateEvent());
+        context.read<RentalListBloc>().add(GetRentalListPaginateEvent());
       }
     });
   }

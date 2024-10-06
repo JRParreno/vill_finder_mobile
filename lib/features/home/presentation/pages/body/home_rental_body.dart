@@ -22,15 +22,15 @@ class HomeRentalBody extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.all(5),
-      child: BlocBuilder<HomeRentalBloc, HomeRentalState>(
+      child: BlocBuilder<HomeRentalListBloc, HomeRentalListState>(
         builder: (context, state) {
-          if (state is HomeRentalFailure) {
+          if (state is HomeRentalListFailure) {
             return Center(
               child: Text(state.message),
             );
           }
 
-          if (state is HomeRentalSuccess) {
+          if (state is HomeRentalListSuccess) {
             if (state.featureRentals.results.isEmpty &&
                 state.nonFeatureRentals.results.isEmpty) {
               return Center(

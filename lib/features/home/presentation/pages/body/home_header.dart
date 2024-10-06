@@ -27,7 +27,9 @@ class HomeHeader extends StatelessWidget {
           IconButton(
             onPressed: () {
               context.read<HomeFoodBloc>().add(const GetHomeFoodEvent());
-              context.read<HomeRentalBloc>().add(const GetHomeRentalEvent());
+              context
+                  .read<HomeRentalListBloc>()
+                  .add(const GetHomeRentalEvent());
             },
             icon: const Icon(
               Icons.notifications_outlined,

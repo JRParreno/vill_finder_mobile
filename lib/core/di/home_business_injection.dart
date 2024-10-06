@@ -35,7 +35,7 @@ void homeBusinessInit(GetIt serviceLocator) {
       ),
     )
     ..registerFactory(
-      () => HomeRentalBloc(
+      () => HomeRentalListBloc(
         getHomeRentalList: serviceLocator(),
       ),
     )
