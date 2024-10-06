@@ -17,6 +17,7 @@ class PlaceModel extends PlaceEntity {
     required super.isFoodEstablishment,
     required super.photos,
     super.bitMapIcon,
+    super.isFavorited,
   });
 
   factory PlaceModel.fromJson(Map<String, dynamic> json) {
@@ -44,6 +45,7 @@ class PlaceModel extends PlaceEntity {
           (x) => BusinessPhotoModel.fromJson(x as Map<String, dynamic>),
         ),
       ),
+      isFavorited: json['is_favorited'],
     );
   }
 }

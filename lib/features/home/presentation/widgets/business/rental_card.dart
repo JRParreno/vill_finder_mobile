@@ -1,4 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:go_router/go_router.dart';
+import 'package:vill_finder/core/router/index.dart';
 import 'package:vill_finder/features/home/domain/entities/index.dart';
 import 'package:vill_finder/gen/colors.gen.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +25,10 @@ class RentalCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap ??
           () {
-            // TODO detail business
+            context.pushNamed(
+              AppRoutes.rental.name,
+              pathParameters: {"id": rentalEntity.id.toString()},
+            );
           },
       child: Container(
         decoration: BoxDecoration(
@@ -73,8 +78,6 @@ class RentalCard extends StatelessWidget {
                       Text(
                         rentalEntity.place.address,
                         style: textTheme.labelSmall,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
                       ),
                     ],
                   ),

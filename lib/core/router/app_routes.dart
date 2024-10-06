@@ -28,6 +28,14 @@ enum AppRoutes {
     name: 'food_view_all',
     path: '/food_view_all',
   ),
+  rental(
+    name: 'rental',
+    path: '/rental/:id',
+  ),
+  food(
+    name: 'food',
+    path: '/food/:id',
+  ),
   map(
     name: 'map',
     path: '/map',

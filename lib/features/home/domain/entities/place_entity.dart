@@ -15,6 +15,7 @@ class PlaceEntity {
   final bool isFoodEstablishment;
   final List<BusinessPhotoEntity> photos;
   final Uint8List? bitMapIcon;
+  final bool isFavorited;
 
   PlaceEntity({
     required this.categories,
@@ -29,6 +30,7 @@ class PlaceEntity {
     required this.isFoodEstablishment,
     required this.photos,
     this.bitMapIcon,
+    this.isFavorited = false,
   });
 
   PlaceEntity copyWith({
@@ -44,6 +46,7 @@ class PlaceEntity {
     bool? isFoodEstablishment,
     List<BusinessPhotoEntity>? photos,
     Uint8List? bitMapIcon,
+    bool? isFavorited,
   }) {
     return PlaceEntity(
       categories: categories ?? this.categories,
@@ -58,6 +61,7 @@ class PlaceEntity {
       isFoodEstablishment: isFoodEstablishment ?? this.isFoodEstablishment,
       photos: photos ?? this.photos,
       bitMapIcon: bitMapIcon ?? this.bitMapIcon,
+      isFavorited: isFavorited ?? this.isFavorited,
     );
   }
 }

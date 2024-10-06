@@ -20,7 +20,9 @@ import 'package:vill_finder/features/map/presentation/pages/map_page.dart';
 import 'package:vill_finder/features/navigation/presentation/scaffold_with_bottom_nav.dart';
 import 'package:vill_finder/features/on_boarding/on_boarding.dart';
 import 'package:vill_finder/features/home/presentation/pages/search/home_search_page.dart';
+import 'package:vill_finder/features/rental/presentation/blocs/rental/rental_bloc.dart';
 import 'package:vill_finder/features/rental/presentation/blocs/rental_list_bloc/rental_list_bloc.dart';
+import 'package:vill_finder/features/rental/presentation/pages/detail_view/rental_page.dart';
 import 'package:vill_finder/features/rental/presentation/pages/rental_view_all/rental_view_all_page.dart';
 
 GoRouter routerConfig() {
@@ -50,8 +52,9 @@ GoRouter routerConfig() {
           GetIt.instance<SharedPreferencesNotifier>();
       final bool isOnBoarded = sharedPreferencesNotifier.getValue(
           SharedPreferencesKeys.isOnBoarded, false);
+      final onBoardingPath = state.matchedLocation == AppRoutes.onBoarding.path;
 
-      if (isOnBoarded) {
+      if (isOnBoarded && onBoardingPath) {
         return AppRoutes.home.path;
       }
 
@@ -188,6 +191,22 @@ GoRouter routerConfig() {
           return buildTransitionPage(
             localKey: state.pageKey,
             child: const FoodViewAllPage(),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.rental.path,
+        name: AppRoutes.rental.name,
+        pageBuilder: (context, state) {
+          final id = state.pathParameters['id'];
+
+          context.read<RentalBloc>().add(
+                GetRentalEvent(int.parse(id!)),
+              );
+
+          return buildTransitionPage(
+            localKey: state.pageKey,
+            child: const RentalPage(),
           );
         },
       ),
