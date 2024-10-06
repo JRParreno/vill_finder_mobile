@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:vill_finder/core/common/widgets/shimmer_loading.dart';
 import 'package:vill_finder/core/extension/spacer_widgets.dart';
+import 'package:vill_finder/core/router/index.dart';
 import 'package:vill_finder/features/home/presentation/blocs/search/search_bloc.dart';
 import 'package:vill_finder/features/home/presentation/pages/search/body/index.dart';
 import 'package:vill_finder/features/home/presentation/pages/search/widgets/index.dart';
@@ -150,7 +152,15 @@ class _HomeSearchPageState extends State<HomeSearchPage> {
                         child: Column(
                           children: [
                             SearchRentalList(
-                              onTapViewAll: () {},
+                              onTapViewAll: () {
+                                context.pushNamed(
+                                  AppRoutes.rentalViewAll.name,
+                                  extra: {
+                                    "data": state.rentals!,
+                                    "search": searchCtrl.value.text,
+                                  },
+                                );
+                              },
                               rentals: state.rentals!.results,
                             ),
                             if (state.rentals!.results.isNotEmpty)
@@ -160,7 +170,15 @@ class _HomeSearchPageState extends State<HomeSearchPage> {
                                 height: 5,
                               ),
                             SearchFoodList(
-                              onTapViewAll: () {},
+                              onTapViewAll: () {
+                                context.pushNamed(
+                                  AppRoutes.foodViewAll.name,
+                                  extra: {
+                                    "data": state.foods!,
+                                    "search": searchCtrl.value.text,
+                                  },
+                                );
+                              },
                               foods: state.foods!.results,
                             ),
                           ].withSpaceBetween(height: 20),

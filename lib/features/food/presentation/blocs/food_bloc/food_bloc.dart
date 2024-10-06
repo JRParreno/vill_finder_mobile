@@ -19,11 +19,22 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
     on<GetFoodPaginateEvent>(onGetFoodPaginateEvent,
         transformer: restartable());
     on<RefreshFoodEvent>(onRefreshFoodEvent, transformer: restartable());
+    on<SetFoodStateEvent>(onSetFoodStateEvent, transformer: restartable());
   }
 
   FutureOr<void> onRefreshFoodEvent(
       RefreshFoodEvent event, Emitter<FoodState> emit) async {
     emit(FoodLoading());
+  }
+
+  FutureOr<void> onSetFoodStateEvent(
+      SetFoodStateEvent event, Emitter<FoodState> emit) async {
+    emit(
+      FoodSuccess(
+        data: event.data,
+        search: event.search,
+      ),
+    );
   }
 
   FutureOr<void> onGetFoodEvent(

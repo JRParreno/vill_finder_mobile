@@ -51,7 +51,7 @@ class SearchFoodList extends StatelessWidget {
             .take(3)
             .map(
               (item) => FoodCard(
-                rentalEntity: item,
+                foodEntity: item,
                 height: 200,
               ),
             )

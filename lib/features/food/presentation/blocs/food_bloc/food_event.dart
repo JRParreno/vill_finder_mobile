@@ -23,3 +23,19 @@ final class GetFoodEvent extends FoodEvent {
 final class RefreshFoodEvent extends FoodEvent {}
 
 final class GetFoodPaginateEvent extends FoodEvent {}
+
+final class SetFoodStateEvent extends FoodEvent {
+  final FoodEstablishmentListResponseEntity data;
+  final String? search;
+
+  const SetFoodStateEvent({
+    required this.data,
+    this.search,
+  });
+
+  @override
+  List<Object?> get props => [
+        data,
+        search,
+      ];
+}

@@ -1,5 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:go_router/go_router.dart';
 import 'package:vill_finder/core/common/widgets/view_all_btn.dart';
+import 'package:vill_finder/core/router/index.dart';
 import 'package:vill_finder/features/home/domain/entities/index.dart';
 import 'package:vill_finder/features/home/presentation/blocs/home_rental/home_rental_bloc.dart';
 import 'package:vill_finder/features/home/presentation/widgets/business/index.dart';
@@ -47,7 +49,14 @@ class HomeRentalBody extends StatelessWidget {
                   rentals: state.featureRentals.results,
                   textTheme: textTheme,
                   title: 'Featured Rentals',
-                  onTapViewAll: () {},
+                  onTapViewAll: () {
+                    context.pushNamed(
+                      AppRoutes.rentalViewAll.name,
+                      extra: {
+                        "data": state.featureRentals,
+                      },
+                    );
+                  },
                 ),
                 const SizedBox(height: 15),
                 rentalCarousel(
@@ -56,7 +65,14 @@ class HomeRentalBody extends StatelessWidget {
                   title: state.featureRentals.results.isEmpty
                       ? 'Rentals'
                       : 'Other Rentals',
-                  onTapViewAll: () {},
+                  onTapViewAll: () {
+                    context.pushNamed(
+                      AppRoutes.rentalViewAll.name,
+                      extra: {
+                        "data": state.nonFeatureRentals,
+                      },
+                    );
+                  },
                 ),
               ],
             );
@@ -110,9 +126,10 @@ class HomeRentalBody extends StatelessWidget {
                   title,
                   style: textTheme.labelMedium,
                 ),
-                ViewAllBtn(
-                  onPressed: onTapViewAll,
-                ),
+                if (rentals.length > 10)
+                  ViewAllBtn(
+                    onPressed: onTapViewAll,
+                  ),
               ],
             ),
           ),

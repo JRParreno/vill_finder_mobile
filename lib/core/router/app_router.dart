@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vill_finder/core/common/cubit/app_user_cubit.dart';
@@ -11,11 +12,16 @@ import 'package:vill_finder/core/notifier/shared_preferences_notifier.dart';
 import 'package:vill_finder/core/router/index.dart';
 import 'package:vill_finder/features/auth/presentation/pages/login_page.dart';
 import 'package:vill_finder/features/error_page/error_page.dart';
+import 'package:vill_finder/features/food/presentation/blocs/food_bloc/food_bloc.dart';
+import 'package:vill_finder/features/food/presentation/pages/food_view_all/food_view_all_page.dart';
+import 'package:vill_finder/features/home/domain/entities/index.dart';
 import 'package:vill_finder/features/home/presentation/pages/home_page.dart';
 import 'package:vill_finder/features/map/presentation/pages/map_page.dart';
 import 'package:vill_finder/features/navigation/presentation/scaffold_with_bottom_nav.dart';
 import 'package:vill_finder/features/on_boarding/on_boarding.dart';
 import 'package:vill_finder/features/home/presentation/pages/search/home_search_page.dart';
+import 'package:vill_finder/features/rental/presentation/blocs/rental_bloc/rental_bloc.dart';
+import 'package:vill_finder/features/rental/presentation/pages/rental_view_all/rental_view_all_page.dart';
 
 GoRouter routerConfig() {
   final GlobalKey<NavigatorState> rootNavigatorKey =
@@ -151,6 +157,44 @@ GoRouter routerConfig() {
           return buildTransitionPage(
             localKey: state.pageKey,
             child: const HomeSearchPage(),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.rentalViewAll.path,
+        name: AppRoutes.rentalViewAll.name,
+        pageBuilder: (context, state) {
+          final extra = state.extra! as Map<String, dynamic>;
+
+          context.read<RentalBloc>().add(
+                SetRentalStateEvent(
+                  data: extra['data'] as RentalListResponseEntity,
+                  search: extra['search'],
+                ),
+              );
+
+          return buildTransitionPage(
+            localKey: state.pageKey,
+            child: const RentalViewAllPage(),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.foodViewAll.path,
+        name: AppRoutes.foodViewAll.name,
+        pageBuilder: (context, state) {
+          final extra = state.extra! as Map<String, dynamic>;
+
+          context.read<FoodBloc>().add(
+                SetFoodStateEvent(
+                  data: extra['data'] as FoodEstablishmentListResponseEntity,
+                  search: extra['search'],
+                ),
+              );
+
+          return buildTransitionPage(
+            localKey: state.pageKey,
+            child: const FoodViewAllPage(),
           );
         },
       ),

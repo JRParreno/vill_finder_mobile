@@ -19,11 +19,22 @@ class RentalBloc extends Bloc<RentalEvent, RentalState> {
     on<GetRentalPaginateEvent>(onGetRentalPaginateEvent,
         transformer: restartable());
     on<RefreshRentalEvent>(onRefreshRentalEvent, transformer: restartable());
+    on<SetRentalStateEvent>(onSetRentalStateEvent, transformer: restartable());
   }
 
   FutureOr<void> onRefreshRentalEvent(
       RefreshRentalEvent event, Emitter<RentalState> emit) async {
     emit(RentalLoading());
+  }
+
+  FutureOr<void> onSetRentalStateEvent(
+      SetRentalStateEvent event, Emitter<RentalState> emit) async {
+    emit(
+      RentalSuccess(
+        data: event.data,
+        search: event.search,
+      ),
+    );
   }
 
   FutureOr<void> onGetRentalEvent(

@@ -7,12 +7,12 @@ import 'package:timeago/timeago.dart' as timeago;
 class FoodCard extends StatelessWidget {
   const FoodCard({
     super.key,
-    required this.rentalEntity,
+    required this.foodEntity,
     this.onTap,
     this.height,
   });
 
-  final FoodEstablishmentEntity rentalEntity;
+  final FoodEstablishmentEntity foodEntity;
   final VoidCallback? onTap;
   final double? height;
 
@@ -31,10 +31,10 @@ class FoodCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(
             25,
           ),
-          image: rentalEntity.place.photos.isNotEmpty
+          image: foodEntity.place.photos.isNotEmpty
               ? DecorationImage(
                   image: CachedNetworkImageProvider(
-                    rentalEntity.place.photos.first.image,
+                    foodEntity.place.photos.first.image,
                   ),
                   fit: BoxFit.cover,
                 )

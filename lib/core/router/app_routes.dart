@@ -20,6 +20,14 @@ enum AppRoutes {
     name: 'search',
     path: '/search',
   ),
+  rentalViewAll(
+    name: 'rental_view_all',
+    path: '/rental_view_all',
+  ),
+  foodViewAll(
+    name: 'food_view_all',
+    path: '/food_view_all',
+  ),
   map(
     name: 'map',
     path: '/map',

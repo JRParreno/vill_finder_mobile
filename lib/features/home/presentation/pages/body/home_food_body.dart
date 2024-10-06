@@ -65,7 +65,7 @@ class HomeFoodBody extends StatelessWidget {
                     itemBuilder: (BuildContext context, int itemIndex,
                             int pageViewIndex) =>
                         FoodCard(
-                      rentalEntity: state.data.results[itemIndex],
+                      foodEntity: state.data.results[itemIndex],
                     ),
                   ),
                   const SizedBox(height: 10),
