@@ -12,23 +12,28 @@ final class HomeRentalInitial extends HomeRentalState {}
 final class HomeRentalLoading extends HomeRentalState {}
 
 final class HomeRentalSuccess extends HomeRentalState {
-  final RentalListResponseEntity data;
+  final RentalListResponseEntity featureRentals;
+  final RentalListResponseEntity nonFeatureRentals;
+
   final String? search;
   final int? categoryId;
 
   const HomeRentalSuccess({
-    required this.data,
+    required this.featureRentals,
+    required this.nonFeatureRentals,
     this.categoryId,
     this.search,
   });
 
   HomeRentalSuccess copyWith({
-    RentalListResponseEntity? data,
+    RentalListResponseEntity? featureRentals,
+    RentalListResponseEntity? nonFeatureRentals,
     int? categoryId,
     String? search,
   }) {
     return HomeRentalSuccess(
-      data: data ?? this.data,
+      featureRentals: featureRentals ?? this.featureRentals,
+      nonFeatureRentals: nonFeatureRentals ?? this.nonFeatureRentals,
       search: search ?? this.search,
       categoryId: categoryId ?? this.categoryId,
     );
@@ -36,7 +41,8 @@ final class HomeRentalSuccess extends HomeRentalState {
 
   @override
   List<Object?> get props => [
-        data,
+        featureRentals,
+        nonFeatureRentals,
         categoryId,
         search,
       ];

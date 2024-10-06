@@ -29,7 +29,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFD5F2FF),
+      backgroundColor: ColorName.placeholder,
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -73,10 +73,7 @@ class _HomePageState extends State<HomePage> {
                       create: (context) => DotsCubit(),
                       child: const HomeFoodBody(),
                     ),
-                    BlocProvider(
-                      create: (context) => DotsCubit(),
-                      child: const HomeRentalBody(),
-                    ),
+                    const HomeRentalBody()
                   ],
                 ),
               ),

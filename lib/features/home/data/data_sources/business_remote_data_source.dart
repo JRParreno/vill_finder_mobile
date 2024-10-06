@@ -10,6 +10,7 @@ abstract interface class BusinessRemoteDataSource {
     String? name,
     String? previous,
     String? next,
+    bool? isFeatured,
   });
   Future<FoodEstablishmentListResponseModel> getHomeFoodList({
     int? categoryId,
@@ -70,14 +71,16 @@ class BusinessRemoteDataSourceImpl implements BusinessRemoteDataSource {
     String? name,
     String? previous,
     String? next,
+    bool? isFeatured,
   }) async {
     String url = '$baseUrl/api/places/rental/';
 
     if (name != null &&
         name.isNotEmpty &&
         categoryId != null &&
-        categoryId > -1) {
-      url += '?category_id=$categoryId&search=$name';
+        categoryId > -1 &&
+        isFeatured != null) {
+      url += '?category_id=$categoryId&search=$name&isFeatured=$isFeatured';
     } else {
       if (name != null && name.isNotEmpty) {
         url += '?search=$name';
@@ -85,6 +88,10 @@ class BusinessRemoteDataSourceImpl implements BusinessRemoteDataSource {
 
       if (categoryId != null && categoryId > -1) {
         url += '?category_id=$categoryId';
+      }
+
+      if (isFeatured != null) {
+        url += '?is_featured=$isFeatured';
       }
     }
 

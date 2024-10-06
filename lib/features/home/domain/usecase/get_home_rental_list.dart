@@ -18,6 +18,7 @@ class GetHomeRentalList
       categoryId: params.categoryId,
       next: params.next,
       previous: params.previous,
+      isFeatured: params.isFeatured,
     );
   }
 }
@@ -27,11 +28,13 @@ class GetHomeRentalListParams {
   final int? categoryId;
   final String? next;
   final String? previous;
+  final bool? isFeatured;
 
   GetHomeRentalListParams({
     this.name,
     this.categoryId,
     this.next,
     this.previous,
+    this.isFeatured,
   });
 }

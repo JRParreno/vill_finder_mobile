@@ -69,30 +69,16 @@ class HomeFoodBody extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 10),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        if (state.data.results.length > 1) ...[
-                          BlocBuilder<DotsCubit, DotsState>(
-                            builder: (context, dotState) {
-                              return DotsIndicator(
-                                itemCount: state.data.results.length,
-                                currentIndex: dotState.currentIndex,
-                              );
-                            },
-                          ),
-                        ] else ...[
-                          const SizedBox.shrink(),
-                        ],
-                        Text(
-                          'Food Establishments',
-                          style: textTheme.labelMedium,
-                        ),
-                      ],
+                  if (state.data.results.length > 1) ...[
+                    BlocBuilder<DotsCubit, DotsState>(
+                      builder: (context, dotState) {
+                        return DotsIndicator(
+                          itemCount: state.data.results.length,
+                          currentIndex: dotState.currentIndex,
+                        );
+                      },
                     ),
-                  )
+                  ]
                 ],
               ),
             );

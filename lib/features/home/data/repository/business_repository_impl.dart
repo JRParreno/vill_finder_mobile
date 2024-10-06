@@ -16,6 +16,7 @@ class BusinessRepositoryImpl implements BusinessRepository {
     String? name,
     String? previous,
     String? next,
+    bool? isFeatured,
   }) async {
     try {
       final response = await _remoteDataSource.getHomeRentalList(
@@ -23,6 +24,7 @@ class BusinessRepositoryImpl implements BusinessRepository {
         categoryId: categoryId,
         next: next,
         previous: previous,
+        isFeatured: isFeatured,
       );
       return right(response);
     } on ServerException catch (e) {

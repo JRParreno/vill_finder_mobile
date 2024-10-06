@@ -8,6 +8,7 @@ abstract interface class BusinessRepository {
     String? name,
     String? previous,
     String? next,
+    bool? isFeatured,
   });
   Future<Either<Failure, FoodEstablishmentListResponseEntity>> getHomeFoodList({
     int? categoryId,
