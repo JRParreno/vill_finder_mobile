@@ -1,4 +1,6 @@
+import 'package:go_router/go_router.dart';
 import 'package:vill_finder/core/extension/spacer_widgets.dart';
+import 'package:vill_finder/core/router/index.dart';
 import 'package:vill_finder/features/home/presentation/blocs/cubit/carousel_dots_cubit.dart';
 import 'package:vill_finder/features/home/presentation/blocs/home_food/home_food_bloc.dart';
 import 'package:vill_finder/features/home/presentation/blocs/home_rental/home_rental_bloc.dart';
@@ -40,6 +42,9 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   const HomeHeader(),
                   SearchField(
+                    onTap: () {
+                      context.pushNamed(AppRoutes.homeSearch.name);
+                    },
                     onChanged: () {
                       setState(() {});
                     },

@@ -15,6 +15,7 @@ import 'package:vill_finder/features/home/presentation/pages/home_page.dart';
 import 'package:vill_finder/features/map/presentation/pages/map_page.dart';
 import 'package:vill_finder/features/navigation/presentation/scaffold_with_bottom_nav.dart';
 import 'package:vill_finder/features/on_boarding/on_boarding.dart';
+import 'package:vill_finder/features/home/presentation/pages/search/home_search_page.dart';
 
 GoRouter routerConfig() {
   final GlobalKey<NavigatorState> rootNavigatorKey =
@@ -142,6 +143,16 @@ GoRouter routerConfig() {
             ],
           ),
         ],
+      ),
+      GoRoute(
+        path: AppRoutes.homeSearch.path,
+        name: AppRoutes.homeSearch.name,
+        pageBuilder: (context, state) {
+          return buildTransitionPage(
+            localKey: state.pageKey,
+            child: const HomeSearchPage(),
+          );
+        },
       ),
     ],
   );

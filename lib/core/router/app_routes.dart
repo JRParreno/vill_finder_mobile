@@ -12,6 +12,10 @@ enum AppRoutes {
     name: 'home',
     path: '/home',
   ),
+  homeSearch(
+    name: 'home_search',
+    path: '/home_search',
+  ),
   search(
     name: 'search',
     path: '/search',

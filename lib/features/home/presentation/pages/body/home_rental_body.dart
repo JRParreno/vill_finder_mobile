@@ -125,6 +125,7 @@ class HomeRentalBody extends StatelessWidget {
             enlargeCenterPage: false,
             viewportFraction: rentals.length > 1 ? 0.75 : 1,
             aspectRatio: 2,
+            height: 175,
           ),
           itemCount: rentals.length,
           itemBuilder:

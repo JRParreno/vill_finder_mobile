@@ -6,6 +6,7 @@ import 'package:vill_finder/features/home/domain/repository/business_repository.
 import 'package:vill_finder/features/home/domain/usecase/index.dart';
 import 'package:vill_finder/features/home/presentation/blocs/home_food/home_food_bloc.dart';
 import 'package:vill_finder/features/home/presentation/blocs/home_rental/home_rental_bloc.dart';
+import 'package:vill_finder/features/home/presentation/blocs/search/search_bloc.dart';
 
 void homeBusinessInit(GetIt serviceLocator) {
   serviceLocator
@@ -36,6 +37,13 @@ void homeBusinessInit(GetIt serviceLocator) {
     ..registerFactory(
       () => HomeRentalBloc(
         getHomeRentalList: serviceLocator(),
+      ),
+    )
+    ..registerFactory(
+      () => SearchBloc(
+        getHomeRentalList: serviceLocator(),
+        getHomeFoodList: serviceLocator(),
+        sharedPreferencesNotifier: serviceLocator(),
       ),
     );
 }

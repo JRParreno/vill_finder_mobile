@@ -19,20 +19,24 @@ class SearchField extends StatelessWidget {
     this.validator,
     this.onSubmit,
     this.readOnly = false,
+    this.onTap,
   });
 
   final TextEditingController controller;
+  final VoidCallback onChanged;
+  final VoidCallback onClearText;
+  final VoidCallback? onTap;
   final Widget? suffixIcon;
   final Widget? prefixIcon;
   final TextInputType? keyboardType;
   final String? Function(String?)? validator;
   final VoidCallback? onSubmit;
-  final VoidCallback onChanged;
-  final VoidCallback onClearText;
   final bool readOnly;
+
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onTap: onTap,
       readOnly: readOnly,
       keyboardType: keyboardType,
       controller: controller,

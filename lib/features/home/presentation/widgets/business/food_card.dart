@@ -9,10 +9,12 @@ class FoodCard extends StatelessWidget {
     super.key,
     required this.rentalEntity,
     this.onTap,
+    this.height,
   });
 
   final FoodEstablishmentEntity rentalEntity;
   final VoidCallback? onTap;
+  final double? height;
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +40,7 @@ class FoodCard extends StatelessWidget {
                 )
               : null,
         ),
+        height: height,
         width: double.infinity,
         child: Column(
           mainAxisSize: MainAxisSize.min,

@@ -80,10 +80,10 @@ class BusinessRemoteDataSourceImpl implements BusinessRemoteDataSource {
         categoryId != null &&
         categoryId > -1 &&
         isFeatured != null) {
-      url += '?category_id=$categoryId&search=$name&isFeatured=$isFeatured';
+      url += '?category_id=$categoryId&q=$name&isFeatured=$isFeatured';
     } else {
       if (name != null && name.isNotEmpty) {
-        url += '?search=$name';
+        url += '?q=$name';
       }
 
       if (categoryId != null && categoryId > -1) {

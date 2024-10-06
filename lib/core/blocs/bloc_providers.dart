@@ -4,6 +4,7 @@ import 'package:vill_finder/core/common/cubit/app_user_cubit.dart';
 import 'package:vill_finder/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:vill_finder/features/home/presentation/blocs/home_food/home_food_bloc.dart';
 import 'package:vill_finder/features/home/presentation/blocs/home_rental/home_rental_bloc.dart';
+import 'package:vill_finder/features/home/presentation/blocs/search/search_bloc.dart';
 import 'package:vill_finder/features/map/presentation/blocs/map_business/map_business_bloc.dart';
 
 class BlocProviders {
@@ -23,6 +24,9 @@ class BlocProviders {
       ),
       BlocProvider(
         create: (context) => serviceLocator<MapBusinessBloc>(),
+      ),
+      BlocProvider(
+        create: (context) => serviceLocator<SearchBloc>(),
       ),
     ];
   }

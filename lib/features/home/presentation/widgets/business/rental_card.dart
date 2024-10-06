@@ -9,10 +9,12 @@ class RentalCard extends StatelessWidget {
     super.key,
     required this.rentalEntity,
     this.onTap,
+    this.height,
   });
 
   final RentalEntity rentalEntity;
   final VoidCallback? onTap;
+  final double? height;
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +40,7 @@ class RentalCard extends StatelessWidget {
                 )
               : null,
         ),
+        height: height,
         width: double.infinity,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
