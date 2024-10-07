@@ -1,7 +1,15 @@
 class BusinessUserProfileEntity {
+  final int id;
+  final String? birthdate;
+  final String? contactNumber;
+  final String? profilePhoto;
   final BusinessUser user;
 
   BusinessUserProfileEntity({
+    required this.id,
+    this.birthdate,
+    this.contactNumber,
+    this.profilePhoto,
     required this.user,
   });
 }
