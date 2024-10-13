@@ -6,29 +6,31 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vill_finder/features/home/domain/entities/index.dart';
 import 'package:vill_finder/features/home/domain/usecase/index.dart';
 
-part 'food_event.dart';
-part 'food_state.dart';
+part 'food_list_event.dart';
+part 'food_list_state.dart';
 
-class FoodBloc extends Bloc<FoodEvent, FoodState> {
+class FoodListBloc extends Bloc<FoodListEvent, FoodListState> {
   final GetHomeFoodList _getHomeFoodList;
 
-  FoodBloc(GetHomeFoodList getHomeFoodList)
+  FoodListBloc(GetHomeFoodList getHomeFoodList)
       : _getHomeFoodList = getHomeFoodList,
         super(FoodInitial()) {
-    on<GetFoodEvent>(onGetFoodEvent, transformer: restartable());
+    on<GetFoodListEvent>(onGetFoodListEvent, transformer: restartable());
     on<GetFoodPaginateEvent>(onGetFoodPaginateEvent,
         transformer: restartable());
-    on<RefreshFoodEvent>(onRefreshFoodEvent, transformer: restartable());
-    on<SetFoodStateEvent>(onSetFoodStateEvent, transformer: restartable());
+    on<RefreshFoodListEvent>(onRefreshFoodListEvent,
+        transformer: restartable());
+    on<SetFoodListStateEvent>(onSetFoodListStateEvent,
+        transformer: restartable());
   }
 
-  FutureOr<void> onRefreshFoodEvent(
-      RefreshFoodEvent event, Emitter<FoodState> emit) async {
+  FutureOr<void> onRefreshFoodListEvent(
+      RefreshFoodListEvent event, Emitter<FoodListState> emit) async {
     emit(FoodLoading());
   }
 
-  FutureOr<void> onSetFoodStateEvent(
-      SetFoodStateEvent event, Emitter<FoodState> emit) async {
+  FutureOr<void> onSetFoodListStateEvent(
+      SetFoodListStateEvent event, Emitter<FoodListState> emit) async {
     emit(
       FoodSuccess(
         data: event.data,
@@ -37,8 +39,8 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
     );
   }
 
-  FutureOr<void> onGetFoodEvent(
-      GetFoodEvent event, Emitter<FoodState> emit) async {
+  FutureOr<void> onGetFoodListEvent(
+      GetFoodListEvent event, Emitter<FoodListState> emit) async {
     emit(FoodLoading());
 
     final response = await _getHomeFoodList.call(
@@ -59,7 +61,7 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
   }
 
   FutureOr<void> onGetFoodPaginateEvent(
-      GetFoodPaginateEvent event, Emitter<FoodState> emit) async {
+      GetFoodPaginateEvent event, Emitter<FoodListState> emit) async {
     final state = this.state;
 
     if (state is FoodSuccess) {

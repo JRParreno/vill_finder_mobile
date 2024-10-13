@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vill_finder/core/common/widgets/shimmer_loading.dart';
-import 'package:vill_finder/features/food/presentation/blocs/food_bloc/food_bloc.dart';
+import 'package:vill_finder/features/food/presentation/blocs/food_list_bloc/food_list_bloc.dart';
 import 'package:vill_finder/features/home/presentation/widgets/business/index.dart';
 import 'package:vill_finder/gen/colors.gen.dart';
 
@@ -36,7 +36,7 @@ class _FoodViewAllPageState extends State<FoodViewAllPage> {
           ),
         ),
       ),
-      body: BlocBuilder<FoodBloc, FoodState>(
+      body: BlocBuilder<FoodListBloc, FoodListState>(
         builder: (context, state) {
           if (state is FoodLoading) {
             return ListView.separated(
@@ -119,7 +119,7 @@ class _FoodViewAllPageState extends State<FoodViewAllPage> {
   void handleEventScrollListener() {
     controller.addListener(() {
       if (controller.position.pixels > (controller.position.pixels * 0.75)) {
-        context.read<FoodBloc>().add(GetFoodPaginateEvent());
+        context.read<FoodListBloc>().add(GetFoodPaginateEvent());
       }
     });
   }

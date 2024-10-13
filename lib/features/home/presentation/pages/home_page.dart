@@ -90,7 +90,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void handleGetInitialTask() {
-    context.read<HomeFoodBloc>().add(const GetHomeFoodEvent());
+    context.read<HomeFoodListBloc>().add(const GetHomeFoodListEvent());
     context.read<HomeRentalListBloc>().add(const GetHomeRentalEvent());
   }
 }

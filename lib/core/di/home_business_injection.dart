@@ -30,7 +30,7 @@ void homeBusinessInit(GetIt serviceLocator) {
     )
     // Bloc
     ..registerFactory(
-      () => HomeFoodBloc(
+      () => HomeFoodListBloc(
         getHomeFoodList: serviceLocator(),
       ),
     )

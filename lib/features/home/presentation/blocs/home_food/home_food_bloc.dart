@@ -9,25 +9,26 @@ import 'package:vill_finder/features/home/domain/usecase/index.dart';
 part 'home_food_event.dart';
 part 'home_food_state.dart';
 
-class HomeFoodBloc extends Bloc<HomeFoodEvent, HomeFoodState> {
+class HomeFoodListBloc extends Bloc<HomeFoodListEvent, HomeFoodListState> {
   final GetHomeFoodList _getHomeFoodList;
 
-  HomeFoodBloc({
+  HomeFoodListBloc({
     required GetHomeFoodList getHomeFoodList,
   })  : _getHomeFoodList = getHomeFoodList,
         super(HomeFoodInitial()) {
-    on<GetHomeFoodEvent>(onGetHomeFoodEvent, transformer: restartable());
-    on<RefreshHomeFoodEvent>(onRefreshHomeFoodEvent,
+    on<GetHomeFoodListEvent>(onGetHomeFoodListEvent,
+        transformer: restartable());
+    on<RefreshHomeFoodListEvent>(onRefreshHomeFoodListEvent,
         transformer: restartable());
   }
 
-  FutureOr<void> onRefreshHomeFoodEvent(
-      RefreshHomeFoodEvent event, Emitter<HomeFoodState> emit) async {
+  FutureOr<void> onRefreshHomeFoodListEvent(
+      RefreshHomeFoodListEvent event, Emitter<HomeFoodListState> emit) async {
     emit(HomeFoodLoading());
   }
 
-  FutureOr<void> onGetHomeFoodEvent(
-      GetHomeFoodEvent event, Emitter<HomeFoodState> emit) async {
+  FutureOr<void> onGetHomeFoodListEvent(
+      GetHomeFoodListEvent event, Emitter<HomeFoodListState> emit) async {
     emit(HomeFoodLoading());
 
     final response = await _getHomeFoodList.call(

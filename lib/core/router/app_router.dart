@@ -13,7 +13,9 @@ import 'package:vill_finder/core/notifier/shared_preferences_notifier.dart';
 import 'package:vill_finder/core/router/index.dart';
 import 'package:vill_finder/features/auth/presentation/pages/login_page.dart';
 import 'package:vill_finder/features/error_page/error_page.dart';
-import 'package:vill_finder/features/food/presentation/blocs/food_bloc/food_bloc.dart';
+import 'package:vill_finder/features/food/presentation/blocs/food/food_bloc.dart';
+import 'package:vill_finder/features/food/presentation/blocs/food_list_bloc/food_list_bloc.dart';
+import 'package:vill_finder/features/food/presentation/pages/detail_view/food_page.dart';
 import 'package:vill_finder/features/food/presentation/pages/food_view_all/food_view_all_page.dart';
 import 'package:vill_finder/features/home/domain/entities/index.dart';
 import 'package:vill_finder/features/home/presentation/pages/home_page.dart';
@@ -183,8 +185,8 @@ GoRouter routerConfig() {
         pageBuilder: (context, state) {
           final extra = state.extra! as Map<String, dynamic>;
 
-          context.read<FoodBloc>().add(
-                SetFoodStateEvent(
+          context.read<FoodListBloc>().add(
+                SetFoodListStateEvent(
                   data: extra['data'] as FoodEstablishmentListResponseEntity,
                   search: extra['search'],
                 ),
@@ -213,6 +215,27 @@ GoRouter routerConfig() {
           return buildTransitionPage(
             localKey: state.pageKey,
             child: const RentalPage(),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.food.path,
+        name: AppRoutes.food.name,
+        pageBuilder: (context, state) {
+          final id = state.pathParameters['id'];
+
+          context.read<FoodBloc>().add(
+                GetFoodEvent(int.parse(id!)),
+              );
+          context.read<ReviewListBloc>().add(
+                GetReviewsEvent(
+                    placeId: int.parse(id),
+                    reviewType: ReviewType.foodestablishment),
+              );
+
+          return buildTransitionPage(
+            localKey: state.pageKey,
+            child: const FoodPage(),
           );
         },
       ),

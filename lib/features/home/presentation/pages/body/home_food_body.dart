@@ -20,7 +20,7 @@ class HomeFoodBody extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 5),
-      child: BlocBuilder<HomeFoodBloc, HomeFoodState>(
+      child: BlocBuilder<HomeFoodListBloc, HomeFoodListState>(
         builder: (context, state) {
           if (state is HomeFoodFailure) {
             return Center(
@@ -42,7 +42,9 @@ class HomeFoodBody extends StatelessWidget {
 
             return RefreshIndicator(
               onRefresh: () {
-                context.read<HomeFoodBloc>().add(RefreshHomeFoodEvent());
+                context
+                    .read<HomeFoodListBloc>()
+                    .add(RefreshHomeFoodListEvent());
                 return Future<void>.value();
               },
               child: Column(

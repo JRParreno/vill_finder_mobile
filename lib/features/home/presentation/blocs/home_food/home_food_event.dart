@@ -1,17 +1,17 @@
 part of 'home_food_bloc.dart';
 
-sealed class HomeFoodEvent extends Equatable {
-  const HomeFoodEvent();
+sealed class HomeFoodListEvent extends Equatable {
+  const HomeFoodListEvent();
 
   @override
   List<Object?> get props => [];
 }
 
-final class GetHomeFoodEvent extends HomeFoodEvent {
+final class GetHomeFoodListEvent extends HomeFoodListEvent {
   final String? search;
   final int? categoryId;
 
-  const GetHomeFoodEvent({
+  const GetHomeFoodListEvent({
     this.categoryId,
     this.search,
   });
@@ -20,4 +20,4 @@ final class GetHomeFoodEvent extends HomeFoodEvent {
   List<Object?> get props => [search];
 }
 
-final class RefreshHomeFoodEvent extends HomeFoodEvent {}
+final class RefreshHomeFoodListEvent extends HomeFoodListEvent {}

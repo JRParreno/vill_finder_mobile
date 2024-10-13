@@ -1,17 +1,17 @@
-part of 'food_bloc.dart';
+part of 'food_list_bloc.dart';
 
-sealed class FoodState extends Equatable {
-  const FoodState();
+sealed class FoodListState extends Equatable {
+  const FoodListState();
 
   @override
   List<Object?> get props => [];
 }
 
-final class FoodInitial extends FoodState {}
+final class FoodInitial extends FoodListState {}
 
-final class FoodLoading extends FoodState {}
+final class FoodLoading extends FoodListState {}
 
-final class FoodSuccess extends FoodState {
+final class FoodSuccess extends FoodListState {
   final FoodEstablishmentListResponseEntity data;
   final bool isPaginate;
   final String? search;
@@ -47,7 +47,7 @@ final class FoodSuccess extends FoodState {
       ];
 }
 
-final class FoodFailure extends FoodState {
+final class FoodFailure extends FoodListState {
   final String message;
 
   const FoodFailure(this.message);

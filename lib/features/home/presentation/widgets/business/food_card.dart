@@ -1,4 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:go_router/go_router.dart';
+import 'package:vill_finder/core/router/index.dart';
 import 'package:vill_finder/features/home/domain/entities/index.dart';
 import 'package:vill_finder/gen/colors.gen.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +25,8 @@ class FoodCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap ??
           () {
-            // TODO detail business
+            context.pushNamed(AppRoutes.food.name,
+                pathParameters: {"id": foodEntity.id.toString()});
           },
       child: Container(
         decoration: BoxDecoration(

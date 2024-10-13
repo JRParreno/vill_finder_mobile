@@ -1,17 +1,17 @@
-part of 'food_bloc.dart';
+part of 'food_list_bloc.dart';
 
-sealed class FoodEvent extends Equatable {
-  const FoodEvent();
+sealed class FoodListEvent extends Equatable {
+  const FoodListEvent();
 
   @override
   List<Object?> get props => [];
 }
 
-final class GetFoodEvent extends FoodEvent {
+final class GetFoodListEvent extends FoodListEvent {
   final String? search;
   final int? categoryId;
 
-  const GetFoodEvent({
+  const GetFoodListEvent({
     this.categoryId,
     this.search,
   });
@@ -20,15 +20,15 @@ final class GetFoodEvent extends FoodEvent {
   List<Object?> get props => [search];
 }
 
-final class RefreshFoodEvent extends FoodEvent {}
+final class RefreshFoodListEvent extends FoodListEvent {}
 
-final class GetFoodPaginateEvent extends FoodEvent {}
+final class GetFoodPaginateEvent extends FoodListEvent {}
 
-final class SetFoodStateEvent extends FoodEvent {
+final class SetFoodListStateEvent extends FoodListEvent {
   final FoodEstablishmentListResponseEntity data;
   final String? search;
 
-  const SetFoodStateEvent({
+  const SetFoodListStateEvent({
     required this.data,
     this.search,
   });

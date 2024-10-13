@@ -1,17 +1,17 @@
 part of 'home_food_bloc.dart';
 
-sealed class HomeFoodState extends Equatable {
-  const HomeFoodState();
+sealed class HomeFoodListState extends Equatable {
+  const HomeFoodListState();
 
   @override
   List<Object?> get props => [];
 }
 
-final class HomeFoodInitial extends HomeFoodState {}
+final class HomeFoodInitial extends HomeFoodListState {}
 
-final class HomeFoodLoading extends HomeFoodState {}
+final class HomeFoodLoading extends HomeFoodListState {}
 
-final class HomeFoodSuccess extends HomeFoodState {
+final class HomeFoodSuccess extends HomeFoodListState {
   final FoodEstablishmentListResponseEntity data;
   final String? search;
   final int? categoryId;
@@ -42,7 +42,7 @@ final class HomeFoodSuccess extends HomeFoodState {
       ];
 }
 
-final class HomeFoodFailure extends HomeFoodState {
+final class HomeFoodFailure extends HomeFoodListState {
   final String message;
 
   const HomeFoodFailure(this.message);
