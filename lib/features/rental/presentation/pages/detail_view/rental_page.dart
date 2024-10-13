@@ -7,6 +7,7 @@ import 'package:vill_finder/core/common/widgets/shimmer_loading.dart';
 import 'package:vill_finder/core/extension/spacer_widgets.dart';
 import 'package:vill_finder/features/rental/presentation/blocs/rental/rental_bloc.dart';
 import 'package:vill_finder/features/rental/presentation/widgets/index.dart';
+import 'package:vill_finder/features/review/presentation/body/review_list.dart';
 import 'package:vill_finder/gen/colors.gen.dart';
 
 class RentalPage extends StatefulWidget {
@@ -131,28 +132,46 @@ class _RentalPageState extends State<RentalPage> {
                         ),
                         const SizedBox(height: 10),
                         Text(
+                          'PHP ${state.rental.monthlyRent} / ${state.rental.leaseTerm.replaceAll('_', ' ').toLowerCase()}',
+                          style: textTheme.headlineMedium?.copyWith(
+                              color: ColorName.blackFont, fontSize: 17),
+                        ),
+                        const SizedBox(height: 10),
+                        Text(
                           place.address,
+                          style: textDefaultStyle,
+                        ),
+                        const SizedBox(height: 5.5),
+                        Text(
+                          state.rental.propertyType,
                           style: textDefaultStyle,
                         ),
                         const SizedBox(height: 5.5),
                         Row(
                           children: [
                             Text(
-                              '${state.rental.numBedrooms} beds',
+                              state.rental.numBedrooms > 0
+                                  ? '${state.rental.numBedrooms} beds'
+                                  : 'Studio type',
                               style: textDefaultStyle,
                             ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 3),
-                              child: Text(
-                                '•',
+                            if (state.rental.numBathrooms > 0 &&
+                                state.rental.numBathrooms > 0) ...[
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 3),
+                                child: Text(
+                                  '•',
+                                  style: textDefaultStyle,
+                                ),
+                              ),
+                            ],
+                            if (state.rental.numBathrooms > 0) ...[
+                              Text(
+                                '${state.rental.numBathrooms} baths',
                                 style: textDefaultStyle,
                               ),
-                            ),
-                            Text(
-                              '${state.rental.numBedrooms} baths',
-                              style: textDefaultStyle,
-                            ),
+                            ],
                           ],
                         ),
                         const SizedBox(height: 10),
@@ -166,6 +185,11 @@ class _RentalPageState extends State<RentalPage> {
                           style: textTheme.bodySmall,
                         ),
                         const Divider(height: 30, color: ColorName.borderColor),
+                        RentalCondition(
+                          furnitureCondition: state.rental.furnitureCondition,
+                          propertyCondition: state.rental.propertyCondition,
+                        ),
+                        const Divider(height: 30, color: ColorName.borderColor),
                         Amenities(
                           rental: state.rental,
                         ),
@@ -173,6 +197,9 @@ class _RentalPageState extends State<RentalPage> {
                         PreviewLocation(
                           place: state.rental.place,
                         ),
+                        const Divider(height: 30, color: ColorName.borderColor),
+                        const ReviewList(),
+                        const Divider(height: 30, color: ColorName.borderColor),
                       ],
                     ),
                   )

@@ -8,6 +8,7 @@ import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vill_finder/core/common/cubit/app_user_cubit.dart';
 import 'package:vill_finder/core/config/shared_prefences_keys.dart';
+import 'package:vill_finder/core/enum/review_type.dart';
 import 'package:vill_finder/core/notifier/shared_preferences_notifier.dart';
 import 'package:vill_finder/core/router/index.dart';
 import 'package:vill_finder/features/auth/presentation/pages/login_page.dart';
@@ -24,6 +25,7 @@ import 'package:vill_finder/features/rental/presentation/blocs/rental/rental_blo
 import 'package:vill_finder/features/rental/presentation/blocs/rental_list_bloc/rental_list_bloc.dart';
 import 'package:vill_finder/features/rental/presentation/pages/detail_view/rental_page.dart';
 import 'package:vill_finder/features/rental/presentation/pages/rental_view_all/rental_view_all_page.dart';
+import 'package:vill_finder/features/review/presentation/bloc/review_list_bloc.dart';
 
 GoRouter routerConfig() {
   final GlobalKey<NavigatorState> rootNavigatorKey =
@@ -202,6 +204,10 @@ GoRouter routerConfig() {
 
           context.read<RentalBloc>().add(
                 GetRentalEvent(int.parse(id!)),
+              );
+          context.read<ReviewListBloc>().add(
+                GetReviewsEvent(
+                    placeId: int.parse(id), reviewType: ReviewType.rental),
               );
 
           return buildTransitionPage(

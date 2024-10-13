@@ -9,6 +9,7 @@ import 'package:vill_finder/features/home/presentation/blocs/search/search_bloc.
 import 'package:vill_finder/features/map/presentation/blocs/map_business/map_business_bloc.dart';
 import 'package:vill_finder/features/rental/presentation/blocs/rental/rental_bloc.dart';
 import 'package:vill_finder/features/rental/presentation/blocs/rental_list_bloc/rental_list_bloc.dart';
+import 'package:vill_finder/features/review/presentation/bloc/review_list_bloc.dart';
 
 class BlocProviders {
   static blocs(GetIt serviceLocator) {
@@ -39,6 +40,9 @@ class BlocProviders {
       ),
       BlocProvider(
         create: (context) => serviceLocator<RentalBloc>(),
+      ),
+      BlocProvider(
+        create: (context) => serviceLocator<ReviewListBloc>(),
       ),
     ];
   }

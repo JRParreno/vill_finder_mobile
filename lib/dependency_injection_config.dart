@@ -23,6 +23,8 @@ Future<void> initDependencies() async {
   homeBusinessInit(serviceLocator);
   // set Map feature
   mapBusinessInit(serviceLocator);
+  // set Review feature
+  reviewInit(serviceLocator);
   // set Rental feature
   rentalInit(serviceLocator);
   // set Food feature

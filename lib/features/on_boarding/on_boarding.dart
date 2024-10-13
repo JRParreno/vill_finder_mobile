@@ -46,7 +46,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
               ),
               const SizedBox(height: 16),
               CustomElevatedBtn(
-                onTap: () => context.pushNamed(AppRoutes.login.name),
+                onTap: goToLoginPage,
                 title: 'Continue',
                 buttonType: ButtonType.outline,
               ),
@@ -57,11 +57,11 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
     );
   }
 
-  void goToHomePage() {
+  void goToLoginPage() {
     final sharedPreferencesNotifier =
         GetIt.instance<SharedPreferencesNotifier>();
 
     sharedPreferencesNotifier.setValue(SharedPreferencesKeys.isOnBoarded, true);
-    GoRouter.of(context).go(AppRoutes.login.path);
+    context.pushNamed(AppRoutes.login.name);
   }
 }

@@ -37,6 +37,12 @@ class _LoginPageState extends State<LoginPage> {
                 });
               }
 
+              if (state is AuthSuccess) {
+                Future.delayed(const Duration(milliseconds: 500), () {
+                  goToHomePage();
+                });
+              }
+
               if (state is AuthFailure) {
                 onFormError(state.message);
               }
@@ -87,8 +93,12 @@ class _LoginPageState extends State<LoginPage> {
     final sharedPreferencesNotifier =
         GetIt.instance<SharedPreferencesNotifier>();
 
-    sharedPreferencesNotifier.setValue(SharedPreferencesKeys.isOnBoarded, true);
+    sharedPreferencesNotifier.setValue(SharedPreferencesKeys.isLoggedIn, true);
 
+    goToHomePage();
+  }
+
+  void goToHomePage() {
     context.goNamed(AppRoutes.home.name);
   }
 }

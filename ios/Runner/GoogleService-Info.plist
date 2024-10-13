@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>198767677720-smn4ihra2ppjl0msdmic4s7aenulbbbf.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.198767677720-smn4ihra2ppjl0msdmic4s7aenulbbbf</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>198767677720-785a5bcvs4oqqvpqqmka8gse39c61opi.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBeRovowYE4xYW3BqR5Zc7d4fmfzl3jqK4</string>
+	<key>GCM_SENDER_ID</key>
+	<string>198767677720</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.thesis.villFinder</string>
+	<key>PROJECT_ID</key>
+	<string>vill-finder-mobile</string>
+	<key>STORAGE_BUCKET</key>
+	<string>vill-finder-mobile.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:198767677720:ios:13aadf1bdedd8e9349ce6d</string>
+</dict>
+</plist>

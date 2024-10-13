@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:vill_finder/core/extension/spacer_widgets.dart';
+import 'package:vill_finder/core/utils/utils_url_laucher.dart';
 
 import 'package:vill_finder/features/home/domain/entities/index.dart';
 import 'package:vill_finder/gen/colors.gen.dart';
@@ -39,9 +40,25 @@ class PreviewLocation extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'Rental Location',
-          style: textTheme.headlineSmall?.copyWith(color: ColorName.blackFont),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Location',
+              style:
+                  textTheme.headlineSmall?.copyWith(color: ColorName.blackFont),
+            ),
+            TextButton(
+              onPressed: () {
+                UtilsUrlLaucher.openGoogleMaps(
+                    LatLng(place.latitude, place.longitude));
+              },
+              child: Text(
+                'View in Map',
+                style: textTheme.bodySmall?.copyWith(color: Colors.lightBlue),
+              ),
+            ),
+          ],
         ),
         Container(
           clipBehavior: Clip.hardEdge,
