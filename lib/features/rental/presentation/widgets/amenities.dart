@@ -54,6 +54,12 @@ class Amenities extends StatelessWidget {
           icon: Icons.pets,
           title: '${rental.petsAllowed ? '' : 'No'} Pets Allowed',
         ),
+        iconWithText(
+          isHave: rental.emergencyExit,
+          textTheme: textTheme,
+          icon: Icons.emergency,
+          title: 'Emergency Exit',
+        ),
       ].withSpaceBetween(height: 10),
     );
   }

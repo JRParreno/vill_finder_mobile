@@ -10,12 +10,12 @@ class SearchMapResultsModel extends SearchMapResultsEntity {
   factory SearchMapResultsModel.fromJson(Map<String, dynamic> map) {
     return SearchMapResultsModel(
       rentals: List<RentalModel>.from(
-        (map['rentals'] as List<int>).map<RentalModel>(
+        map['rentals'].map<RentalModel>(
           (x) => RentalModel.fromMap(x as Map<String, dynamic>),
         ),
       ),
       foods: List<FoodEstablishmentModel>.from(
-        (map['foods'] as List<int>).map<FoodEstablishmentModel>(
+        map['foods'].map<FoodEstablishmentModel>(
           (x) => FoodEstablishmentModel.fromJson(x as Map<String, dynamic>),
         ),
       ),

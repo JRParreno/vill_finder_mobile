@@ -3,11 +3,20 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:vill_finder/core/enum/review_type.dart';
+import 'package:vill_finder/features/food/presentation/blocs/food/food_bloc.dart';
+import 'package:vill_finder/features/food/presentation/pages/body/food_body.dart';
+import 'package:vill_finder/features/home/domain/entities/index.dart';
 import 'package:vill_finder/features/home/presentation/widgets/search_field.dart';
 import 'package:vill_finder/features/map/domain/entities/search_map_response_entity.dart';
 import 'package:vill_finder/features/map/domain/usecase/get_business_map_list.dart';
 import 'package:vill_finder/features/map/presentation/blocs/map_business/map_business_bloc.dart';
+import 'package:vill_finder/features/rental/presentation/blocs/rental/rental_bloc.dart';
+import 'package:vill_finder/features/rental/presentation/pages/body/rental_body.dart';
+import 'package:vill_finder/features/review/presentation/bloc/review_list_bloc.dart';
+import 'package:vill_finder/gen/assets.gen.dart';
 import 'package:vill_finder/gen/colors.gen.dart';
+import 'package:wolt_modal_sheet/wolt_modal_sheet.dart';
 
 class MapPage extends StatefulWidget {
   const MapPage({super.key});
@@ -123,20 +132,28 @@ class _MapPageState extends State<MapPage> {
     }
   }
 
-  void _setMarker(SearchMapResultsEntity mapResults) {
+  void _setMarker(SearchMapResultsEntity mapResults) async {
+    final foodDefaultIcon = await BitmapDescriptor.asset(
+      const ImageConfiguration(size: Size(30, 30)), // Adjust size as needed
+      Assets.images.bitmap.food.keyName,
+    );
+
+    final rentalDefaultIcon = await BitmapDescriptor.asset(
+      const ImageConfiguration(size: Size(30, 30)), // Adjust size as needed
+      Assets.images.bitmap.rental.keyName,
+    );
+
     List<Marker> tempFoodMarkers = mapResults.foods
         .map(
           (e) => Marker(
             icon: e.place.bitMapIcon != null
                 ? BitmapDescriptor.bytes(e.place.bitMapIcon!,
                     height: 30, width: 30)
-                : BitmapDescriptor.defaultMarker,
+                : foodDefaultIcon,
             markerId: MarkerId(e.place.name),
             position: LatLng(e.place.latitude, e.place.longitude),
-            infoWindow: InfoWindow(
-              title: e.place.name,
-              snippet: '${e.place.latitude}, ${e.place.longitude}',
-            ),
+            infoWindow: InfoWindow.noText,
+            onTap: () => handleOnTapFood(e),
           ),
         )
         .toList();
@@ -144,16 +161,14 @@ class _MapPageState extends State<MapPage> {
     List<Marker> tempRentalMarkers = mapResults.rentals
         .map(
           (e) => Marker(
+            onTap: () => handleOnTapRental(e),
             icon: e.place.bitMapIcon != null
                 ? BitmapDescriptor.bytes(e.place.bitMapIcon!,
                     height: 30, width: 30)
-                : BitmapDescriptor.defaultMarker,
+                : rentalDefaultIcon,
             markerId: MarkerId(e.place.name),
             position: LatLng(e.place.latitude, e.place.longitude),
-            infoWindow: InfoWindow(
-              title: e.place.name,
-              snippet: '${e.place.latitude}, ${e.place.longitude}',
-            ),
+            infoWindow: InfoWindow.noText,
           ),
         )
         .toList();
@@ -162,5 +177,53 @@ class _MapPageState extends State<MapPage> {
       _markers.addAll(tempFoodMarkers);
       _markers.addAll(tempRentalMarkers);
     });
+  }
+
+  void handleOnTapRental(RentalEntity value) {
+    context.read<RentalBloc>().add(
+          GetRentalEvent(value.id),
+        );
+    context.read<ReviewListBloc>().add(
+          GetReviewsEvent(placeId: value.id, reviewType: ReviewType.rental),
+        );
+
+    WoltModalSheet.show(
+      context: context,
+      pageListBuilder: (bottomSheetContext) => [
+        SliverWoltModalSheetPage(
+          useSafeArea: true,
+          hasTopBarLayer: true,
+          mainContentSliversBuilder: (context) => [
+            SliverToBoxAdapter(
+              child: RentalBody(rental: value),
+            )
+          ],
+        )
+      ],
+    );
+  }
+
+  void handleOnTapFood(FoodEstablishmentEntity value) {
+    context.read<FoodBloc>().add(
+          GetFoodEvent(value.id),
+        );
+    context.read<ReviewListBloc>().add(
+          GetReviewsEvent(
+              placeId: value.id, reviewType: ReviewType.foodestablishment),
+        );
+    WoltModalSheet.show(
+      context: context,
+      pageListBuilder: (bottomSheetContext) => [
+        SliverWoltModalSheetPage(
+          useSafeArea: true,
+          hasTopBarLayer: true,
+          mainContentSliversBuilder: (context) => [
+            SliverToBoxAdapter(
+              child: FoodBody(food: value),
+            )
+          ],
+        )
+      ],
+    );
   }
 }
