@@ -37,10 +37,7 @@ class _FoodPageState extends State<FoodPage> {
           ),
         ),
       ),
-      body: BlocConsumer<FoodBloc, FoodState>(
-        listener: (context, state) {
-          // TODO: implement listener
-        },
+      body: BlocBuilder<FoodBloc, FoodState>(
         builder: (context, state) {
           if (state is FoodLoading) {
             return SafeArea(

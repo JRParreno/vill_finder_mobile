@@ -4,10 +4,11 @@ import 'package:go_router/go_router.dart';
 import 'package:vill_finder/core/common/widgets/shimmer_loading.dart';
 import 'package:vill_finder/core/extension/spacer_widgets.dart';
 import 'package:vill_finder/core/router/index.dart';
-import 'package:vill_finder/features/home/presentation/blocs/search/search_bloc.dart';
 import 'package:vill_finder/features/home/presentation/pages/search/body/index.dart';
 import 'package:vill_finder/features/home/presentation/pages/search/widgets/index.dart';
 import 'package:vill_finder/features/home/presentation/widgets/search_field.dart';
+import 'package:vill_finder/features/map/domain/usecase/get_business_map_list.dart';
+import 'package:vill_finder/features/map/presentation/blocs/map_business/map_business_bloc.dart';
 import 'package:vill_finder/gen/colors.gen.dart';
 
 class HomeSearchPage extends StatefulWidget {
@@ -24,7 +25,7 @@ class _HomeSearchPageState extends State<HomeSearchPage> {
   @override
   void initState() {
     super.initState();
-    context.read<SearchBloc>().add(SearchGetRecentSearches());
+    context.read<MapBusinessBloc>().add(GetRecentSearches());
   }
 
   @override
@@ -75,20 +76,20 @@ class _HomeSearchPageState extends State<HomeSearchPage> {
                         const Duration(
                           milliseconds: 500,
                         ), () {
-                      context.read<SearchBloc>().add(
-                            SearchTriggerEvent(
-                              searchCtrl.text,
-                            ),
+                      context.read<MapBusinessBloc>().add(
+                            GetMapBusinessEvent(GetBusinessMapListParams(
+                              name: searchCtrl.value.text,
+                            )),
                           );
                     });
                   }
                 },
               ),
               const SizedBox(height: 20),
-              BlocConsumer<SearchBloc, SearchState>(
+              BlocConsumer<MapBusinessBloc, MapBusinessState>(
                 listener: (context, state) {},
                 builder: (context, state) {
-                  if (state is SearchLoading) {
+                  if (state is MapBusinessLoading) {
                     return ListView.separated(
                       shrinkWrap: true,
                       itemBuilder: (context, index) {
@@ -111,7 +112,7 @@ class _HomeSearchPageState extends State<HomeSearchPage> {
                     );
                   }
 
-                  if (state is SearchEmpty) {
+                  if (state is MapBusinessEmpty) {
                     return const Expanded(
                       child: Center(
                         child: Text(
@@ -121,7 +122,7 @@ class _HomeSearchPageState extends State<HomeSearchPage> {
                     );
                   }
 
-                  if (state is SearchFailure) {
+                  if (state is MapBusinessFailure) {
                     return const Expanded(
                       child: Center(
                         child: Text(
@@ -131,13 +132,13 @@ class _HomeSearchPageState extends State<HomeSearchPage> {
                     );
                   }
 
-                  if (state is SearchRecentLoaded) {
+                  if (state is MapBusinessRecentLoaded) {
                     return RecentSearches(
                       keywords: state.keywords,
                       onClearRecent: () {
                         context
-                            .read<SearchBloc>()
-                            .add(SearchClearRecentSearches());
+                            .read<MapBusinessBloc>()
+                            .add(ClearRecentSearches());
                       },
                       onTapKeyword: (String value) {
                         searchCtrl.text = value;
@@ -146,7 +147,10 @@ class _HomeSearchPageState extends State<HomeSearchPage> {
                     );
                   }
 
-                  if (state is SearchSuccess) {
+                  if (state is MapBusinessSuccess) {
+                    final rentals = state.data.results.rentals;
+                    final foods = state.data.results.foods;
+
                     return Expanded(
                       child: SingleChildScrollView(
                         child: Column(
@@ -156,14 +160,14 @@ class _HomeSearchPageState extends State<HomeSearchPage> {
                                 context.pushNamed(
                                   AppRoutes.rentalViewAll.name,
                                   extra: {
-                                    "data": state.rentals!,
+                                    "data": rentals,
                                     "search": searchCtrl.value.text,
                                   },
                                 );
                               },
-                              rentals: state.rentals!.results,
+                              rentals: rentals,
                             ),
-                            if (state.rentals!.results.isNotEmpty)
+                            if (rentals.isNotEmpty)
                               const Divider(
                                 color: ColorName.placeholder,
                                 thickness: 2,
@@ -174,12 +178,12 @@ class _HomeSearchPageState extends State<HomeSearchPage> {
                                 context.pushNamed(
                                   AppRoutes.foodViewAll.name,
                                   extra: {
-                                    "data": state.foods!,
+                                    "data": foods,
                                     "search": searchCtrl.value.text,
                                   },
                                 );
                               },
-                              foods: state.foods!.results,
+                              foods: foods,
                             ),
                           ].withSpaceBetween(height: 20),
                         ),

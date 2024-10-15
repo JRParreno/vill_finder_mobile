@@ -2,8 +2,11 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:vill_finder/core/enum/review_type.dart';
+import 'package:vill_finder/core/extension/spacer_widgets.dart';
+import 'package:vill_finder/core/router/app_routes.dart';
 import 'package:vill_finder/features/food/presentation/blocs/food/food_bloc.dart';
 import 'package:vill_finder/features/food/presentation/pages/body/food_body.dart';
 import 'package:vill_finder/features/home/domain/entities/index.dart';
@@ -54,6 +57,8 @@ class _MapPageState extends State<MapPage> {
           listener: (context, state) {
             if (state is MapBusinessSuccess) {
               _setMarker(state.data.results);
+              searchCtrl.text = state.params.name ?? '';
+              handleOverrideResult(state);
             }
           },
           child: Stack(
@@ -96,9 +101,10 @@ class _MapPageState extends State<MapPage> {
                     Icons.search_outlined,
                     color: ColorName.darkerGreyFont,
                   ),
-                  onSubmit: () {
-                    _fetchBusinesses();
+                  onTap: () {
+                    context.pushNamed(AppRoutes.homeSearch.name);
                   },
+                  readOnly: true,
                 ),
               ),
             ],
@@ -109,26 +115,30 @@ class _MapPageState extends State<MapPage> {
   }
 
   Future<void> _fetchBusinesses() async {
-    final GoogleMapController mapController = await googleMapController.future;
+    final currentState = context.read<MapBusinessBloc>().state;
+    bool isOverride =
+        currentState is MapBusinessSuccess ? currentState.isOverrideMap : false;
+    if (!isOverride) {
+      final GoogleMapController mapController =
+          await googleMapController.future;
 
-    // Get the visible region (map bounds)
-    LatLngBounds bounds = await mapController.getVisibleRegion();
-    // Extract northeast and southwest bounds
-    LatLng northeast = bounds.northeast;
-    LatLng southwest = bounds.southwest;
+      // Get the visible region (map bounds)
+      LatLngBounds bounds = await mapController.getVisibleRegion();
+      // Extract northeast and southwest bounds
+      LatLng northeast = bounds.northeast;
+      LatLng southwest = bounds.southwest;
 
-    if (mounted) {
-      context.read<MapBusinessBloc>().add(
-            GetMapBusinessEvent(
-              GetBusinessMapListParams(
-                // businessName: searchCtrl.value.text,
-                maxLatitude: northeast.latitude,
-                maxLongitude: northeast.longitude,
-                minLatitude: southwest.latitude,
-                minLongitude: southwest.longitude,
+      if (mounted) {
+        context.read<MapBusinessBloc>().add(
+              GetMapBusinessEvent(
+                GetBusinessMapListParams(
+                  // businessName: searchCtrl.value.text,
+                  latitude: northeast.latitude,
+                  longitude: southwest.longitude,
+                ),
               ),
-            ),
-          );
+            );
+      }
     }
   }
 
@@ -193,6 +203,35 @@ class _MapPageState extends State<MapPage> {
         SliverWoltModalSheetPage(
           useSafeArea: true,
           hasTopBarLayer: true,
+          trailingNavBarWidget: GestureDetector(
+            onTap: () {
+              context.pop();
+
+              Future.delayed(const Duration(milliseconds: 450), () {
+                context.pushNamed(
+                  AppRoutes.rental.name,
+                  pathParameters: {"id": value.id.toString()},
+                );
+              });
+            },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  const Text(
+                    'View',
+                    style: TextStyle(color: Colors.blue, fontSize: 15),
+                  ),
+                  const Icon(
+                    Icons.open_in_new,
+                    color: Colors.blue,
+                    size: 15,
+                  ),
+                ].withSpaceBetween(width: 5),
+              ),
+            ),
+          ),
           mainContentSliversBuilder: (context) => [
             SliverToBoxAdapter(
               child: RentalBody(rental: value),
@@ -217,6 +256,33 @@ class _MapPageState extends State<MapPage> {
         SliverWoltModalSheetPage(
           useSafeArea: true,
           hasTopBarLayer: true,
+          trailingNavBarWidget: GestureDetector(
+            onTap: () {
+              context.pop();
+
+              Future.delayed(const Duration(milliseconds: 450), () {
+                context.pushNamed(AppRoutes.food.name,
+                    pathParameters: {"id": value.id.toString()});
+              });
+            },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  const Text(
+                    'View',
+                    style: TextStyle(color: Colors.blue, fontSize: 15),
+                  ),
+                  const Icon(
+                    Icons.open_in_new,
+                    color: Colors.blue,
+                    size: 15,
+                  ),
+                ].withSpaceBetween(width: 5),
+              ),
+            ),
+          ),
           mainContentSliversBuilder: (context) => [
             SliverToBoxAdapter(
               child: FoodBody(food: value),
@@ -225,5 +291,45 @@ class _MapPageState extends State<MapPage> {
         )
       ],
     );
+  }
+
+  void handleOverrideResult(MapBusinessSuccess value) async {
+    if (value.isOverrideMap) {
+      final food = value.food;
+      final rental = value.rental;
+
+      if (food != null && rental != null) return;
+      final GoogleMapController controller = await googleMapController.future;
+      LatLng latLng = const LatLng(14.5231427, 121.0164655);
+
+      if (food != null) {
+        latLng = LatLng(food.place.latitude, food.place.longitude);
+      }
+
+      if (rental != null) {
+        latLng = LatLng(rental.place.latitude, rental.place.longitude);
+      }
+
+      await controller.animateCamera(
+        CameraUpdate.newCameraPosition(
+          CameraPosition(
+            target: latLng,
+            zoom: 14.4746,
+          ),
+        ),
+      );
+
+      Future.delayed(const Duration(milliseconds: 500), () {
+        if (food != null) {
+          handleOnTapFood(food);
+        }
+
+        if (rental != null) {
+          handleOnTapRental(rental);
+        }
+
+        context.read<MapBusinessBloc>().add(ResetMapOverrideStatus());
+      });
+    }
   }
 }

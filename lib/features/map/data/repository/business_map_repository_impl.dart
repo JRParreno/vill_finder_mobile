@@ -12,20 +12,16 @@ class BusinessMapRepositoryImpl implements BusinessMapRepository {
 
   @override
   Future<Either<Failure, SearchMapResponseEntity>> getBusinessMapList({
-    required double minLongitude,
-    required double maxLongitude,
-    required double minLatitude,
-    required double maxLatitude,
+    double? longitude,
+    double? latitude,
     String? name,
     String? previous,
     String? next,
   }) async {
     try {
       final response = await _remoteDataSource.getBusinessMapList(
-        maxLatitude: maxLatitude,
-        maxLongitude: maxLongitude,
-        minLatitude: minLatitude,
-        minLongitude: minLongitude,
+        longitude: longitude,
+        latitude: latitude,
         name: name,
         next: next,
         previous: previous,

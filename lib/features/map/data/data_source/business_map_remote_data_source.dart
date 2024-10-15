@@ -6,10 +6,8 @@ import 'package:vill_finder/features/map/data/models/search_map_response_model.d
 
 abstract interface class BusinessMapRemoteDataSource {
   Future<SearchMapResponseModel> getBusinessMapList({
-    required double minLongitude,
-    required double maxLongitude,
-    required double minLatitude,
-    required double maxLatitude,
+    double? longitude,
+    double? latitude,
     String? name,
     String? previous,
     String? next,
@@ -22,20 +20,24 @@ class BusinessMapRemoteDataSourceImpl implements BusinessMapRemoteDataSource {
 
   @override
   Future<SearchMapResponseModel> getBusinessMapList({
-    required double minLongitude,
-    required double maxLongitude,
-    required double minLatitude,
-    required double maxLatitude,
+    double? longitude,
+    double? latitude,
     String? name,
     String? previous,
     String? next,
   }) async {
-    String url = '$baseUrl/api/places/search/?'
-        'min_latitude=$minLatitude&max_latitude=$maxLatitude'
-        '&min_longitude=$minLongitude&max_longitude=$maxLongitude';
+    String url = '$baseUrl/api/places/search/';
 
-    if (name != null && name.isNotEmpty) {
-      url += '&q=$name';
+    if (name != null && latitude != null && longitude != null) {
+      url += '?q=$name&latitude=$latitude&longitude=$longitude';
+    } else {
+      if (name != null) {
+        url += '?q=$name';
+      } else {
+        if (latitude != null && longitude != null) {
+          url += '?latitude=$latitude&longitude=$longitude';
+        }
+      }
     }
 
     try {

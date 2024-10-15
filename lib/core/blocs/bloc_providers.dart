@@ -8,6 +8,7 @@ import 'package:vill_finder/features/home/presentation/blocs/home_food/home_food
 import 'package:vill_finder/features/home/presentation/blocs/home_rental/home_rental_bloc.dart';
 import 'package:vill_finder/features/home/presentation/blocs/search/search_bloc.dart';
 import 'package:vill_finder/features/map/presentation/blocs/map_business/map_business_bloc.dart';
+import 'package:vill_finder/features/navigation/presentation/cubit/navigator_index_cubit.dart';
 import 'package:vill_finder/features/rental/presentation/blocs/rental/rental_bloc.dart';
 import 'package:vill_finder/features/rental/presentation/blocs/rental_list_bloc/rental_list_bloc.dart';
 import 'package:vill_finder/features/review/presentation/bloc/review_list_bloc.dart';
@@ -15,6 +16,9 @@ import 'package:vill_finder/features/review/presentation/bloc/review_list_bloc.d
 class BlocProviders {
   static blocs(GetIt serviceLocator) {
     return [
+      BlocProvider(
+        create: (context) => NavigatorIndexCubit(),
+      ),
       BlocProvider(
         create: (context) => serviceLocator<AppUserCubit>(),
       ),

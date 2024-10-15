@@ -11,26 +11,51 @@ final class MapBusinessInitial extends MapBusinessState {}
 
 final class MapBusinessLoading extends MapBusinessState {}
 
+final class MapBusinessEmpty extends MapBusinessState {}
+
+final class MapBusinessRecentLoaded extends MapBusinessState {
+  final List<String> keywords;
+
+  const MapBusinessRecentLoaded(this.keywords);
+
+  @override
+  List<Object> get props => [
+        keywords,
+      ];
+}
+
 final class MapBusinessSuccess extends MapBusinessState {
   final SearchMapResponseEntity data;
   final bool isPaginate;
   final GetBusinessMapListParams params;
+  final RentalEntity? rental;
+  final FoodEstablishmentEntity? food;
+  final bool isOverrideMap;
 
   const MapBusinessSuccess({
     required this.data,
     required this.params,
     this.isPaginate = false,
+    this.food,
+    this.rental,
+    this.isOverrideMap = false,
   });
 
   MapBusinessSuccess copyWith({
     SearchMapResponseEntity? data,
     bool? isPaginate,
     GetBusinessMapListParams? params,
+    RentalEntity? rental,
+    FoodEstablishmentEntity? food,
+    bool? isOverrideMap,
   }) {
     return MapBusinessSuccess(
       data: data ?? this.data,
       params: params ?? this.params,
       isPaginate: isPaginate ?? this.isPaginate,
+      food: food ?? this.food,
+      rental: rental ?? this.rental,
+      isOverrideMap: isOverrideMap ?? this.isOverrideMap,
     );
   }
 
@@ -39,6 +64,9 @@ final class MapBusinessSuccess extends MapBusinessState {
         data,
         isPaginate,
         params,
+        isOverrideMap,
+        food,
+        rental,
       ];
 }
 

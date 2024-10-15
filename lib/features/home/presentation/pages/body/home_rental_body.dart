@@ -150,6 +150,7 @@ class HomeRentalBody extends StatelessWidget {
                   Padding(
             padding: const EdgeInsets.symmetric(horizontal: 5),
             child: RentalCard(
+              isHome: true,
               rentalEntity: rentals[itemIndex],
             ),
           ),

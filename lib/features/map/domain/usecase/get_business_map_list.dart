@@ -14,10 +14,8 @@ class GetBusinessMapList
   Future<Either<Failure, SearchMapResponseEntity>> call(
       GetBusinessMapListParams params) async {
     return await _repository.getBusinessMapList(
-      maxLatitude: params.maxLatitude,
-      maxLongitude: params.maxLongitude,
-      minLatitude: params.minLatitude,
-      minLongitude: params.minLongitude,
+      longitude: params.longitude,
+      latitude: params.latitude,
       name: params.name,
       next: params.next,
       previous: params.previous,
@@ -26,19 +24,15 @@ class GetBusinessMapList
 }
 
 class GetBusinessMapListParams {
-  final double maxLatitude;
-  final double minLatitude;
-  final double maxLongitude;
-  final double minLongitude;
+  final double? longitude;
+  final double? latitude;
   final String? name;
   final String? next;
   final String? previous;
 
   GetBusinessMapListParams({
-    required this.maxLatitude,
-    required this.minLatitude,
-    required this.maxLongitude,
-    required this.minLongitude,
+    this.latitude,
+    this.longitude,
     this.name,
     this.next,
     this.previous,

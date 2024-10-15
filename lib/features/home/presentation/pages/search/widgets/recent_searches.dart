@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:vill_finder/features/home/presentation/blocs/search/search_bloc.dart';
+import 'package:vill_finder/features/map/domain/usecase/get_business_map_list.dart';
+import 'package:vill_finder/features/map/presentation/blocs/map_business/map_business_bloc.dart';
 import 'package:vill_finder/gen/colors.gen.dart';
 
 class RecentSearches extends StatelessWidget {
@@ -64,11 +65,11 @@ class RecentSearches extends StatelessWidget {
             child: GestureDetector(
               onTap: () {
                 onTapKeyword(keywords[index]);
-                context.read<SearchBloc>().add(
-                      SearchTriggerEvent(
-                        keywords[index],
+                context.read<MapBusinessBloc>().add(GetMapBusinessEvent(
+                      GetBusinessMapListParams(
+                        name: keywords[index],
                       ),
-                    );
+                    ));
               },
               child: Text(
                 keywords[index],

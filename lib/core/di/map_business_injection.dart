@@ -21,6 +21,9 @@ void mapBusinessInit(GetIt serviceLocator) {
       () => GetBusinessMapList(serviceLocator()),
     )
     ..registerFactory(
-      () => MapBusinessBloc(serviceLocator()),
+      () => MapBusinessBloc(
+        getBusinessMapList: serviceLocator(),
+        sharedPreferencesNotifier: serviceLocator(),
+      ),
     );
 }
