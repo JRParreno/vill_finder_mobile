@@ -11,6 +11,7 @@ import 'package:vill_finder/features/map/presentation/blocs/map_business/map_bus
 import 'package:vill_finder/features/navigation/presentation/cubit/navigator_index_cubit.dart';
 import 'package:vill_finder/features/rental/presentation/blocs/rental/rental_bloc.dart';
 import 'package:vill_finder/features/rental/presentation/blocs/rental_list_bloc/rental_list_bloc.dart';
+import 'package:vill_finder/features/review/presentation/bloc/cubit/review_star_cubit.dart';
 import 'package:vill_finder/features/review/presentation/bloc/review_list_bloc.dart';
 
 class BlocProviders {
@@ -51,6 +52,9 @@ class BlocProviders {
       ),
       BlocProvider(
         create: (context) => serviceLocator<ReviewListBloc>(),
+      ),
+      BlocProvider(
+        create: (context) => serviceLocator<ReviewStarCubit>(),
       ),
     ];
   }

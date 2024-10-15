@@ -6,6 +6,7 @@ import 'package:vill_finder/features/rental/domain/repository/rental_repository.
 import 'package:vill_finder/features/rental/domain/usecases/index.dart';
 import 'package:vill_finder/features/rental/presentation/blocs/rental/rental_bloc.dart';
 import 'package:vill_finder/features/rental/presentation/blocs/rental_list_bloc/rental_list_bloc.dart';
+import 'package:vill_finder/features/review/domain/usecases/index.dart';
 
 void rentalInit(GetIt serviceLocator) {
   serviceLocator
@@ -15,10 +16,12 @@ void rentalInit(GetIt serviceLocator) {
         () => RentalRepositoryImpl(serviceLocator()))
     ..registerFactory(() => GetRental(serviceLocator()))
     ..registerFactory(() => SetFavoriteRental(serviceLocator()))
+    ..registerFactory(() => AddReview(serviceLocator()))
     ..registerFactory(
       () => RentalBloc(
         getRental: serviceLocator(),
         setFavoriteRental: serviceLocator(),
+        addReview: serviceLocator(),
       ),
     )
     ..registerFactory(

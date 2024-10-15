@@ -13,6 +13,7 @@ import 'package:vill_finder/core/notifier/shared_preferences_notifier.dart';
 import 'package:vill_finder/core/router/index.dart';
 import 'package:vill_finder/features/auth/presentation/pages/login_page.dart';
 import 'package:vill_finder/features/error_page/error_page.dart';
+import 'package:vill_finder/features/favorite/presentation/favorite_page.dart';
 import 'package:vill_finder/features/food/presentation/blocs/food/food_bloc.dart';
 import 'package:vill_finder/features/food/presentation/blocs/food_list_bloc/food_list_bloc.dart';
 import 'package:vill_finder/features/food/presentation/pages/detail_view/food_page.dart';
@@ -23,6 +24,7 @@ import 'package:vill_finder/features/map/presentation/pages/map_page.dart';
 import 'package:vill_finder/features/navigation/presentation/scaffold_with_bottom_nav.dart';
 import 'package:vill_finder/features/on_boarding/on_boarding.dart';
 import 'package:vill_finder/features/home/presentation/pages/search/home_search_page.dart';
+import 'package:vill_finder/features/profile/presentation/pages/profile_page.dart';
 import 'package:vill_finder/features/rental/presentation/blocs/rental/rental_bloc.dart';
 import 'package:vill_finder/features/rental/presentation/blocs/rental_list_bloc/rental_list_bloc.dart';
 import 'package:vill_finder/features/rental/presentation/pages/detail_view/rental_page.dart';
@@ -112,7 +114,7 @@ GoRouter routerConfig() {
                 pageBuilder: (context, state) {
                   return buildTransitionPage(
                     localKey: state.pageKey,
-                    child: const Placeholder(),
+                    child: const FavoritePage(),
                   );
                 },
               ),
@@ -142,7 +144,7 @@ GoRouter routerConfig() {
                 pageBuilder: (context, state) {
                   return buildTransitionPage(
                     localKey: state.pageKey,
-                    child: const Placeholder(),
+                    child: const ProfilePage(),
                   );
                 },
               ),

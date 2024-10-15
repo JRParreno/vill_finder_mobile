@@ -21,3 +21,12 @@ class GetRentalEvent extends RentalEvent {
 class AddFavoriteRentalEvent extends RentalEvent {}
 
 class RemoveFavoriteRentalEvent extends RentalEvent {}
+
+class SubmitAddReviewEvent extends RentalEvent {
+  final AddReviewParams params;
+
+  const SubmitAddReviewEvent(this.params);
+
+  @override
+  List<Object> get props => [params];
+}

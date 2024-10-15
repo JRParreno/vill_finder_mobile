@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:vill_finder/core/common/widgets/loader.dart';
 import 'package:vill_finder/core/common/widgets/shimmer_loading.dart';
+import 'package:vill_finder/core/enum/review_type.dart';
+import 'package:vill_finder/core/enum/view_status.dart';
 import 'package:vill_finder/core/extension/spacer_widgets.dart';
 import 'package:vill_finder/features/rental/presentation/blocs/rental/rental_bloc.dart';
 import 'package:vill_finder/features/rental/presentation/pages/body/rental_body.dart';
+import 'package:vill_finder/features/review/presentation/bloc/review_list_bloc.dart';
 import 'package:vill_finder/gen/colors.gen.dart';
 
 class RentalPage extends StatefulWidget {
@@ -15,6 +19,8 @@ class RentalPage extends StatefulWidget {
 }
 
 class _RentalPageState extends State<RentalPage> {
+  final reviewCtrl = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,9 +28,7 @@ class _RentalPageState extends State<RentalPage> {
       extendBody: true,
       appBar: buildAppbar(),
       body: BlocConsumer<RentalBloc, RentalState>(
-        listener: (context, state) {
-          // TODO: implement listener
-        },
+        listener: blocListener,
         builder: (context, state) {
           if (state is RentalLoading) {
             return SafeArea(
@@ -81,7 +85,10 @@ class _RentalPageState extends State<RentalPage> {
 
           if (state is RentalSuccess) {
             return SingleChildScrollView(
-              child: RentalBody(rental: state.rental),
+              child: RentalBody(
+                rental: state.rental,
+                controller: reviewCtrl,
+              ),
             );
           }
 
@@ -160,5 +167,37 @@ class _RentalPageState extends State<RentalPage> {
         ),
       ].withSpaceBetween(width: 3),
     );
+  }
+
+  void blocListener(BuildContext context, RentalState state) {
+    if (state is RentalSuccess) {
+      if (state.viewStatus == ViewStatus.loading) {
+        LoadingScreen.instance().show(context: context);
+      }
+
+      if (state.viewStatus == ViewStatus.successful ||
+          state.viewStatus == ViewStatus.failed) {
+        Future.delayed(const Duration(milliseconds: 500), () {
+          LoadingScreen.instance().hide();
+        }).whenComplete(() {
+          final message = state.viewStatus == ViewStatus.successful
+              ? "Successfully add your review"
+              : "Something went wrong";
+
+          onFormDisplayMessage(message);
+
+          context.read<ReviewListBloc>().add(GetReviewsEvent(
+              placeId: state.rental.id, reviewType: ReviewType.rental));
+        });
+      }
+    }
+  }
+
+  void onFormDisplayMessage(String message) {
+    final snackBar = SnackBar(
+      content: Text(message),
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }

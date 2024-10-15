@@ -75,7 +75,11 @@ class RentalCard extends StatelessWidget {
                 alignment: Alignment.topRight,
                 child: IconButton(
                   color: Colors.white,
-                  onPressed: () {},
+                  onPressed: () {
+                    onFormDisplayMessage(
+                        context: context,
+                        message: 'This feature is not yet implemented');
+                  },
                   icon: const Icon(Icons.favorite_outline),
                 ),
               ),
@@ -115,5 +119,16 @@ class RentalCard extends StatelessWidget {
         minutes: taskDate.minute,
         seconds: taskDate.second));
     return timeago.format(fifteenAgo);
+  }
+
+  void onFormDisplayMessage({
+    required String message,
+    required BuildContext context,
+  }) {
+    final snackBar = SnackBar(
+      content: Text(message),
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }

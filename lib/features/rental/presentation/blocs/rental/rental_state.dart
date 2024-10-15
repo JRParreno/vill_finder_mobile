@@ -13,12 +13,24 @@ final class RentalLoading extends RentalState {}
 
 final class RentalSuccess extends RentalState {
   final RentalEntity rental;
-  const RentalSuccess(this.rental);
+  final ViewStatus viewStatus;
+  const RentalSuccess({
+    required this.rental,
+    this.viewStatus = ViewStatus.none,
+  });
+
+  RentalSuccess copyWith({
+    RentalEntity? rental,
+    ViewStatus? viewStatus,
+  }) {
+    return RentalSuccess(
+      rental: rental ?? this.rental,
+      viewStatus: viewStatus ?? this.viewStatus,
+    );
+  }
 
   @override
-  List<Object> get props => [
-        rental,
-      ];
+  List<Object> get props => [rental, viewStatus];
 }
 
 final class RentalFailure extends RentalState {

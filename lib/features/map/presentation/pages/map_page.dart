@@ -33,6 +33,7 @@ class _MapPageState extends State<MapPage> {
       Completer<GoogleMapController>();
   final Set<Marker> _markers = {};
   final searchCtrl = TextEditingController();
+  final reviewCtrl = TextEditingController();
 
   @override
   void initState() {
@@ -125,16 +126,20 @@ class _MapPageState extends State<MapPage> {
       // Get the visible region (map bounds)
       LatLngBounds bounds = await mapController.getVisibleRegion();
       // Extract northeast and southwest bounds
+
       LatLng northeast = bounds.northeast;
       LatLng southwest = bounds.southwest;
+      double centerLat = (northeast.latitude + southwest.latitude) / 2;
+      double centerLng = (northeast.longitude + southwest.longitude) / 2;
+
+      LatLng center = LatLng(centerLat, centerLng);
 
       if (mounted) {
         context.read<MapBusinessBloc>().add(
               GetMapBusinessEvent(
                 GetBusinessMapListParams(
-                  // businessName: searchCtrl.value.text,
-                  latitude: northeast.latitude,
-                  longitude: southwest.longitude,
+                  latitude: center.latitude,
+                  longitude: center.longitude,
                 ),
               ),
             );
@@ -234,7 +239,10 @@ class _MapPageState extends State<MapPage> {
           ),
           mainContentSliversBuilder: (context) => [
             SliverToBoxAdapter(
-              child: RentalBody(rental: value),
+              child: RentalBody(
+                rental: value,
+                controller: reviewCtrl,
+              ),
             )
           ],
         )
