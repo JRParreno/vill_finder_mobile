@@ -36,11 +36,6 @@ class _MapPageState extends State<MapPage> {
   final reviewCtrl = TextEditingController();
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -58,7 +53,6 @@ class _MapPageState extends State<MapPage> {
           listener: (context, state) {
             if (state is MapBusinessSuccess) {
               _setMarker(state.data.results);
-              searchCtrl.text = state.params.name ?? '';
               handleOverrideResult(state);
             }
           },
@@ -305,6 +299,7 @@ class _MapPageState extends State<MapPage> {
     if (value.isOverrideMap) {
       final food = value.food;
       final rental = value.rental;
+      searchCtrl.text = value.params.name ?? '';
 
       if (food != null && rental != null) return;
       final GoogleMapController controller = await googleMapController.future;

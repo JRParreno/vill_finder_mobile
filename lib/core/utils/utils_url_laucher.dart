@@ -10,17 +10,14 @@ class UtilsUrlLaucher {
     await launchUrl(launchUri);
   }
 
-  static Future<void> openGoogleMaps(LatLng latlng) async {
-    final String googleMapslocationUrl =
-        "https://www.google.com/maps/search/?api=1&query=${latlng.latitude},${latlng.longitude}";
+  static Future<void> openGoogleMaps(LatLng latlng, String propertyName) async {
+    final latitude = latlng.latitude;
+    final longitude = latlng.longitude;
+    final query = '$latitude,$longitude($propertyName)';
+    final uri = Uri(scheme: 'geo', host: '0,0', queryParameters: {'q': query});
 
-    final Uri launchUri = Uri(
-      scheme: 'geo',
-      path: googleMapslocationUrl,
-    );
-
-    if (await canLaunchUrl(launchUri)) {
-      await launchUrl(launchUri);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
     }
   }
 }

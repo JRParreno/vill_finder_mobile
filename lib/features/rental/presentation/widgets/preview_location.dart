@@ -51,7 +51,7 @@ class PreviewLocation extends StatelessWidget {
             TextButton(
               onPressed: () {
                 UtilsUrlLaucher.openGoogleMaps(
-                    LatLng(place.latitude, place.longitude));
+                    LatLng(place.latitude, place.longitude), place.name);
               },
               child: Text(
                 'View in Map',
