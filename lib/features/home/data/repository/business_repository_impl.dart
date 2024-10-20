@@ -1,5 +1,4 @@
 import 'package:fpdart/fpdart.dart';
-import 'package:vill_finder/core/error/exceptions.dart';
 import 'package:vill_finder/core/error/failure.dart';
 import 'package:vill_finder/features/home/data/data_sources/business_remote_data_source.dart';
 import 'package:vill_finder/features/home/domain/entities/index.dart';
@@ -27,8 +26,8 @@ class BusinessRepositoryImpl implements BusinessRepository {
         isFeatured: isFeatured,
       );
       return right(response);
-    } on ServerException catch (e) {
-      return left(Failure(e.message));
+    } on Failure catch (e) {
+      return left(e);
     }
   }
 
@@ -47,8 +46,8 @@ class BusinessRepositoryImpl implements BusinessRepository {
         previous: previous,
       );
       return right(response);
-    } on ServerException catch (e) {
-      return left(Failure(e.message));
+    } on Failure catch (e) {
+      return left(e);
     }
   }
 
@@ -66,8 +65,8 @@ class BusinessRepositoryImpl implements BusinessRepository {
         name: name,
       );
       return right(response);
-    } on ServerException catch (e) {
-      return left(Failure(e.message));
+    } on Failure catch (e) {
+      return left(e);
     }
   }
 }

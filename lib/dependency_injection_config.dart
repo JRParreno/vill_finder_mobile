@@ -29,4 +29,6 @@ Future<void> initDependencies() async {
   rentalInit(serviceLocator);
   // set Food feature
   foodInit(serviceLocator);
+  // set Favorite feature
+  favoriteInit(serviceLocator);
 }

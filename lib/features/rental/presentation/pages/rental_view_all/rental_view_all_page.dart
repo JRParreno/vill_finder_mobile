@@ -96,7 +96,6 @@ class _RentalViewAllPageState extends State<RentalViewAllPage> {
                           return RentalCard(
                             height: 175,
                             rentalEntity: item,
-                            onTap: () {},
                           );
                         },
                         separatorBuilder: (context, index) =>

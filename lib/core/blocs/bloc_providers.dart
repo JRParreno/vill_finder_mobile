@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:vill_finder/core/common/cubit/app_user_cubit.dart';
 import 'package:vill_finder/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:vill_finder/features/favorite/presentation/bloc/rental_favorite_bloc.dart';
 import 'package:vill_finder/features/food/presentation/blocs/food/food_bloc.dart';
 import 'package:vill_finder/features/food/presentation/blocs/food_list_bloc/food_list_bloc.dart';
 import 'package:vill_finder/features/home/presentation/blocs/home_food/home_food_bloc.dart';
@@ -55,6 +56,9 @@ class BlocProviders {
       ),
       BlocProvider(
         create: (context) => serviceLocator<ReviewStarCubit>(),
+      ),
+      BlocProvider(
+        create: (context) => serviceLocator<RentalFavoriteBloc>(),
       ),
     ];
   }

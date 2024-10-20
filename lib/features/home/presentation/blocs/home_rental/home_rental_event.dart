@@ -21,3 +21,16 @@ final class GetHomeRentalEvent extends HomeRentalEvent {
 }
 
 final class RefreshHomeRentalEvent extends HomeRentalEvent {}
+
+final class UpdateHomeFavoriteRentalEvent extends HomeRentalEvent {
+  final int id;
+  final bool value;
+
+  const UpdateHomeFavoriteRentalEvent({
+    required this.id,
+    this.value = false,
+  });
+
+  @override
+  List<Object?> get props => [id, value];
+}

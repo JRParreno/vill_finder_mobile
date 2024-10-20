@@ -43,11 +43,11 @@ class RentalBloc extends Bloc<RentalEvent, RentalState> {
         (l) => emit(state.copyWith(viewStatus: ViewStatus.failed)),
         (r) => emit(
           state.copyWith(
-            rental: state.rental.copyWith(
-              place: place,
-            ),
-            viewStatus: ViewStatus.successful,
-          ),
+              rental: state.rental.copyWith(
+                place: place,
+              ),
+              viewStatus: ViewStatus.successful,
+              successMessage: "Successfully add your review."),
         ),
       );
     }
@@ -80,8 +80,10 @@ class RentalBloc extends Bloc<RentalEvent, RentalState> {
 
       response.fold(
         (l) => emit(state.copyWith(viewStatus: ViewStatus.failed)),
-        (r) =>
-            emit(RentalSuccess(rental: r, viewStatus: ViewStatus.successful)),
+        (r) => emit(RentalSuccess(
+            rental: r,
+            viewStatus: ViewStatus.successful,
+            successMessage: "Successfully added to your favorites.")),
       );
     }
   }
@@ -101,8 +103,10 @@ class RentalBloc extends Bloc<RentalEvent, RentalState> {
 
       response.fold(
         (l) => emit(state.copyWith(viewStatus: ViewStatus.failed)),
-        (r) =>
-            emit(RentalSuccess(rental: r, viewStatus: ViewStatus.successful)),
+        (r) => emit(RentalSuccess(
+            rental: r,
+            viewStatus: ViewStatus.successful,
+            successMessage: "Successfully removed to your favorites.")),
       );
     }
   }

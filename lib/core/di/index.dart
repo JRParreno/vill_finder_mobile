@@ -6,3 +6,4 @@ export 'map_business_injection.dart';
 export 'rental_injection.dart';
 export 'food_injection.dart';
 export 'review_injection.dart';
+export 'favorite_injection.dart';

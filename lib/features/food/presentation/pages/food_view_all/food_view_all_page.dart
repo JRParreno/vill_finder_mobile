@@ -96,7 +96,6 @@ class _FoodViewAllPageState extends State<FoodViewAllPage> {
                           return FoodCard(
                             height: 175,
                             foodEntity: item,
-                            onTap: () {},
                           );
                         },
                         separatorBuilder: (context, index) =>

@@ -73,14 +73,16 @@ class RentalCard extends StatelessWidget {
             Flexible(
               child: Align(
                 alignment: Alignment.topRight,
-                child: IconButton(
-                  color: Colors.white,
-                  onPressed: () {
-                    onFormDisplayMessage(
-                        context: context,
-                        message: 'This feature is not yet implemented');
-                  },
-                  icon: const Icon(Icons.favorite_outline),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Icon(
+                    rentalEntity.place.isFavorited
+                        ? Icons.favorite
+                        : Icons.favorite_outline,
+                    color: rentalEntity.place.isFavorited
+                        ? Colors.red
+                        : Colors.white,
+                  ),
                 ),
               ),
             ),

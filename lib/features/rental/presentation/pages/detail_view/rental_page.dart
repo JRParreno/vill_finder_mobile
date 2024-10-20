@@ -6,6 +6,8 @@ import 'package:vill_finder/core/common/widgets/shimmer_loading.dart';
 import 'package:vill_finder/core/enum/review_type.dart';
 import 'package:vill_finder/core/enum/view_status.dart';
 import 'package:vill_finder/core/extension/spacer_widgets.dart';
+import 'package:vill_finder/features/favorite/presentation/bloc/rental_favorite_bloc.dart';
+import 'package:vill_finder/features/home/presentation/blocs/home_rental/home_rental_bloc.dart';
 import 'package:vill_finder/features/rental/presentation/blocs/rental/rental_bloc.dart';
 import 'package:vill_finder/features/rental/presentation/pages/body/rental_body.dart';
 import 'package:vill_finder/features/review/presentation/bloc/review_list_bloc.dart';
@@ -123,19 +125,25 @@ class _RentalPageState extends State<RentalPage> {
             ),
             actions: isLoaded
                 ? [
-                    Container(
-                      height: 40,
-                      width: 40,
-                      margin: const EdgeInsets.only(right: 8),
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.white,
-                      ),
-                      child: Icon(
-                        state.rental.place.isFavorited
-                            ? Icons.favorite
-                            : Icons.favorite_border,
-                        size: 20,
+                    GestureDetector(
+                      onTap: () {
+                        handleOnTapFavorite(state.rental.place.isFavorited);
+                      },
+                      child: Container(
+                        height: 40,
+                        width: 40,
+                        margin: const EdgeInsets.only(right: 8),
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.white,
+                        ),
+                        child: Icon(
+                          state.rental.place.isFavorited
+                              ? Icons.favorite
+                              : Icons.favorite_border,
+                          size: 20,
+                          color: Colors.red,
+                        ),
                       ),
                     ),
                   ]
@@ -181,10 +189,19 @@ class _RentalPageState extends State<RentalPage> {
           LoadingScreen.instance().hide();
         }).whenComplete(() {
           final message = state.viewStatus == ViewStatus.successful
-              ? "Successfully add your review"
+              ? state.successMessage ?? ""
               : "Something went wrong";
 
-          onFormDisplayMessage(message);
+          if (message.isNotEmpty) {
+            onFormDisplayMessage(message);
+          }
+          context.read<HomeRentalListBloc>().add(
+                UpdateHomeFavoriteRentalEvent(
+                  id: state.rental.id,
+                  value: state.rental.place.isFavorited,
+                ),
+              );
+          context.read<RentalFavoriteBloc>().add(GetFavoriteEvent());
 
           context.read<ReviewListBloc>().add(GetReviewsEvent(
               placeId: state.rental.id, reviewType: ReviewType.rental));
@@ -199,5 +216,10 @@ class _RentalPageState extends State<RentalPage> {
     );
 
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  void handleOnTapFavorite(bool isFavorited) {
+    context.read<RentalBloc>().add(
+        isFavorited ? RemoveFavoriteRentalEvent() : AddFavoriteRentalEvent());
   }
 }

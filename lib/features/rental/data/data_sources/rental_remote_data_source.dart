@@ -37,7 +37,7 @@ class RentalRemoteDataSourceImpl implements RentalRemoteDataSource {
     required int id,
     bool isFavorite = false,
   }) async {
-    final url = '$baseUrl/api/places/rental/detail/$id';
+    final url = '$baseUrl/api/places/rental/detail/$id/';
 
     final data = {"favorite": isFavorite};
 

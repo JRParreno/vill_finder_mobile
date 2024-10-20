@@ -131,6 +131,12 @@ class _ProfilePageState extends State<ProfilePage> {
           sharedPreferencesNotifier.setValue(
               SharedPreferencesKeys.isLoggedIn, false);
 
+          sharedPreferencesNotifier.setValue(
+              SharedPreferencesKeys.accessToken, '');
+
+          sharedPreferencesNotifier.setValue(
+              SharedPreferencesKeys.refreshToken, '');
+
           Future.delayed(const Duration(seconds: 1), () {
             context.go(AppRoutes.login.path);
             context.read<AppUserCubit>().logout();
