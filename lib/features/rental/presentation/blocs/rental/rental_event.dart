@@ -30,3 +30,12 @@ class SubmitAddReviewEvent extends RentalEvent {
   @override
   List<Object> get props => [params];
 }
+
+class SubmitUpdateReviewEvent extends RentalEvent {
+  final UpdateReviewParams params;
+
+  const SubmitUpdateReviewEvent(this.params);
+
+  @override
+  List<Object> get props => [params];
+}

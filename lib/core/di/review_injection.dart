@@ -13,6 +13,8 @@ void reviewInit(GetIt serviceLocator) {
     ..registerFactory<ReviewRepository>(
         () => ReviewRepositoryImpl(serviceLocator()))
     ..registerFactory(() => GetReviewList(serviceLocator()))
+    ..registerFactory(() => AddReview(serviceLocator()))
+    ..registerFactory(() => UpdateReview(serviceLocator()))
     ..registerFactory(
       () => ReviewListBloc(serviceLocator()),
     )

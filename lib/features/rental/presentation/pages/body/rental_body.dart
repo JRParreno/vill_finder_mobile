@@ -140,7 +140,7 @@ class RentalBody extends StatelessWidget with AppCheck {
                 place: rental.place,
               ),
               const Divider(height: 30, color: ColorName.borderColor),
-              const ReviewList(),
+              ReviewList(totalReview: place.totalReview),
               const Divider(height: 30, color: ColorName.borderColor),
               Align(
                 alignment: Alignment.center,
@@ -155,14 +155,19 @@ class RentalBody extends StatelessWidget with AppCheck {
                   child: isUserLogged(context)
                       ? GestureDetector(
                           onTap: () {
-                            controller.text = '';
-                            context.read<ReviewStarCubit>().onChangeStars(0);
+                            controller.text =
+                                rental.place.reviewEntity?.comment ?? '';
+                            context.read<ReviewStarCubit>().onChangeStars(
+                                double.parse(rental.place.reviewEntity?.stars
+                                        .toString() ??
+                                    "0"));
                             addFeedbackBottomSheetDialog(
                               id: rental.id,
                               context: context,
                               controller: controller,
                               place: place,
                               reviewType: ReviewType.rental,
+                              reviewId: rental.place.reviewEntity?.id,
                             );
                           },
                           child: Text(

@@ -2,6 +2,8 @@
 import 'package:vill_finder/features/home/domain/entities/index.dart';
 import 'dart:typed_data';
 
+import 'package:vill_finder/features/review/domain/entities/index.dart';
+
 class PlaceEntity {
   final List<BusinessCategoryEntity> categories;
   final BusinessUserProfileEntity userProfile;
@@ -17,6 +19,8 @@ class PlaceEntity {
   final Uint8List? bitMapIcon;
   final bool isFavorited;
   final bool userHasReviewed;
+  final int totalReview;
+  final ReviewEntity? reviewEntity;
 
   PlaceEntity({
     required this.categories,
@@ -30,9 +34,11 @@ class PlaceEntity {
     required this.latitude,
     required this.isFoodEstablishment,
     required this.photos,
+    this.totalReview = 0,
     this.bitMapIcon,
     this.isFavorited = false,
     this.userHasReviewed = false,
+    this.reviewEntity,
   });
 
   PlaceEntity copyWith({
@@ -50,6 +56,8 @@ class PlaceEntity {
     Uint8List? bitMapIcon,
     bool? isFavorited,
     bool? userHasReviewed,
+    ReviewEntity? reviewEntity,
+    int? totalReview,
   }) {
     return PlaceEntity(
       categories: categories ?? this.categories,
@@ -66,6 +74,8 @@ class PlaceEntity {
       bitMapIcon: bitMapIcon ?? this.bitMapIcon,
       isFavorited: isFavorited ?? this.isFavorited,
       userHasReviewed: userHasReviewed ?? this.userHasReviewed,
+      reviewEntity: reviewEntity ?? this.reviewEntity,
+      totalReview: totalReview ?? this.totalReview,
     );
   }
 }

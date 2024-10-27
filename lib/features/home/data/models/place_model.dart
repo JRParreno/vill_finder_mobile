@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:vill_finder/features/home/data/models/index.dart';
 import 'package:vill_finder/features/home/domain/entities/index.dart';
+import 'package:vill_finder/features/review/data/models/index.dart';
 
 class PlaceModel extends PlaceEntity {
   PlaceModel({
@@ -19,6 +20,8 @@ class PlaceModel extends PlaceEntity {
     super.bitMapIcon,
     super.isFavorited,
     super.userHasReviewed,
+    super.reviewEntity,
+    super.totalReview,
   });
 
   factory PlaceModel.fromJson(Map<String, dynamic> json) {
@@ -48,6 +51,10 @@ class PlaceModel extends PlaceEntity {
       ),
       isFavorited: json['is_favorited'],
       userHasReviewed: json['user_has_reviewed'],
+      reviewEntity: json['user_review'] != null
+          ? ReviewModel.fromJson(json['user_review'])
+          : null,
+      totalReview: json['total_review'],
     );
   }
 }

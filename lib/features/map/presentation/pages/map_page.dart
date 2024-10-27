@@ -287,7 +287,10 @@ class _MapPageState extends State<MapPage> {
           ),
           mainContentSliversBuilder: (context) => [
             SliverToBoxAdapter(
-              child: FoodBody(food: value),
+              child: FoodBody(
+                food: value,
+                controller: reviewCtrl,
+              ),
             )
           ],
         )

@@ -17,3 +17,21 @@ class GetFoodEvent extends FoodEvent {
         id,
       ];
 }
+
+class SubmitAddFoodReviewEvent extends FoodEvent {
+  final AddReviewParams params;
+
+  const SubmitAddFoodReviewEvent(this.params);
+
+  @override
+  List<Object> get props => [params];
+}
+
+class SubmitUpdateFoodReviewEvent extends FoodEvent {
+  final UpdateReviewParams params;
+
+  const SubmitUpdateFoodReviewEvent(this.params);
+
+  @override
+  List<Object> get props => [params];
+}

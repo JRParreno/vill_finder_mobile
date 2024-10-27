@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:vill_finder/core/enum/view_status.dart';
 import 'package:vill_finder/features/home/domain/entities/index.dart';
 import 'package:vill_finder/features/rental/domain/usecases/index.dart';
@@ -12,20 +13,23 @@ class RentalBloc extends Bloc<RentalEvent, RentalState> {
   final GetRental _getRental;
   final SetFavoriteRental _setFavoriteRental;
   final AddReview _addReview;
+  final UpdateReview _updateReview;
 
   RentalBloc({
     required GetRental getRental,
     required SetFavoriteRental setFavoriteRental,
     required AddReview addReview,
+    required UpdateReview updateReview,
   })  : _getRental = getRental,
         _setFavoriteRental = setFavoriteRental,
         _addReview = addReview,
+        _updateReview = updateReview,
         super(RentalInitial()) {
     on<GetRentalEvent>(onGetRentalEvent);
     on<AddFavoriteRentalEvent>(onAddFavoriteRentalEvent);
     on<RemoveFavoriteRentalEvent>(onRemoveFavoriteRentalEvent);
-
     on<SubmitAddReviewEvent>(onSubmitAddReviewEvent);
+    on<SubmitUpdateReviewEvent>(onSubmitUpdateReviewEvent);
   }
 
   Future<void> onSubmitAddReviewEvent(
@@ -48,6 +52,35 @@ class RentalBloc extends Bloc<RentalEvent, RentalState> {
               ),
               viewStatus: ViewStatus.successful,
               successMessage: "Successfully add your review."),
+        ),
+      );
+    }
+  }
+
+  Future<void> onSubmitUpdateReviewEvent(
+      SubmitUpdateReviewEvent event, Emitter<RentalState> emit) async {
+    final state = this.state;
+
+    if (state is RentalSuccess) {
+      emit(state.copyWith(viewStatus: ViewStatus.loading));
+
+      final response = await _updateReview.call(event.params);
+
+      final place = state.rental.place.copyWith(
+          userHasReviewed: true,
+          reviewEntity: response
+              .getRight()
+              .getOrElse(() => throw Exception('something went wrong')));
+
+      response.fold(
+        (l) => emit(state.copyWith(viewStatus: ViewStatus.failed)),
+        (r) => emit(
+          state.copyWith(
+              rental: state.rental.copyWith(
+                place: place,
+              ),
+              viewStatus: ViewStatus.successful,
+              successMessage: "Successfully update your review."),
         ),
       );
     }

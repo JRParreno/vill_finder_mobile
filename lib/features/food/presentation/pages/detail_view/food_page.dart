@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:vill_finder/core/common/widgets/loader.dart';
 import 'package:vill_finder/core/common/widgets/shimmer_loading.dart';
+import 'package:vill_finder/core/enum/review_type.dart';
+import 'package:vill_finder/core/enum/view_status.dart';
 import 'package:vill_finder/core/extension/spacer_widgets.dart';
 import 'package:vill_finder/features/food/presentation/blocs/food/food_bloc.dart';
 import 'package:vill_finder/features/food/presentation/pages/body/food_body.dart';
+import 'package:vill_finder/features/review/presentation/bloc/review_list_bloc.dart';
 import 'package:vill_finder/gen/colors.gen.dart';
 
 class FoodPage extends StatefulWidget {
@@ -15,6 +19,8 @@ class FoodPage extends StatefulWidget {
 }
 
 class _FoodPageState extends State<FoodPage> {
+  final TextEditingController controller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,7 +43,8 @@ class _FoodPageState extends State<FoodPage> {
           ),
         ),
       ),
-      body: BlocBuilder<FoodBloc, FoodState>(
+      body: BlocConsumer<FoodBloc, FoodState>(
+        listener: blocListener,
         builder: (context, state) {
           if (state is FoodLoading) {
             return SafeArea(
@@ -95,6 +102,7 @@ class _FoodPageState extends State<FoodPage> {
           if (state is FoodSuccess) {
             return SingleChildScrollView(
               child: FoodBody(
+                controller: controller,
                 food: state.food,
               ),
             );
@@ -127,5 +135,40 @@ class _FoodPageState extends State<FoodPage> {
         ),
       ].withSpaceBetween(width: 3),
     );
+  }
+
+  void blocListener(BuildContext context, FoodState state) {
+    if (state is FoodSuccess) {
+      if (state.viewStatus == ViewStatus.loading) {
+        LoadingScreen.instance().show(context: context);
+      }
+
+      if (state.viewStatus == ViewStatus.successful ||
+          state.viewStatus == ViewStatus.failed) {
+        Future.delayed(const Duration(milliseconds: 500), () {
+          LoadingScreen.instance().hide();
+        }).whenComplete(() {
+          final message = state.viewStatus == ViewStatus.successful
+              ? state.successMessage ?? ""
+              : "Something went wrong";
+
+          if (message.isNotEmpty) {
+            onFormDisplayMessage(message);
+          }
+
+          context.read<ReviewListBloc>().add(GetReviewsEvent(
+              placeId: state.food.id,
+              reviewType: ReviewType.foodestablishment));
+        });
+      }
+    }
+  }
+
+  void onFormDisplayMessage(String message) {
+    final snackBar = SnackBar(
+      content: Text(message),
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }

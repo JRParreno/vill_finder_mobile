@@ -1,7 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:vill_finder/core/extension/str_mask.dart';
-
 import 'package:vill_finder/features/review/domain/entities/index.dart';
 import 'package:vill_finder/features/review/presentation/widgets/index.dart';
 import 'package:vill_finder/gen/colors.gen.dart';
@@ -33,9 +31,7 @@ class ReviewCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                reviewEntity.userProfile.user.getFullName
-                    .toLowerCase()
-                    .maskWords(),
+                reviewEntity.userProfile.user.getFullName,
                 style: textTheme.bodySmall?.copyWith(
                   color: ColorName.blackFont,
                 ),

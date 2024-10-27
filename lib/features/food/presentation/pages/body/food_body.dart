@@ -2,21 +2,29 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:vill_finder/features/food/presentation/pages/widgets/food_hosted.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
+import 'package:vill_finder/core/enum/review_type.dart';
+import 'package:vill_finder/core/mixins/app_check.dart';
+import 'package:vill_finder/core/router/app_routes.dart';
+import 'package:vill_finder/features/food/presentation/pages/widgets/food_hosted.dart';
 import 'package:vill_finder/features/home/domain/entities/index.dart';
 import 'package:vill_finder/features/rental/presentation/widgets/index.dart';
+import 'package:vill_finder/features/review/presentation/bloc/cubit/review_star_cubit.dart';
+import 'package:vill_finder/features/review/presentation/body/review_form.dart';
 import 'package:vill_finder/features/review/presentation/body/review_list.dart';
 import 'package:vill_finder/gen/colors.gen.dart';
 
-class FoodBody extends StatelessWidget {
+class FoodBody extends StatelessWidget with AppCheck {
   const FoodBody({
     super.key,
     required this.food,
+    required this.controller,
   });
 
   final FoodEstablishmentEntity food;
-
+  final TextEditingController controller;
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
@@ -86,12 +94,63 @@ class FoodBody extends StatelessWidget {
                 place: food.place,
               ),
               const Divider(height: 30, color: ColorName.borderColor),
-              const ReviewList(),
+              ReviewList(totalReview: place.totalReview),
+              const Divider(height: 30, color: ColorName.borderColor),
+              Align(
+                alignment: Alignment.center,
+                child: Container(
+                  decoration: const BoxDecoration(
+                    color: ColorName.placeholder,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(10),
+                    ),
+                  ),
+                  padding: const EdgeInsets.all(10),
+                  child: isUserLogged(context)
+                      ? GestureDetector(
+                          onTap: () {
+                            controller.text =
+                                food.place.reviewEntity?.comment ?? '';
+                            context.read<ReviewStarCubit>().onChangeStars(
+                                double.parse(
+                                    food.place.reviewEntity?.stars.toString() ??
+                                        "0"));
+                            addFeedbackBottomSheetDialog(
+                              id: food.id,
+                              context: context,
+                              controller: controller,
+                              place: place,
+                              reviewType: ReviewType.foodestablishment,
+                              reviewId: food.place.reviewEntity?.id,
+                            );
+                          },
+                          child: Text(
+                            '${food.place.userHasReviewed ? 'Edit' : 'Add'} your review',
+                            style: textTheme.bodySmall?.copyWith(
+                              color: ColorName.blackFont,
+                            ),
+                          ),
+                        )
+                      : GestureDetector(
+                          onTap: () => handleOnTapLogin(context),
+                          child: Text(
+                            'To add review please login first',
+                            style: textTheme.bodySmall?.copyWith(
+                              color: ColorName.blackFont,
+                            ),
+                          ),
+                        ),
+                ),
+              ),
               const Divider(height: 30, color: ColorName.borderColor),
             ],
           ),
         )
       ],
     );
+  }
+
+  void handleOnTapLogin(BuildContext context) {
+    context.go(AppRoutes.login.path);
   }
 }

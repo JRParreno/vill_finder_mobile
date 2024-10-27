@@ -16,7 +16,9 @@ void foodInit(GetIt serviceLocator) {
         () => GetFoodEstablishment(serviceLocator()))
     ..registerFactory(
       () => FoodBloc(
-        serviceLocator(),
+        addReview: serviceLocator(),
+        getFoodEstablishment: serviceLocator(),
+        updateReview: serviceLocator(),
       ),
     )
     ..registerFactory(

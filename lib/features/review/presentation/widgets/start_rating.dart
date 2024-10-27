@@ -1,32 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:vill_finder/gen/assets.gen.dart';
 
 class StarRating extends StatelessWidget {
   final int rating; // The current rating (e.g., 3 stars)
-  final int maxRating; // The maximum number of stars (default is 5)
-  final double starSize;
-  final Color filledStarColor;
-  final Color unfilledStarColor;
 
   const StarRating({
     super.key,
     required this.rating,
-    this.maxRating = 5, // Default max rating is 5
-    this.starSize = 20.0, // Default size of each star
-    this.filledStarColor = Colors.yellow, // Color for filled stars
-    this.unfilledStarColor = Colors.grey, // Color for unfilled stars
   });
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min, // Make the row fit the content
-      children: List.generate(maxRating, (index) {
-        return Icon(
-          index < rating ? Icons.star : Icons.star_border,
-          color: index < rating ? filledStarColor : unfilledStarColor,
-          size: starSize,
-        );
-      }),
-    );
+    return getImageWidget(rating);
+  }
+
+  Widget getImageWidget(int index) {
+    final reviewImages = Assets.images.review;
+    const dimension = 25.0;
+
+    switch (index) {
+      case 0:
+        return reviewImages.veryNegative
+            .image(height: dimension, width: dimension);
+      case 1:
+        return reviewImages.negative.image(height: dimension, width: dimension);
+      case 2:
+        return reviewImages.neutral.image(height: dimension, width: dimension);
+
+      case 3:
+        return reviewImages.positive.image(height: dimension, width: dimension);
+      default:
+        return reviewImages.veryPositive
+            .image(height: dimension, width: dimension);
+    }
   }
 }

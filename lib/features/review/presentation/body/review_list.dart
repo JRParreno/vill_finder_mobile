@@ -1,5 +1,7 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:vill_finder/core/common/widgets/shimmer_loading.dart';
 import 'package:vill_finder/core/extension/spacer_widgets.dart';
 import 'package:vill_finder/features/review/presentation/bloc/review_list_bloc.dart';
@@ -7,7 +9,12 @@ import 'package:vill_finder/features/review/presentation/widgets/review_card.dar
 import 'package:vill_finder/gen/colors.gen.dart';
 
 class ReviewList extends StatelessWidget {
-  const ReviewList({super.key});
+  const ReviewList({
+    super.key,
+    required this.totalReview,
+  });
+
+  final int totalReview;
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +65,21 @@ class ReviewList extends StatelessWidget {
                         style: textTheme.bodySmall
                             ?.copyWith(color: Colors.lightBlue),
                       ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Total Review',
+                      style: textTheme.bodySmall
+                          ?.copyWith(color: ColorName.blackFont),
+                    ),
+                    Text(
+                      '$totalReview Review(s)',
+                      style: textTheme.bodySmall
+                          ?.copyWith(color: ColorName.blackFont),
+                    ),
                   ],
                 ),
                 ...state.responseEntity.reviews.map(

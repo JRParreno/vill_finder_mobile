@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_rating_stars/flutter_rating_stars.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vill_finder/core/common/widgets/custom_elevated_btn.dart';
 import 'package:vill_finder/core/common/widgets/custom_text_form_field.dart';
 import 'package:vill_finder/core/enum/review_type.dart';
 import 'package:vill_finder/core/extension/spacer_widgets.dart';
+import 'package:vill_finder/features/food/presentation/blocs/food/food_bloc.dart';
 import 'package:vill_finder/features/home/domain/entities/index.dart';
 import 'package:vill_finder/features/rental/presentation/blocs/rental/rental_bloc.dart';
 import 'package:vill_finder/features/review/domain/usecases/index.dart';
 import 'package:vill_finder/features/review/presentation/bloc/cubit/review_star_cubit.dart';
+import 'package:vill_finder/gen/assets.gen.dart';
 import 'package:vill_finder/gen/colors.gen.dart';
 
 Future<void> addFeedbackBottomSheetDialog({
@@ -18,9 +19,13 @@ Future<void> addFeedbackBottomSheetDialog({
   required PlaceEntity place,
   required ReviewType reviewType,
   required TextEditingController controller,
+  int? reviewId,
   VoidCallback? onClose,
 }) {
   final textTheme = Theme.of(context).textTheme;
+  final reviewImages = Assets.images.review;
+  const dimension = 50.0;
+  const avatarSize = 25.0;
 
   return showModalBottomSheet<String>(
     context: context,
@@ -53,24 +58,86 @@ Future<void> addFeedbackBottomSheetDialog({
                   ),
                   const SizedBox(height: 25),
                   Center(
-                    child: RatingStars(
-                      value: state,
-                      onValueChanged: (v) {
-                        context.read<ReviewStarCubit>().onChangeStars(v);
-                      },
-                      starBuilder: (index, color) => Icon(
-                        Icons.star,
-                        color: color,
-                        size: 38,
-                      ),
-                      starCount: 5,
-                      starSize: 38,
-                      maxValue: 5,
-                      starSpacing: 10,
-                      maxValueVisibility: false,
-                      valueLabelVisibility: false,
-                      starOffColor: ColorName.darkerGreyFont,
-                      starColor: Colors.yellow,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            context.read<ReviewStarCubit>().onChangeStars(1);
+                          },
+                          child: CircleAvatar(
+                            radius: avatarSize,
+                            backgroundColor:
+                                state == 1 ? ColorName.primary : Colors.white,
+                            child: reviewImages.veryNegative.image(
+                              height: dimension,
+                              width: dimension,
+                              color: state == 1 ? Colors.white : null,
+                            ),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            context.read<ReviewStarCubit>().onChangeStars(2);
+                          },
+                          child: CircleAvatar(
+                            radius: avatarSize,
+                            backgroundColor:
+                                state == 2 ? ColorName.primary : Colors.white,
+                            child: reviewImages.negative.image(
+                              height: dimension,
+                              width: dimension,
+                              color: state == 2 ? Colors.white : null,
+                            ),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            context.read<ReviewStarCubit>().onChangeStars(3);
+                          },
+                          child: CircleAvatar(
+                            radius: avatarSize,
+                            backgroundColor:
+                                state == 3 ? ColorName.primary : Colors.white,
+                            child: reviewImages.neutral.image(
+                              height: dimension,
+                              width: dimension,
+                              color: state == 3 ? Colors.white : null,
+                            ),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            context.read<ReviewStarCubit>().onChangeStars(4);
+                          },
+                          child: CircleAvatar(
+                            radius: avatarSize,
+                            backgroundColor:
+                                state == 4 ? ColorName.primary : Colors.white,
+                            child: reviewImages.positive.image(
+                              height: dimension,
+                              width: dimension,
+                              color: state == 4 ? Colors.white : null,
+                            ),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            context.read<ReviewStarCubit>().onChangeStars(5);
+                          },
+                          child: CircleAvatar(
+                            radius: avatarSize,
+                            backgroundColor:
+                                state == 5 ? ColorName.primary : Colors.white,
+                            child: reviewImages.veryPositive.image(
+                              height: dimension,
+                              width: dimension,
+                              color: state == 5 ? Colors.white : null,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   const SizedBox(height: 25),
@@ -96,7 +163,37 @@ Future<void> addFeedbackBottomSheetDialog({
               stars: rate.toInt(),
               comments: controller.value.text);
           if (reviewType == ReviewType.rental) {
-            context.read<RentalBloc>().add(SubmitAddReviewEvent(params));
+            if (reviewId == null) {
+              context.read<RentalBloc>().add(SubmitAddReviewEvent(params));
+              return;
+            }
+            context.read<RentalBloc>().add(
+                  SubmitUpdateReviewEvent(
+                    UpdateReviewParams(
+                      id: reviewId,
+                      reviewType: reviewType,
+                      stars: rate.toInt(),
+                      comments: controller.value.text,
+                    ),
+                  ),
+                );
+          }
+
+          if (reviewType == ReviewType.foodestablishment) {
+            if (reviewId == null) {
+              context.read<FoodBloc>().add(SubmitAddFoodReviewEvent(params));
+              return;
+            }
+            context.read<FoodBloc>().add(
+                  SubmitUpdateFoodReviewEvent(
+                    UpdateReviewParams(
+                      id: reviewId,
+                      reviewType: reviewType,
+                      stars: rate.toInt(),
+                      comments: controller.value.text,
+                    ),
+                  ),
+                );
           }
           return;
         }
