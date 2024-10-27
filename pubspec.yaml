@@ -69,6 +69,7 @@ dependencies:
   wolt_modal_sheet: ^0.9.3
   flutter_rating_stars: ^1.1.0
   collection: ^1.18.0
+  flutter_launcher_icons: ^0.13.1
 
 dev_dependencies:
   flutter_test:
@@ -110,3 +111,10 @@ flutter_gen:
   colors:
     inputs:
       - assets/color/colors.xml
+
+
+flutter_launcher_icons:
+  image_path: "assets/images/icon/app_icon.png"
+  android: true
+  ios: true
+  remove_alpha_ios: true
