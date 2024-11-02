@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fpdart/fpdart.dart';
 import 'package:vill_finder/core/enum/view_status.dart';
 import 'package:vill_finder/features/home/domain/entities/index.dart';
 import 'package:vill_finder/features/rental/domain/usecases/index.dart';
@@ -41,19 +40,23 @@ class RentalBloc extends Bloc<RentalEvent, RentalState> {
 
       final response = await _addReview.call(event.params);
 
-      final place = state.rental.place.copyWith(userHasReviewed: true);
+      response.fold((l) => emit(state.copyWith(viewStatus: ViewStatus.failed)),
+          (r) {
+        final place = state.rental.place.copyWith(
+          userHasReviewed: true,
+          reviewEntity: r,
+          totalReview: state.rental.place.totalReview + 1,
+        );
 
-      response.fold(
-        (l) => emit(state.copyWith(viewStatus: ViewStatus.failed)),
-        (r) => emit(
+        emit(
           state.copyWith(
               rental: state.rental.copyWith(
                 place: place,
               ),
               viewStatus: ViewStatus.successful,
               successMessage: "Successfully add your review."),
-        ),
-      );
+        );
+      });
     }
   }
 
@@ -66,18 +69,17 @@ class RentalBloc extends Bloc<RentalEvent, RentalState> {
 
       final response = await _updateReview.call(event.params);
 
-      final place = state.rental.place.copyWith(
-          userHasReviewed: true,
-          reviewEntity: response
-              .getRight()
-              .getOrElse(() => throw Exception('something went wrong')));
+      final place = state.rental.place;
 
       response.fold(
         (l) => emit(state.copyWith(viewStatus: ViewStatus.failed)),
         (r) => emit(
           state.copyWith(
               rental: state.rental.copyWith(
-                place: place,
+                place: place.copyWith(
+                  userHasReviewed: true,
+                  reviewEntity: r,
+                ),
               ),
               viewStatus: ViewStatus.successful,
               successMessage: "Successfully update your review."),

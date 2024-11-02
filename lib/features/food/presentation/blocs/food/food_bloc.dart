@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fpdart/fpdart.dart';
 import 'package:vill_finder/core/enum/view_status.dart';
 import 'package:vill_finder/features/food/domain/usecases/index.dart';
 import 'package:vill_finder/features/home/domain/entities/index.dart';
@@ -48,18 +47,24 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
 
       final response = await _addReview.call(event.params);
 
-      final place = state.food.place.copyWith(userHasReviewed: true);
-
       response.fold(
         (l) => emit(state.copyWith(viewStatus: ViewStatus.failed)),
-        (r) => emit(
-          state.copyWith(
-              food: state.food.copyWith(
-                place: place,
-              ),
-              viewStatus: ViewStatus.successful,
-              successMessage: "Successfully add your review."),
-        ),
+        (r) {
+          final place = state.food.place.copyWith(
+            userHasReviewed: true,
+            reviewEntity: r,
+            totalReview: state.food.place.totalReview + 1,
+          );
+
+          emit(
+            state.copyWith(
+                food: state.food.copyWith(
+                  place: place,
+                ),
+                viewStatus: ViewStatus.successful,
+                successMessage: "Successfully add your review."),
+          );
+        },
       );
     }
   }
@@ -73,22 +78,23 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
 
       final response = await _updateReview.call(event.params);
 
-      final place = state.food.place.copyWith(
-          userHasReviewed: true,
-          reviewEntity: response
-              .getRight()
-              .getOrElse(() => throw Exception('something went wrong')));
-
       response.fold(
         (l) => emit(state.copyWith(viewStatus: ViewStatus.failed)),
-        (r) => emit(
-          state.copyWith(
-              food: state.food.copyWith(
-                place: place,
-              ),
-              viewStatus: ViewStatus.successful,
-              successMessage: "Successfully update your review."),
-        ),
+        (r) {
+          final place = state.food.place.copyWith(
+            userHasReviewed: true,
+            reviewEntity: r,
+          );
+
+          emit(
+            state.copyWith(
+                food: state.food.copyWith(
+                  place: place,
+                ),
+                viewStatus: ViewStatus.successful,
+                successMessage: "Successfully update your review."),
+          );
+        },
       );
     }
   }

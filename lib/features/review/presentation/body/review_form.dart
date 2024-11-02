@@ -37,7 +37,7 @@ Future<void> addFeedbackBottomSheetDialog({
       return BlocBuilder<ReviewStarCubit, double>(
         builder: (context, state) {
           return FractionallySizedBox(
-            heightFactor: 0.8,
+            heightFactor: 0.9,
             child: Padding(
               padding: const EdgeInsets.all(15.0),
               child: Column(
@@ -58,84 +58,150 @@ Future<void> addFeedbackBottomSheetDialog({
                   ),
                   const SizedBox(height: 25),
                   Center(
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
+                    child: Column(
                       children: [
-                        GestureDetector(
-                          onTap: () {
-                            context.read<ReviewStarCubit>().onChangeStars(1);
-                          },
-                          child: CircleAvatar(
-                            radius: avatarSize,
-                            backgroundColor:
-                                state == 1 ? ColorName.primary : Colors.white,
-                            child: reviewImages.veryNegative.image(
-                              height: dimension,
-                              width: dimension,
-                              color: state == 1 ? Colors.white : null,
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                context
+                                    .read<ReviewStarCubit>()
+                                    .onChangeStars(1);
+                              },
+                              child: Column(
+                                children: [
+                                  CircleAvatar(
+                                    radius: avatarSize,
+                                    backgroundColor: state == 1
+                                        ? ColorName.primary
+                                        : Colors.white,
+                                    child: reviewImages.veryNegative.image(
+                                      height: dimension,
+                                      width: dimension,
+                                      color: state == 1 ? Colors.white : null,
+                                    ),
+                                  ),
+                                  Text(
+                                    'Very Negative',
+                                    style: textTheme.bodySmall,
+                                  ),
+                                ].withSpaceBetween(height: 5),
+                              ),
                             ),
-                          ),
+                            GestureDetector(
+                              onTap: () {
+                                context
+                                    .read<ReviewStarCubit>()
+                                    .onChangeStars(2);
+                              },
+                              child: Column(
+                                children: [
+                                  CircleAvatar(
+                                    radius: avatarSize,
+                                    backgroundColor: state == 2
+                                        ? ColorName.primary
+                                        : Colors.white,
+                                    child: reviewImages.negative.image(
+                                      height: dimension,
+                                      width: dimension,
+                                      color: state == 2 ? Colors.white : null,
+                                    ),
+                                  ),
+                                  Text(
+                                    'Negative',
+                                    style: textTheme.bodySmall,
+                                  ),
+                                ].withSpaceBetween(height: 5),
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                context
+                                    .read<ReviewStarCubit>()
+                                    .onChangeStars(3);
+                              },
+                              child: Column(
+                                children: [
+                                  CircleAvatar(
+                                    radius: avatarSize,
+                                    backgroundColor: state == 3
+                                        ? ColorName.primary
+                                        : Colors.white,
+                                    child: reviewImages.neutral.image(
+                                      height: dimension,
+                                      width: dimension,
+                                      color: state == 3 ? Colors.white : null,
+                                    ),
+                                  ),
+                                  Text(
+                                    'Neutral',
+                                    style: textTheme.bodySmall,
+                                  ),
+                                ].withSpaceBetween(height: 5),
+                              ),
+                            ),
+                          ],
                         ),
-                        GestureDetector(
-                          onTap: () {
-                            context.read<ReviewStarCubit>().onChangeStars(2);
-                          },
-                          child: CircleAvatar(
-                            radius: avatarSize,
-                            backgroundColor:
-                                state == 2 ? ColorName.primary : Colors.white,
-                            child: reviewImages.negative.image(
-                              height: dimension,
-                              width: dimension,
-                              color: state == 2 ? Colors.white : null,
+                        const SizedBox(height: 20),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                context
+                                    .read<ReviewStarCubit>()
+                                    .onChangeStars(4);
+                              },
+                              child: Column(
+                                children: [
+                                  CircleAvatar(
+                                    radius: avatarSize,
+                                    backgroundColor: state == 4
+                                        ? ColorName.primary
+                                        : Colors.white,
+                                    child: reviewImages.positive.image(
+                                      height: dimension,
+                                      width: dimension,
+                                      color: state == 4 ? Colors.white : null,
+                                    ),
+                                  ),
+                                  Text(
+                                    'Positive',
+                                    style: textTheme.bodySmall,
+                                  ),
+                                ].withSpaceBetween(height: 5),
+                              ),
                             ),
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            context.read<ReviewStarCubit>().onChangeStars(3);
-                          },
-                          child: CircleAvatar(
-                            radius: avatarSize,
-                            backgroundColor:
-                                state == 3 ? ColorName.primary : Colors.white,
-                            child: reviewImages.neutral.image(
-                              height: dimension,
-                              width: dimension,
-                              color: state == 3 ? Colors.white : null,
+                            GestureDetector(
+                              onTap: () {
+                                context
+                                    .read<ReviewStarCubit>()
+                                    .onChangeStars(5);
+                              },
+                              child: Column(
+                                children: [
+                                  CircleAvatar(
+                                    radius: avatarSize,
+                                    backgroundColor: state == 5
+                                        ? ColorName.primary
+                                        : Colors.white,
+                                    child: reviewImages.veryPositive.image(
+                                      height: dimension,
+                                      width: dimension,
+                                      color: state == 5 ? Colors.white : null,
+                                    ),
+                                  ),
+                                  Text(
+                                    'Very Positive',
+                                    style: textTheme.bodySmall,
+                                  ),
+                                ].withSpaceBetween(height: 5),
+                              ),
                             ),
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            context.read<ReviewStarCubit>().onChangeStars(4);
-                          },
-                          child: CircleAvatar(
-                            radius: avatarSize,
-                            backgroundColor:
-                                state == 4 ? ColorName.primary : Colors.white,
-                            child: reviewImages.positive.image(
-                              height: dimension,
-                              width: dimension,
-                              color: state == 4 ? Colors.white : null,
-                            ),
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            context.read<ReviewStarCubit>().onChangeStars(5);
-                          },
-                          child: CircleAvatar(
-                            radius: avatarSize,
-                            backgroundColor:
-                                state == 5 ? ColorName.primary : Colors.white,
-                            child: reviewImages.veryPositive.image(
-                              height: dimension,
-                              width: dimension,
-                              color: state == 5 ? Colors.white : null,
-                            ),
-                          ),
+                          ],
                         ),
                       ],
                     ),

@@ -33,53 +33,63 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
       body: BlocBuilder<AppUserCubit, AppUserState>(
         builder: (context, state) {
-          return SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(10),
-              child: Column(
-                children: [
-                  if (state is AppUserLoggedIn) ...[
-                    buildListTile(
-                      title: 'Edit Profile',
-                      onTap: () {
-                        onDisplayMessage('This feature is not yet implemented');
-                      },
-                      iconData: Icons.edit,
+          return Column(
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Column(
+                      children: [
+                        if (state is AppUserLoggedIn) ...[
+                          const SizedBox.shrink()
+                        ] else ...[
+                          Container(
+                            height: MediaQuery.of(context).size.height * 0.35,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              color: Colors.blue,
+                            ),
+                            child: Assets.lottie.lottieMap.lottie(),
+                          )
+                        ],
+                        buildListTile(
+                            title: 'Terms & Conditions',
+                            onTap: () {
+                              onDisplayMessage(
+                                  'This feature is not yet implemented');
+                            },
+                            iconData: Icons.shield),
+                        buildListTile(
+                          title: 'About Us',
+                          onTap: () {
+                            context.pushNamed(AppRoutes.about.name);
+                          },
+                          iconData: Icons.report,
+                        ),
+                        buildListTile(
+                          title: state is AppUserLoggedIn ? 'Logout' : 'Login',
+                          onTap: state is AppUserLoggedIn
+                              ? handleOnTapLogout
+                              : handleToLogin,
+                          iconData: state is AppUserLoggedIn
+                              ? Icons.logout
+                              : Icons.login,
+                        ),
+                      ].withSpaceBetween(height: 10),
                     ),
-                  ] else ...[
-                    Container(
-                      height: MediaQuery.of(context).size.height * 0.35,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        color: Colors.blue,
-                      ),
-                      child: Assets.lottie.lottieMap.lottie(),
-                    )
-                  ],
-                  buildListTile(
-                      title: 'Terms & Conditions',
-                      onTap: () {
-                        onDisplayMessage('This feature is not yet implemented');
-                      },
-                      iconData: Icons.shield),
-                  buildListTile(
-                    title: 'About Us',
-                    onTap: () {
-                      onDisplayMessage('This feature is not yet implemented');
-                    },
-                    iconData: Icons.report,
                   ),
-                  buildListTile(
-                    title: state is AppUserLoggedIn ? 'Logout' : 'Login',
-                    onTap: state is AppUserLoggedIn
-                        ? handleOnTapLogout
-                        : handleToLogin,
-                    iconData:
-                        state is AppUserLoggedIn ? Icons.logout : Icons.login,
-                  ),
-                ].withSpaceBetween(height: 10),
+                ),
               ),
-            ),
+              Padding(
+                padding: const EdgeInsets.all(8),
+                child: Text(
+                  'VillFinder v1.0.10',
+                  style:
+                      textTheme.bodySmall?.copyWith(color: ColorName.greyFont),
+                ),
+              ),
+            ],
           );
         },
       ),

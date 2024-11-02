@@ -47,6 +47,10 @@ enum AppRoutes {
   profile(
     name: 'profile',
     path: '/profile',
+  ),
+  about(
+    name: 'about',
+    path: '/about',
   );
 
   const AppRoutes({

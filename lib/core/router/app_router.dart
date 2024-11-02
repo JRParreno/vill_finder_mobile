@@ -11,6 +11,7 @@ import 'package:vill_finder/core/config/shared_prefences_keys.dart';
 import 'package:vill_finder/core/enum/review_type.dart';
 import 'package:vill_finder/core/notifier/shared_preferences_notifier.dart';
 import 'package:vill_finder/core/router/index.dart';
+import 'package:vill_finder/features/about_us/presentation/about_us_page.dart';
 import 'package:vill_finder/features/auth/presentation/pages/login_page.dart';
 import 'package:vill_finder/features/error_page/error_page.dart';
 import 'package:vill_finder/features/favorite/presentation/favorite_page.dart';
@@ -238,6 +239,16 @@ GoRouter routerConfig() {
           return buildTransitionPage(
             localKey: state.pageKey,
             child: const FoodPage(),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.about.path,
+        name: AppRoutes.about.name,
+        pageBuilder: (context, state) {
+          return buildTransitionPage(
+            localKey: state.pageKey,
+            child: const AboutUsPage(),
           );
         },
       ),
