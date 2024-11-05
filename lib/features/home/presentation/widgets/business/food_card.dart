@@ -25,6 +25,8 @@ class FoodCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+
     return GestureDetector(
       onTap: onTap ??
           () {
@@ -50,7 +52,7 @@ class FoodCard extends StatelessWidget {
         decoration: BoxDecoration(
           border: Border.all(color: ColorName.darkerGreyFont),
           borderRadius: BorderRadius.circular(
-            25,
+            10,
           ),
           image: foodEntity.place.photos.isNotEmpty
               ? DecorationImage(
@@ -63,6 +65,51 @@ class FoodCard extends StatelessWidget {
         ),
         height: height,
         width: double.infinity,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Flexible(
+              child: Align(
+                alignment: Alignment.topRight,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Icon(
+                    foodEntity.place.isFavorited
+                        ? Icons.favorite
+                        : Icons.favorite_outline,
+                    color: foodEntity.place.isFavorited
+                        ? Colors.red
+                        : Colors.white,
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              width: double.infinity,
+              child: Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        foodEntity.place.name,
+                        style: textTheme.bodyMedium,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      Text(
+                        foodEntity.place.address,
+                        style: textTheme.labelSmall,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

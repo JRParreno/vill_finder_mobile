@@ -1,5 +1,6 @@
 // coverage:ignore-file
 import 'package:get_it/get_it.dart';
+import 'package:vill_finder/features/home/presentation/blocs/cubit/cubit/category_cubit.dart';
 import 'package:vill_finder/features/map/data/data_source/business_map_remote_data_source.dart';
 import 'package:vill_finder/features/map/data/repository/business_map_repository_impl.dart';
 import 'package:vill_finder/features/map/domain/repository/business_map_repository.dart';
@@ -20,10 +21,13 @@ void mapBusinessInit(GetIt serviceLocator) {
     ..registerFactory(
       () => GetBusinessMapList(serviceLocator()),
     )
+    ..registerLazySingleton<CategoryCubit>(
+        () => CategoryCubit(serviceLocator()))
     ..registerFactory(
       () => MapBusinessBloc(
         getBusinessMapList: serviceLocator(),
         sharedPreferencesNotifier: serviceLocator(),
+        categoryCubit: serviceLocator(),
       ),
     );
 }

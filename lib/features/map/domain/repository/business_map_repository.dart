@@ -9,5 +9,6 @@ abstract interface class BusinessMapRepository {
     String? name,
     String? previous,
     String? next,
+    List<int>? categoryIds,
   });
 }

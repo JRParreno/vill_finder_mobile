@@ -17,6 +17,7 @@ class BusinessMapRepositoryImpl implements BusinessMapRepository {
     String? name,
     String? previous,
     String? next,
+    List<int>? categoryIds,
   }) async {
     try {
       final response = await _remoteDataSource.getBusinessMapList(
@@ -25,6 +26,7 @@ class BusinessMapRepositoryImpl implements BusinessMapRepository {
         name: name,
         next: next,
         previous: previous,
+        categoryIds: categoryIds,
       );
       return right(response);
     } on ServerException catch (e) {

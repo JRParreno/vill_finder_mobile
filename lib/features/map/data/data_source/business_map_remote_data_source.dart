@@ -11,6 +11,7 @@ abstract interface class BusinessMapRemoteDataSource {
     String? name,
     String? previous,
     String? next,
+    List<int>? categoryIds,
   });
 }
 
@@ -25,17 +26,23 @@ class BusinessMapRemoteDataSourceImpl implements BusinessMapRemoteDataSource {
     String? name,
     String? previous,
     String? next,
+    List<int>? categoryIds,
   }) async {
     String url = '$baseUrl/api/places/search/';
-
-    if (name != null && latitude != null && longitude != null) {
-      url += '?q=$name&latitude=$latitude&longitude=$longitude';
+    final categoryList = categoryIds?.join(",");
+    if (name != null &&
+        latitude != null &&
+        longitude != null &&
+        categoryIds != null) {
+      url +=
+          '?q=$name&latitude=$latitude&longitude=$longitude&category_list=${categoryList ?? ''}';
     } else {
       if (name != null) {
-        url += '?q=$name';
+        url += '?q=$name&category_list=${categoryList ?? ''}';
       } else {
-        if (latitude != null && longitude != null) {
-          url += '?latitude=$latitude&longitude=$longitude';
+        if (latitude != null && longitude != null && categoryIds != null) {
+          url +=
+              '?latitude=$latitude&longitude=$longitude&category_list=${categoryList ?? ''}';
         }
       }
     }

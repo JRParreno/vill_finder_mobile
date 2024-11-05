@@ -19,6 +19,7 @@ class GetBusinessMapList
       name: params.name,
       next: params.next,
       previous: params.previous,
+      categoryIds: params.categoryIds,
     );
   }
 }
@@ -29,6 +30,7 @@ class GetBusinessMapListParams {
   final String? name;
   final String? next;
   final String? previous;
+  final List<int>? categoryIds;
 
   GetBusinessMapListParams({
     this.latitude,
@@ -36,5 +38,6 @@ class GetBusinessMapListParams {
     this.name,
     this.next,
     this.previous,
+    this.categoryIds,
   });
 }

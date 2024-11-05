@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vill_finder/core/config/shared_prefences_keys.dart';
 import 'package:vill_finder/core/notifier/shared_preferences_notifier.dart';
 import 'package:vill_finder/features/home/domain/entities/index.dart';
+import 'package:vill_finder/features/home/presentation/blocs/cubit/cubit/category_cubit.dart';
 import 'package:vill_finder/features/map/domain/entities/search_map_response_entity.dart';
 import 'package:vill_finder/features/map/domain/usecase/get_business_map_list.dart';
 
@@ -15,12 +16,15 @@ part 'map_business_state.dart';
 class MapBusinessBloc extends Bloc<MapBusinessEvent, MapBusinessState> {
   final GetBusinessMapList _getBusinessMapList;
   final SharedPreferencesNotifier _sharedPreferencesNotifier;
+  final CategoryCubit _categoryCubit;
 
   MapBusinessBloc({
     required GetBusinessMapList getBusinessMapList,
     required SharedPreferencesNotifier sharedPreferencesNotifier,
+    required CategoryCubit categoryCubit,
   })  : _getBusinessMapList = getBusinessMapList,
         _sharedPreferencesNotifier = sharedPreferencesNotifier,
+        _categoryCubit = categoryCubit,
         super(MapBusinessInitial()) {
     on<GetMapBusinessEvent>(onGetMapBusinessEvent, transformer: restartable());
     on<GetMapBusinessPaginateEvent>(onGetMapBusinessPaginateEvent,
@@ -87,8 +91,19 @@ class MapBusinessBloc extends Bloc<MapBusinessEvent, MapBusinessState> {
   FutureOr<void> onGetMapBusinessEvent(
       GetMapBusinessEvent event, Emitter<MapBusinessState> emit) async {
     emit(MapBusinessLoading());
+    final params = GetBusinessMapListParams(
+        latitude: event.params.latitude,
+        longitude: event.params.longitude,
+        name: event.params.name,
+        next: event.params.next,
+        previous: event.params.previous,
+        categoryIds: _categoryCubit.state.filteredCategories
+            .map(
+              (e) => e.id,
+            )
+            .toList());
 
-    final response = await _getBusinessMapList.call(event.params);
+    final response = await _getBusinessMapList.call(params);
 
     response.fold(
       (l) => emit(MapBusinessFailure(l.message)),

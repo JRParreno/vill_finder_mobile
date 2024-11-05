@@ -46,7 +46,7 @@ class FoodHosted extends StatelessWidget {
                   style: textTheme.bodySmall,
                 ),
                 Text(
-                  'Food Establishment',
+                  'Establishment',
                   style: textTheme.bodySmall
                       ?.copyWith(color: ColorName.darkerGreyFont),
                 )
