@@ -21,6 +21,8 @@ class PlaceEntity {
   final bool userHasReviewed;
   final int totalReview;
   final ReviewEntity? reviewEntity;
+  final String? contactNumber;
+  final String? contactName;
 
   PlaceEntity({
     required this.categories,
@@ -39,6 +41,8 @@ class PlaceEntity {
     this.isFavorited = false,
     this.userHasReviewed = false,
     this.reviewEntity,
+    this.contactName,
+    this.contactNumber,
   });
 
   PlaceEntity copyWith({
@@ -58,6 +62,8 @@ class PlaceEntity {
     bool? userHasReviewed,
     ReviewEntity? reviewEntity,
     int? totalReview,
+    String? contactNumber,
+    String? contactName,
   }) {
     return PlaceEntity(
       categories: categories ?? this.categories,
@@ -76,6 +82,8 @@ class PlaceEntity {
       userHasReviewed: userHasReviewed ?? this.userHasReviewed,
       reviewEntity: reviewEntity ?? this.reviewEntity,
       totalReview: totalReview ?? this.totalReview,
+      contactName: contactName ?? this.contactName,
+      contactNumber: contactNumber ?? this.contactNumber,
     );
   }
 }

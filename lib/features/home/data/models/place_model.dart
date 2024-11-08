@@ -22,6 +22,8 @@ class PlaceModel extends PlaceEntity {
     super.userHasReviewed,
     super.reviewEntity,
     super.totalReview,
+    super.contactName,
+    super.contactNumber,
   });
 
   factory PlaceModel.fromJson(Map<String, dynamic> json) {
@@ -55,6 +57,8 @@ class PlaceModel extends PlaceEntity {
           ? ReviewModel.fromJson(json['user_review'])
           : null,
       totalReview: json['total_review'],
+      contactNumber: json['contact_number'] as String?,
+      contactName: json['contact_name'] as String?,
     );
   }
 }

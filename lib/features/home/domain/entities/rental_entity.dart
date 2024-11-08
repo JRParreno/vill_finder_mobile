@@ -16,7 +16,6 @@ class RentalEntity {
   final String furnitureCondition;
   final String leaseTerm;
   final String monthlyRent;
-  final String? contactNumber;
 
   RentalEntity({
     required this.id,
@@ -34,7 +33,6 @@ class RentalEntity {
     required this.furnitureCondition,
     required this.leaseTerm,
     required this.monthlyRent,
-    this.contactNumber,
   });
 
   RentalEntity copyWith({
@@ -46,7 +44,6 @@ class RentalEntity {
     bool? petsAllowed,
     bool? refrigerator,
     bool? emergencyExit,
-    String? contactNumber,
     int? numBedrooms,
     int? numBathrooms,
     String? propertyType,
@@ -64,7 +61,6 @@ class RentalEntity {
       petsAllowed: petsAllowed ?? this.petsAllowed,
       refrigerator: refrigerator ?? this.refrigerator,
       emergencyExit: emergencyExit ?? this.emergencyExit,
-      contactNumber: contactNumber ?? this.contactNumber,
       numBedrooms: numBedrooms ?? this.numBedrooms,
       numBathrooms: numBathrooms ?? this.numBathrooms,
       propertyType: propertyType ?? this.propertyType,

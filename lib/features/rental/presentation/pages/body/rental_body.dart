@@ -127,6 +127,8 @@ class RentalBody extends StatelessWidget with AppCheck {
               const Divider(height: 30, color: ColorName.borderColor),
               HostedBy(
                 host: rental.place.userProfile,
+                contactNumber: rental.place.contactNumber,
+                contactName: rental.place.contactName,
               ),
               const Divider(height: 30, color: ColorName.borderColor),
               Text(

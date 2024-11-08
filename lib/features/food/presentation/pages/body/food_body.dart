@@ -91,6 +91,8 @@ class FoodBody extends StatelessWidget with AppCheck {
               const Divider(height: 30, color: ColorName.borderColor),
               FoodHosted(
                 host: food.place.userProfile,
+                contactName: food.place.contactName,
+                contactNumber: food.place.contactNumber,
               ),
               const Divider(height: 30, color: ColorName.borderColor),
               Text(

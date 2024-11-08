@@ -53,13 +53,13 @@ class _ProfilePageState extends State<ProfilePage> {
                             child: Assets.lottie.lottieMap.lottie(),
                           )
                         ],
-                        buildListTile(
-                            title: 'Terms & Conditions',
-                            onTap: () {
-                              onDisplayMessage(
-                                  'This feature is not yet implemented');
-                            },
-                            iconData: Icons.shield),
+                        // buildListTile(
+                        //     title: 'Terms & Conditions',
+                        //     onTap: () {
+                        //       onDisplayMessage(
+                        //           'This feature is not yet implemented');
+                        //     },
+                        //     iconData: Icons.shield),
                         buildListTile(
                           title: 'About Us',
                           onTap: () {
@@ -84,7 +84,7 @@ class _ProfilePageState extends State<ProfilePage> {
               Padding(
                 padding: const EdgeInsets.all(8),
                 child: Text(
-                  'VillFinder v1.0.12',
+                  'VillFinder v1.0.13',
                   style:
                       textTheme.bodySmall?.copyWith(color: ColorName.greyFont),
                 ),

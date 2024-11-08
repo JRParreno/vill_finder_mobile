@@ -1,4 +1,4 @@
-import 'package:cached_network_image/cached_network_image.dart';
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:vill_finder/core/utils/utils_url_laucher.dart';
 
@@ -9,10 +9,13 @@ class FoodHosted extends StatelessWidget {
   const FoodHosted({
     super.key,
     required this.host,
+    this.contactNumber,
+    this.contactName,
   });
 
   final BusinessUserProfileEntity host;
-
+  final String? contactNumber;
+  final String? contactName;
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
@@ -22,27 +25,11 @@ class FoodHosted extends StatelessWidget {
       children: [
         Row(
           children: [
-            if (host.profilePhoto != null) ...[
-              ClipRRect(
-                borderRadius: BorderRadius.circular(50),
-                child: CachedNetworkImage(
-                  height: 30,
-                  width: 30,
-                  imageUrl: host.profilePhoto!,
-                ),
-              )
-            ] else ...[
-              const Icon(
-                Icons.account_circle,
-                size: 30,
-              )
-            ],
-            const SizedBox(width: 10),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Owner ${host.user.getFullName}',
+                  contactName ?? "",
                   style: textTheme.bodySmall,
                 ),
                 Text(
@@ -54,12 +41,11 @@ class FoodHosted extends StatelessWidget {
             )
           ],
         ),
-        if (host.contactNumber != null)
+        if (contactNumber != null)
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: IconButton(
-                onPressed: () =>
-                    UtilsUrlLaucher.makePhoneCall(host.contactNumber!),
+                onPressed: () => UtilsUrlLaucher.makePhoneCall(contactNumber!),
                 icon: const Icon(
                   Icons.phone,
                   size: 30,
