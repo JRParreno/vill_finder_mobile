@@ -20,10 +20,12 @@ class RentalBody extends StatelessWidget with AppCheck {
     super.key,
     required this.rental,
     required this.controller,
+    required this.onChangeTapGallery,
   });
 
   final RentalEntity rental;
   final TextEditingController controller;
+  final Function(int index) onChangeTapGallery;
 
   @override
   Widget build(BuildContext context) {
@@ -52,13 +54,18 @@ class RentalBody extends StatelessWidget with AppCheck {
             itemCount: photos.length,
             itemBuilder:
                 (BuildContext context, int itemIndex, int pageViewIndex) =>
-                    Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 5),
-              child: SizedBox(
-                width: double.infinity,
-                child: CachedNetworkImage(
-                  fit: BoxFit.cover,
-                  imageUrl: photos[itemIndex].image,
+                    GestureDetector(
+              onTap: () {
+                onChangeTapGallery(itemIndex);
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 5),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: CachedNetworkImage(
+                    fit: BoxFit.cover,
+                    imageUrl: photos[itemIndex].image,
+                  ),
                 ),
               ),
             ),

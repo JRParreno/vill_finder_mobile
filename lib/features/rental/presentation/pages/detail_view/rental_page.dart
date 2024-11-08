@@ -1,6 +1,10 @@
+import 'dart:async';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:swipe_image_gallery/swipe_image_gallery.dart';
 import 'package:vill_finder/core/common/widgets/loader.dart';
 import 'package:vill_finder/core/common/widgets/shimmer_loading.dart';
 import 'package:vill_finder/core/enum/review_type.dart';
@@ -90,6 +94,16 @@ class _RentalPageState extends State<RentalPage> {
               child: RentalBody(
                 rental: state.rental,
                 controller: reviewCtrl,
+                onChangeTapGallery: (index) {
+                  handleOpenGallery(remoteImages: [
+                    ...state.rental.place.photos.map(
+                      (e) => CachedNetworkImage(
+                        fit: BoxFit.cover,
+                        imageUrl: e.image,
+                      ),
+                    )
+                  ], index: index);
+                },
               ),
             );
           }
@@ -221,5 +235,16 @@ class _RentalPageState extends State<RentalPage> {
   void handleOnTapFavorite(bool isFavorited) {
     context.read<RentalBloc>().add(
         isFavorited ? RemoveFavoriteRentalEvent() : AddFavoriteRentalEvent());
+  }
+
+  void handleOpenGallery({
+    required List<Widget> remoteImages,
+    required int index,
+  }) {
+    SwipeImageGallery(
+      context: context,
+      children: remoteImages,
+      initialIndex: index,
+    ).show();
   }
 }

@@ -1,9 +1,11 @@
 import 'dart:async';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:swipe_image_gallery/swipe_image_gallery.dart';
 import 'package:vill_finder/core/enum/review_type.dart';
 import 'package:vill_finder/core/extension/spacer_widgets.dart';
 import 'package:vill_finder/core/router/app_routes.dart';
@@ -62,6 +64,8 @@ class _MapPageState extends State<MapPage> {
                 height: double.infinity,
                 width: double.infinity,
                 child: GoogleMap(
+                  zoomGesturesEnabled: true,
+                  scrollGesturesEnabled: true,
                   mapType: MapType.normal,
                   initialCameraPosition: const CameraPosition(
                     target: LatLng(14.5231427, 121.0164655),
@@ -76,7 +80,6 @@ class _MapPageState extends State<MapPage> {
                   markers: _markers,
                   mapToolbarEnabled: false,
                   zoomControlsEnabled: false,
-                  zoomGesturesEnabled: false,
                 ),
               ),
               Padding(
@@ -236,6 +239,16 @@ class _MapPageState extends State<MapPage> {
               child: RentalBody(
                 rental: value,
                 controller: reviewCtrl,
+                onChangeTapGallery: (index) {
+                  handleOpenGallery(remoteImages: [
+                    ...value.place.photos.map(
+                      (e) => CachedNetworkImage(
+                        fit: BoxFit.cover,
+                        imageUrl: e.image,
+                      ),
+                    )
+                  ], index: index);
+                },
               ),
             )
           ],
@@ -290,6 +303,16 @@ class _MapPageState extends State<MapPage> {
               child: FoodBody(
                 food: value,
                 controller: reviewCtrl,
+                onChangeTapGallery: (index) {
+                  handleOpenGallery(remoteImages: [
+                    ...value.place.photos.map(
+                      (e) => CachedNetworkImage(
+                        fit: BoxFit.cover,
+                        imageUrl: e.image,
+                      ),
+                    )
+                  ], index: index);
+                },
               ),
             )
           ],
@@ -337,5 +360,16 @@ class _MapPageState extends State<MapPage> {
         context.read<MapBusinessBloc>().add(ResetMapOverrideStatus());
       });
     }
+  }
+
+  void handleOpenGallery({
+    required List<Widget> remoteImages,
+    required int index,
+  }) {
+    SwipeImageGallery(
+      context: context,
+      children: remoteImages,
+      initialIndex: index,
+    ).show();
   }
 }
