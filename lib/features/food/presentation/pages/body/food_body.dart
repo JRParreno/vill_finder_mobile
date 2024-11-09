@@ -22,11 +22,13 @@ class FoodBody extends StatelessWidget with AppCheck {
     required this.food,
     required this.controller,
     required this.onChangeTapGallery,
+    this.isModalView = false,
   });
 
   final FoodEstablishmentEntity food;
   final TextEditingController controller;
   final Function(int index) onChangeTapGallery;
+  final bool isModalView;
 
   @override
   Widget build(BuildContext context) {
@@ -119,6 +121,12 @@ class FoodBody extends StatelessWidget with AppCheck {
                   child: isUserLogged(context)
                       ? GestureDetector(
                           onTap: () {
+                            if (isModalView) {
+                              context.pushNamed(AppRoutes.food.name,
+                                  pathParameters: {"id": food.id.toString()});
+                              return;
+                            }
+
                             controller.text =
                                 food.place.reviewEntity?.comment ?? '';
                             context.read<ReviewStarCubit>().onChangeStars(

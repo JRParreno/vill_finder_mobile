@@ -6,7 +6,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:swipe_image_gallery/swipe_image_gallery.dart';
 import 'package:vill_finder/core/common/widgets/loader.dart';
-import 'package:vill_finder/core/common/widgets/shimmer_loading.dart';
 import 'package:vill_finder/core/enum/review_type.dart';
 import 'package:vill_finder/core/enum/view_status.dart';
 import 'package:vill_finder/core/extension/spacer_widgets.dart';
@@ -14,6 +13,7 @@ import 'package:vill_finder/features/favorite/presentation/bloc/rental_favorite_
 import 'package:vill_finder/features/home/presentation/blocs/home_rental/home_rental_bloc.dart';
 import 'package:vill_finder/features/rental/presentation/blocs/rental/rental_bloc.dart';
 import 'package:vill_finder/features/rental/presentation/pages/body/rental_body.dart';
+import 'package:vill_finder/features/rental/presentation/pages/body/rental_loading.dart';
 import 'package:vill_finder/features/review/presentation/bloc/review_list_bloc.dart';
 import 'package:vill_finder/gen/colors.gen.dart';
 
@@ -37,46 +37,7 @@ class _RentalPageState extends State<RentalPage> {
         listener: blocListener,
         builder: (context, state) {
           if (state is RentalLoading) {
-            return SafeArea(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10),
-                      child: ShimmerLoading(
-                        width: double.infinity,
-                        height: MediaQuery.of(context).size.height * 0.45,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: Column(
-                        children: [
-                          const Divider(
-                              height: 30, color: ColorName.borderColor),
-                          ShimmerLoading(
-                            width: double.infinity,
-                            height: MediaQuery.of(context).size.height * 0.15,
-                          ),
-                          const Divider(
-                              height: 30, color: ColorName.borderColor),
-                          ShimmerLoading(
-                            width: double.infinity,
-                            height: MediaQuery.of(context).size.height * 0.25,
-                          ),
-                          const Divider(
-                              height: 30, color: ColorName.borderColor),
-                          ShimmerLoading(
-                            width: double.infinity,
-                            height: MediaQuery.of(context).size.height * 0.10,
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            );
+            return const RentalLoadingWidget();
           }
 
           if (state is RentalFailure) {

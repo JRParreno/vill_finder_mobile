@@ -21,11 +21,13 @@ class RentalBody extends StatelessWidget with AppCheck {
     required this.rental,
     required this.controller,
     required this.onChangeTapGallery,
+    this.isModalView = false,
   });
 
   final RentalEntity rental;
   final TextEditingController controller;
   final Function(int index) onChangeTapGallery;
+  final bool isModalView;
 
   @override
   Widget build(BuildContext context) {
@@ -164,6 +166,12 @@ class RentalBody extends StatelessWidget with AppCheck {
                   child: isUserLogged(context)
                       ? GestureDetector(
                           onTap: () {
+                            if (isModalView) {
+                              context.pushNamed(AppRoutes.rental.name,
+                                  pathParameters: {"id": rental.id.toString()});
+                              return;
+                            }
+
                             controller.text =
                                 rental.place.reviewEntity?.comment ?? '';
                             context.read<ReviewStarCubit>().onChangeStars(

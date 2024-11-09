@@ -84,7 +84,7 @@ class _ProfilePageState extends State<ProfilePage> {
               Padding(
                 padding: const EdgeInsets.all(8),
                 child: Text(
-                  'VillFinder v1.0.13',
+                  'VillFinder v1.0.14',
                   style:
                       textTheme.bodySmall?.copyWith(color: ColorName.greyFont),
                 ),

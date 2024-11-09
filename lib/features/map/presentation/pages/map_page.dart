@@ -11,6 +11,7 @@ import 'package:vill_finder/core/extension/spacer_widgets.dart';
 import 'package:vill_finder/core/router/app_routes.dart';
 import 'package:vill_finder/features/food/presentation/blocs/food/food_bloc.dart';
 import 'package:vill_finder/features/food/presentation/pages/body/food_body.dart';
+import 'package:vill_finder/features/food/presentation/pages/body/food_loading.dart';
 import 'package:vill_finder/features/home/domain/entities/index.dart';
 import 'package:vill_finder/features/home/presentation/widgets/search_field.dart';
 import 'package:vill_finder/features/map/domain/entities/search_map_response_entity.dart';
@@ -18,6 +19,7 @@ import 'package:vill_finder/features/map/domain/usecase/get_business_map_list.da
 import 'package:vill_finder/features/map/presentation/blocs/map_business/map_business_bloc.dart';
 import 'package:vill_finder/features/rental/presentation/blocs/rental/rental_bloc.dart';
 import 'package:vill_finder/features/rental/presentation/pages/body/rental_body.dart';
+import 'package:vill_finder/features/rental/presentation/pages/body/rental_loading.dart';
 import 'package:vill_finder/features/review/presentation/bloc/review_list_bloc.dart';
 import 'package:vill_finder/gen/assets.gen.dart';
 import 'package:vill_finder/gen/colors.gen.dart';
@@ -236,18 +238,41 @@ class _MapPageState extends State<MapPage> {
           ),
           mainContentSliversBuilder: (context) => [
             SliverToBoxAdapter(
-              child: RentalBody(
-                rental: value,
-                controller: reviewCtrl,
-                onChangeTapGallery: (index) {
-                  handleOpenGallery(remoteImages: [
-                    ...value.place.photos.map(
-                      (e) => CachedNetworkImage(
-                        fit: BoxFit.cover,
-                        imageUrl: e.image,
+              child: BlocBuilder<RentalBloc, RentalState>(
+                builder: (context, state) {
+                  if (state is RentalLoading) {
+                    return const RentalLoadingWidget();
+                  }
+
+                  if (state is RentalFailure) {
+                    return const Expanded(
+                      child: Center(
+                        child: Text(
+                          'Something went wrong in our server, please try again later.',
+                        ),
                       ),
-                    )
-                  ], index: index);
+                    );
+                  }
+
+                  if (state is RentalSuccess) {
+                    return RentalBody(
+                      isModalView: true,
+                      rental: state.rental,
+                      controller: reviewCtrl,
+                      onChangeTapGallery: (index) {
+                        handleOpenGallery(remoteImages: [
+                          ...value.place.photos.map(
+                            (e) => CachedNetworkImage(
+                              fit: BoxFit.cover,
+                              imageUrl: e.image,
+                            ),
+                          )
+                        ], index: index);
+                      },
+                    );
+                  }
+
+                  return const SizedBox.shrink();
                 },
               ),
             )
@@ -300,18 +325,39 @@ class _MapPageState extends State<MapPage> {
           ),
           mainContentSliversBuilder: (context) => [
             SliverToBoxAdapter(
-              child: FoodBody(
-                food: value,
-                controller: reviewCtrl,
-                onChangeTapGallery: (index) {
-                  handleOpenGallery(remoteImages: [
-                    ...value.place.photos.map(
-                      (e) => CachedNetworkImage(
-                        fit: BoxFit.cover,
-                        imageUrl: e.image,
+              child: BlocBuilder<FoodBloc, FoodState>(
+                builder: (context, state) {
+                  if (state is FoodLoading) {
+                    return const FoodLoadingWidget();
+                  }
+
+                  if (state is FoodFailure) {
+                    return const Expanded(
+                      child: Center(
+                        child: Text(
+                          'Something went wrong in our server, please try again later.',
+                        ),
                       ),
-                    )
-                  ], index: index);
+                    );
+                  }
+                  if (state is FoodSuccess) {
+                    return FoodBody(
+                      isModalView: true,
+                      food: state.food,
+                      controller: reviewCtrl,
+                      onChangeTapGallery: (index) {
+                        handleOpenGallery(remoteImages: [
+                          ...value.place.photos.map(
+                            (e) => CachedNetworkImage(
+                              fit: BoxFit.cover,
+                              imageUrl: e.image,
+                            ),
+                          )
+                        ], index: index);
+                      },
+                    );
+                  }
+                  return const SizedBox.shrink();
                 },
               ),
             )
