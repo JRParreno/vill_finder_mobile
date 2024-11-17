@@ -60,6 +60,7 @@ class _RentalPageState extends State<RentalPage> {
                   handleOpenGallery(remoteImages: [
                     ...state.rental.place.photos.map(
                       (e) => CachedNetworkImage(
+                        width: double.infinity,
                         fit: BoxFit.cover,
                         imageUrl: e.image,
                         placeholder: (context, url) => const Center(

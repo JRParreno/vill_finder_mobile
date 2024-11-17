@@ -266,6 +266,7 @@ class _MapPageState extends State<MapPage> {
                         handleOpenGallery(remoteImages: [
                           ...value.place.photos.map(
                             (e) => CachedNetworkImage(
+                              width: double.infinity,
                               fit: BoxFit.cover,
                               imageUrl: e.image,
                               placeholder: (context, url) => const Center(
@@ -360,6 +361,8 @@ class _MapPageState extends State<MapPage> {
                         handleOpenGallery(remoteImages: [
                           ...value.place.photos.map(
                             (e) => CachedNetworkImage(
+                              width: double.infinity,
+
                               fit: BoxFit.cover,
                               imageUrl: e.image,
                               placeholder: (context, url) => const Center(

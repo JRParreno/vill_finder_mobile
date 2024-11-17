@@ -4,8 +4,10 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 
 import 'package:vill_finder/core/enum/review_type.dart';
+import 'package:vill_finder/core/extension/spacer_widgets.dart';
 import 'package:vill_finder/core/mixins/app_check.dart';
 import 'package:vill_finder/core/router/app_routes.dart';
 import 'package:vill_finder/features/food/presentation/pages/widgets/food_hosted.dart';
@@ -66,6 +68,7 @@ class FoodBody extends StatelessWidget with AppCheck {
                 child: SizedBox(
                   width: double.infinity,
                   child: CachedNetworkImage(
+                    width: double.infinity,
                     fit: BoxFit.cover,
                     imageUrl: photos[itemIndex].image,
                     placeholder: (context, url) =>
@@ -94,6 +97,12 @@ class FoodBody extends StatelessWidget with AppCheck {
                 style: textDefaultStyle,
               ),
               const SizedBox(height: 5.5),
+              getTimeDisplay(
+                openingTime: food.openingTime,
+                closingTime: food.closingTime,
+                textDefaultStyle: textDefaultStyle,
+                isOpen24Hours: food.isOpen24Hours,
+              ),
               const SizedBox(height: 10),
               const Divider(height: 30, color: ColorName.borderColor),
               FoodHosted(
@@ -111,7 +120,10 @@ class FoodBody extends StatelessWidget with AppCheck {
                 place: food.place,
               ),
               const Divider(height: 30, color: ColorName.borderColor),
-              ReviewList(totalReview: place.totalReview),
+              ReviewList(
+                totalReview: place.totalReview,
+                averageReview: place.averageReview,
+              ),
               const Divider(height: 30, color: ColorName.borderColor),
               Align(
                 alignment: Alignment.center,
@@ -175,5 +187,32 @@ class FoodBody extends StatelessWidget with AppCheck {
 
   void handleOnTapLogin(BuildContext context) {
     context.go(AppRoutes.login.path);
+  }
+
+  Widget getTimeDisplay({
+    required String openingTime,
+    required String closingTime,
+    bool isOpen24Hours = false,
+    TextStyle? textDefaultStyle,
+  }) {
+    // Parse the time string into a DateTime object
+    DateTime openTime = DateFormat("HH:mm").parse(openingTime);
+    DateTime closeTime = DateFormat("HH:mm").parse(closingTime);
+
+    // Format the DateTime object into the desired 12-hour format
+    String formattedOpenTime = DateFormat.jm().format(openTime);
+    String formattedCloseTime = DateFormat.jm().format(closeTime);
+
+    return Row(
+      children: [
+        const Icon(Icons.access_time, size: 15),
+        Text(
+          isOpen24Hours
+              ? "Open 24hrs"
+              : "$formattedOpenTime - $formattedCloseTime",
+          style: textDefaultStyle,
+        ),
+      ].withSpaceBetween(width: 3),
+    );
   }
 }

@@ -7,6 +7,7 @@ class FoodEstablishmentModel extends FoodEstablishmentEntity {
     required super.place,
     required super.openingTime,
     required super.closingTime,
+    super.isOpen24Hours,
   });
 
   factory FoodEstablishmentModel.fromJson(Map<String, dynamic> json) {
@@ -15,6 +16,7 @@ class FoodEstablishmentModel extends FoodEstablishmentEntity {
       place: PlaceModel.fromJson(json),
       openingTime: json['opening_time'] as String,
       closingTime: json['closing_time'] as String,
+      isOpen24Hours: json['is_open_24_hours'] ?? false,
     );
   }
 }

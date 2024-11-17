@@ -72,6 +72,7 @@ class _FoodPageState extends State<FoodPage> {
                   handleOpenGallery(remoteImages: [
                     ...state.food.place.photos.map(
                       (e) => CachedNetworkImage(
+                        width: double.infinity,
                         fit: BoxFit.cover,
                         imageUrl: e.image,
                         placeholder: (context, url) =>

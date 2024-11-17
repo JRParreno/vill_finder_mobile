@@ -40,23 +40,25 @@ class RentalBloc extends Bloc<RentalEvent, RentalState> {
 
       final response = await _addReview.call(event.params);
 
-      response.fold((l) => emit(state.copyWith(viewStatus: ViewStatus.failed)),
-          (r) {
-        final place = state.rental.place.copyWith(
-          userHasReviewed: true,
-          reviewEntity: r,
-          totalReview: state.rental.place.totalReview + 1,
-        );
+      if (response.isLeft()) {
+        return emit(state.copyWith(viewStatus: ViewStatus.failed));
+      }
 
-        emit(
-          state.copyWith(
-              rental: state.rental.copyWith(
-                place: place,
-              ),
-              viewStatus: ViewStatus.successful,
-              successMessage: "Successfully add your review."),
-        );
-      });
+      final responseRental = await _getRental.call(state.rental.id);
+
+      if (responseRental.isLeft()) {
+        emit(state.copyWith(viewStatus: ViewStatus.failed));
+        return;
+      }
+
+      emit(
+        state.copyWith(
+            rental: responseRental.getOrElse(
+              (l) => throw Exception('Something went wrong'),
+            ),
+            viewStatus: ViewStatus.successful,
+            successMessage: "Successfully add your review."),
+      );
     }
   }
 
@@ -69,21 +71,24 @@ class RentalBloc extends Bloc<RentalEvent, RentalState> {
 
       final response = await _updateReview.call(event.params);
 
-      final place = state.rental.place;
+      if (response.isLeft()) {
+        return emit(state.copyWith(viewStatus: ViewStatus.failed));
+      }
 
-      response.fold(
-        (l) => emit(state.copyWith(viewStatus: ViewStatus.failed)),
-        (r) => emit(
-          state.copyWith(
-              rental: state.rental.copyWith(
-                place: place.copyWith(
-                  userHasReviewed: true,
-                  reviewEntity: r,
-                ),
-              ),
-              viewStatus: ViewStatus.successful,
-              successMessage: "Successfully update your review."),
-        ),
+      final responseRental = await _getRental.call(state.rental.id);
+
+      if (responseRental.isLeft()) {
+        emit(state.copyWith(viewStatus: ViewStatus.failed));
+        return;
+      }
+
+      emit(
+        state.copyWith(
+            rental: responseRental.getOrElse(
+              (l) => throw Exception('Something went wrong'),
+            ),
+            viewStatus: ViewStatus.successful,
+            successMessage: "Successfully update your review."),
       );
     }
   }

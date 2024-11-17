@@ -65,6 +65,7 @@ class FoodCard extends StatelessWidget {
                     child: CachedNetworkImage(
                       imageUrl: foodEntity.place.photos.first.image,
                       fit: BoxFit.cover,
+                      width: double.infinity,
                       placeholder: (context, url) => const Center(
                           child:
                               CircularProgressIndicator()), // Optional placeholder

@@ -65,6 +65,7 @@ class RentalCard extends StatelessWidget {
                 ? ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: CachedNetworkImage(
+                      width: double.infinity,
                       imageUrl: rentalEntity.place.photos.first.image,
                       fit: BoxFit.cover,
                       placeholder: (context, url) => const Center(

@@ -27,6 +27,7 @@ class HeaderInfo extends StatelessWidget {
           Opacity(
               opacity: 0.25,
               child: CachedNetworkImage(
+                width: double.infinity,
                 fit: BoxFit.cover,
                 imageUrl: imageUrl,
                 placeholder: (context, url) =>

@@ -66,6 +66,7 @@ class RentalBody extends StatelessWidget with AppCheck {
                 child: SizedBox(
                   width: double.infinity,
                   child: CachedNetworkImage(
+                    width: double.infinity,
                     fit: BoxFit.cover,
                     imageUrl: photos[itemIndex].image,
                     placeholder: (context, url) =>
@@ -156,7 +157,10 @@ class RentalBody extends StatelessWidget with AppCheck {
                 place: rental.place,
               ),
               const Divider(height: 30, color: ColorName.borderColor),
-              ReviewList(totalReview: place.totalReview),
+              ReviewList(
+                totalReview: place.totalReview,
+                averageReview: place.averageReview,
+              ),
               const Divider(height: 30, color: ColorName.borderColor),
               Align(
                 alignment: Alignment.center,

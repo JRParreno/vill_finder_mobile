@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:vill_finder/core/common/widgets/shimmer_loading.dart';
 import 'package:vill_finder/core/extension/spacer_widgets.dart';
+import 'package:vill_finder/core/utils/sa_score.dart';
 import 'package:vill_finder/features/review/presentation/bloc/review_list_bloc.dart';
 import 'package:vill_finder/features/review/presentation/widgets/review_card.dart';
 import 'package:vill_finder/gen/colors.gen.dart';
@@ -12,13 +13,16 @@ class ReviewList extends StatelessWidget {
   const ReviewList({
     super.key,
     required this.totalReview,
+    required this.averageReview,
   });
 
   final int totalReview;
+  final double averageReview;
 
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    final saScore = getSaScore(value: averageReview, dimension: 20.0);
 
     return SizedBox(
       width: double.infinity,
@@ -67,18 +71,46 @@ class ReviewList extends StatelessWidget {
                       ),
                   ],
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                Column(
                   children: [
-                    Text(
-                      'Total Review',
-                      style: textTheme.bodySmall
-                          ?.copyWith(color: ColorName.blackFont),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Total Review',
+                          style: textTheme.labelSmall
+                              ?.copyWith(color: ColorName.blackFont),
+                        ),
+                        Text(
+                          '$averageReview ⭐️ | $totalReview Review(s)',
+                          style: textTheme.labelSmall?.copyWith(
+                            color: ColorName.blackFont,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
                     ),
-                    Text(
-                      '$totalReview Review(s)',
-                      style: textTheme.bodySmall
-                          ?.copyWith(color: ColorName.blackFont),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Overall Feedback',
+                          style: textTheme.labelSmall
+                              ?.copyWith(color: ColorName.blackFont),
+                        ),
+                        Row(
+                          children: [
+                            saScore.imageIcon,
+                            Text(
+                              saScore.title,
+                              style: textTheme.labelSmall?.copyWith(
+                                color: ColorName.blackFont,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ].withSpaceBetween(width: 5),
+                        ),
+                      ],
                     ),
                   ],
                 ),

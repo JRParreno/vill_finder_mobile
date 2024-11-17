@@ -17,6 +17,7 @@ class PlaceModel extends PlaceEntity {
     required super.latitude,
     required super.isFoodEstablishment,
     required super.photos,
+    required super.averageReview,
     super.bitMapIcon,
     super.isFavorited,
     super.userHasReviewed,
@@ -59,6 +60,7 @@ class PlaceModel extends PlaceEntity {
       totalReview: json['total_review'],
       contactNumber: json['contact_number'] as String?,
       contactName: json['contact_name'] as String?,
+      averageReview: json['average_review'] ?? 0.0,
     );
   }
 }
