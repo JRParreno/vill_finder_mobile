@@ -68,13 +68,16 @@ class PreviewLocation extends StatelessWidget {
           ),
           height: MediaQuery.of(context).size.height * 0.35,
           child: GoogleMap(
-            mapType: MapType.normal,
+            scrollGesturesEnabled: true,
+            mapType: MapType.terrain,
+            buildingsEnabled: false,
+            indoorViewEnabled: false,
+            trafficEnabled: false,
             initialCameraPosition: CameraPosition(
               target: LatLng(place.latitude, place.longitude),
               zoom: 14.4746,
             ),
             onMapCreated: (GoogleMapController controller) {},
-            buildingsEnabled: true,
             markers: {placeMarker},
             circles: {placeCircle},
             mapToolbarEnabled: false,

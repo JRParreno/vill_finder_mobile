@@ -14,6 +14,7 @@ import 'package:vill_finder/features/rental/presentation/widgets/index.dart';
 import 'package:vill_finder/features/review/presentation/bloc/cubit/review_star_cubit.dart';
 import 'package:vill_finder/features/review/presentation/body/review_form.dart';
 import 'package:vill_finder/features/review/presentation/body/review_list.dart';
+import 'package:vill_finder/gen/assets.gen.dart';
 import 'package:vill_finder/gen/colors.gen.dart';
 
 class FoodBody extends StatelessWidget with AppCheck {
@@ -67,7 +68,11 @@ class FoodBody extends StatelessWidget with AppCheck {
                   child: CachedNetworkImage(
                     fit: BoxFit.cover,
                     imageUrl: photos[itemIndex].image,
-                  ),
+                    placeholder: (context, url) =>
+                        const CircularProgressIndicator(),
+                    errorWidget: (context, url, error) =>
+                        Assets.images.placeholder.imagePlaceholder.image(),
+                  ), // Custom error image
                 ),
               ),
             ),

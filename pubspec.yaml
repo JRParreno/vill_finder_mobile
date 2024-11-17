@@ -97,10 +97,10 @@ flutter:
 
   assets:
     - assets/images/icon/
+    - assets/images/placeholder/
     - assets/images/bitmap/
     - assets/images/review/
     - assets/lottie/
-
  
 flutter_gen:
   output: lib/gen/

@@ -68,7 +68,10 @@ class _MapPageState extends State<MapPage> {
                 child: GoogleMap(
                   zoomGesturesEnabled: true,
                   scrollGesturesEnabled: true,
-                  mapType: MapType.normal,
+                  mapType: MapType.terrain,
+                  buildingsEnabled: false,
+                  indoorViewEnabled: false,
+                  trafficEnabled: false,
                   initialCameraPosition: const CameraPosition(
                     target: LatLng(14.5231427, 121.0164655),
                     zoom: 14.4746,
@@ -265,6 +268,14 @@ class _MapPageState extends State<MapPage> {
                             (e) => CachedNetworkImage(
                               fit: BoxFit.cover,
                               imageUrl: e.image,
+                              placeholder: (context, url) => const Center(
+                                  child:
+                                      CircularProgressIndicator()), // Optional placeholder
+                              errorWidget: (context, url, error) => Assets
+                                  .images.placeholder.imagePlaceholder
+                                  .image(
+                                      fit: BoxFit.cover,
+                                      width: double.infinity),
                             ),
                           )
                         ], index: index);
@@ -351,6 +362,14 @@ class _MapPageState extends State<MapPage> {
                             (e) => CachedNetworkImage(
                               fit: BoxFit.cover,
                               imageUrl: e.image,
+                              placeholder: (context, url) => const Center(
+                                  child:
+                                      CircularProgressIndicator()), // Optional placeholder
+                              errorWidget: (context, url, error) => Assets
+                                  .images.placeholder.imagePlaceholder
+                                  .image(
+                                      fit: BoxFit.cover,
+                                      width: double.infinity),
                             ),
                           )
                         ], index: index);

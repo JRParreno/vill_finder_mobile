@@ -11,6 +11,7 @@ import 'package:vill_finder/features/food/presentation/blocs/food/food_bloc.dart
 import 'package:vill_finder/features/food/presentation/pages/body/food_body.dart';
 import 'package:vill_finder/features/food/presentation/pages/body/food_loading.dart';
 import 'package:vill_finder/features/review/presentation/bloc/review_list_bloc.dart';
+import 'package:vill_finder/gen/assets.gen.dart';
 import 'package:vill_finder/gen/colors.gen.dart';
 
 class FoodPage extends StatefulWidget {
@@ -73,6 +74,10 @@ class _FoodPageState extends State<FoodPage> {
                       (e) => CachedNetworkImage(
                         fit: BoxFit.cover,
                         imageUrl: e.image,
+                        placeholder: (context, url) =>
+                            const CircularProgressIndicator(),
+                        errorWidget: (context, url, error) =>
+                            Assets.images.placeholder.imagePlaceholder.image(),
                       ),
                     )
                   ], index: index);

@@ -35,7 +35,7 @@ class SearchFoodList extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Food Establishments',
+                  'Establishments',
                   style: textTheme.labelMedium,
                 ),
                 if (foods.length > 3)

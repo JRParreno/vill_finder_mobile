@@ -15,6 +15,7 @@ import 'package:vill_finder/features/rental/presentation/blocs/rental/rental_blo
 import 'package:vill_finder/features/rental/presentation/pages/body/rental_body.dart';
 import 'package:vill_finder/features/rental/presentation/pages/body/rental_loading.dart';
 import 'package:vill_finder/features/review/presentation/bloc/review_list_bloc.dart';
+import 'package:vill_finder/gen/assets.gen.dart';
 import 'package:vill_finder/gen/colors.gen.dart';
 
 class RentalPage extends StatefulWidget {
@@ -61,6 +62,12 @@ class _RentalPageState extends State<RentalPage> {
                       (e) => CachedNetworkImage(
                         fit: BoxFit.cover,
                         imageUrl: e.image,
+                        placeholder: (context, url) => const Center(
+                            child:
+                                CircularProgressIndicator()), // Optional placeholder
+                        errorWidget: (context, url, error) => Assets
+                            .images.placeholder.imagePlaceholder
+                            .image(fit: BoxFit.cover, width: double.infinity),
                       ),
                     )
                   ], index: index);

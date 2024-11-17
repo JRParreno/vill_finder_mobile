@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:vill_finder/core/utils/utils_url_laucher.dart';
 
 import 'package:vill_finder/features/home/domain/entities/index.dart';
+import 'package:vill_finder/gen/assets.gen.dart';
 
 class HostedBy extends StatelessWidget {
   const HostedBy({
@@ -32,6 +33,12 @@ class HostedBy extends StatelessWidget {
                   height: 30,
                   width: 30,
                   imageUrl: host.profilePhoto!,
+                  placeholder: (context, url) => const Center(
+                      child:
+                          CircularProgressIndicator()), // Optional placeholder
+                  errorWidget: (context, url, error) => Assets
+                      .images.placeholder.imagePlaceholder
+                      .image(fit: BoxFit.cover, width: double.infinity),
                 ),
               )
             ] else ...[

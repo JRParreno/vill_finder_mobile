@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:vill_finder/gen/assets.gen.dart';
 import 'package:vill_finder/gen/colors.gen.dart';
 
 class HeaderInfo extends StatelessWidget {
@@ -24,12 +25,15 @@ class HeaderInfo extends StatelessWidget {
         alignment: Alignment.center,
         children: [
           Opacity(
-            opacity: 0.25,
-            child: CachedNetworkImage(
-              imageUrl: imageUrl,
-              fit: BoxFit.cover,
-            ),
-          ),
+              opacity: 0.25,
+              child: CachedNetworkImage(
+                fit: BoxFit.cover,
+                imageUrl: imageUrl,
+                placeholder: (context, url) =>
+                    const CircularProgressIndicator(),
+                errorWidget: (context, url, error) =>
+                    Assets.images.placeholder.imagePlaceholder.image(),
+              )),
           Column(
             mainAxisSize: MainAxisSize.min,
             children: [
