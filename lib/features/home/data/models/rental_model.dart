@@ -18,6 +18,7 @@ class RentalModel extends RentalEntity {
     required super.furnitureCondition,
     required super.leaseTerm,
     required super.monthlyRent,
+    required super.availableBedrooms,
   });
 
   factory RentalModel.fromMap(Map<String, dynamic> json) {
@@ -37,6 +38,7 @@ class RentalModel extends RentalEntity {
       furnitureCondition: json['furniture_condition'] as String,
       leaseTerm: json['lease_term'] as String,
       monthlyRent: json['monthly_rent'] as String,
+      availableBedrooms: json['available_bedrooms'] ?? 0,
     );
   }
 }

@@ -108,12 +108,28 @@ class RentalBody extends StatelessWidget with AppCheck {
               const SizedBox(height: 5.5),
               Row(
                 children: [
-                  Text(
-                    rental.numBedrooms > 0
-                        ? '${rental.numBedrooms} beds'
-                        : 'Studio type',
-                    style: textDefaultStyle,
-                  ),
+                  if (rental.numBedrooms > 0) ...[
+                    Text(
+                      '${rental.numBedrooms} beds',
+                      style: textDefaultStyle,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 3),
+                      child: Text(
+                        '•',
+                        style: textDefaultStyle,
+                      ),
+                    ),
+                    Text(
+                      '${rental.availableBedrooms} available beds',
+                      style: textDefaultStyle,
+                    ),
+                  ] else ...[
+                    Text(
+                      'Studio type',
+                      style: textDefaultStyle,
+                    ),
+                  ],
                   if (rental.numBathrooms > 0 && rental.numBathrooms > 0) ...[
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 3),

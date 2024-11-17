@@ -10,6 +10,7 @@ class RentalEntity {
   final bool refrigerator;
   final bool emergencyExit;
   final int numBedrooms;
+  final int availableBedrooms;
   final int numBathrooms;
   final String propertyType;
   final String propertyCondition;
@@ -33,6 +34,7 @@ class RentalEntity {
     required this.furnitureCondition,
     required this.leaseTerm,
     required this.monthlyRent,
+    required this.availableBedrooms,
   });
 
   RentalEntity copyWith({
@@ -46,6 +48,7 @@ class RentalEntity {
     bool? emergencyExit,
     int? numBedrooms,
     int? numBathrooms,
+    int? availableBedrooms,
     String? propertyType,
     String? propertyCondition,
     String? furnitureCondition,
@@ -68,6 +71,7 @@ class RentalEntity {
       furnitureCondition: furnitureCondition ?? this.furnitureCondition,
       leaseTerm: leaseTerm ?? this.leaseTerm,
       monthlyRent: monthlyRent ?? this.monthlyRent,
+      availableBedrooms: availableBedrooms ?? this.availableBedrooms,
     );
   }
 }
