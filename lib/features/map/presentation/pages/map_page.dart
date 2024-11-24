@@ -5,12 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:swipe_image_gallery/swipe_image_gallery.dart';
 import 'package:vill_finder/core/common/widgets/loader.dart';
 import 'package:vill_finder/core/enum/review_type.dart';
 import 'package:vill_finder/core/enum/view_status.dart';
 import 'package:vill_finder/core/extension/spacer_widgets.dart';
 import 'package:vill_finder/core/router/app_routes.dart';
+import 'package:vill_finder/core/utils/get_current_location.dart';
 import 'package:vill_finder/features/food/presentation/blocs/food/food_bloc.dart';
 import 'package:vill_finder/features/food/presentation/pages/body/food_body.dart';
 import 'package:vill_finder/features/food/presentation/pages/body/food_loading.dart';
@@ -46,6 +48,7 @@ class _MapPageState extends State<MapPage> {
   @override
   void initState() {
     context.read<CategoryCubit>().getCategoryList();
+    handleLocationPermission();
     super.initState();
   }
 
@@ -138,6 +141,14 @@ class _MapPageState extends State<MapPage> {
               )
             ],
           ),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: ColorName.primary,
+        onPressed: handleOnTapCurrentLocation,
+        child: const Icon(
+          Icons.location_pin,
+          color: Colors.white,
         ),
       ),
     );
@@ -471,5 +482,38 @@ class _MapPageState extends State<MapPage> {
       children: remoteImages,
       initialIndex: index,
     ).show();
+  }
+
+  Future<void> handleNavigateCamera(LatLng latLng) async {
+    final CameraUpdate cameraUpdate = CameraUpdate.newLatLng(latLng);
+
+    final GoogleMapController mapController = await googleMapController.future;
+    await mapController.animateCamera(cameraUpdate);
+  }
+
+  void handleLocationPermission() async {
+    final currentPosition =
+        await LocationService().getCurrentLocationOrDefault();
+
+    if (currentPosition.latitude == 0 && currentPosition.longitude == 0) {
+      return;
+    }
+
+    handleNavigateCamera(
+        LatLng(currentPosition.latitude, currentPosition.longitude));
+  }
+
+  void handleOnTapCurrentLocation() async {
+    final currentPosition =
+        await LocationService().getCurrentLocationOrDefault();
+
+    if (currentPosition.latitude == 0 && currentPosition.longitude == 0) {
+      await openAppSettings();
+
+      return;
+    }
+
+    handleNavigateCamera(
+        LatLng(currentPosition.latitude, currentPosition.longitude));
   }
 }
