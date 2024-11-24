@@ -73,39 +73,43 @@ class _RentalViewAllPageState extends State<RentalViewAllPage> {
 
           if (state is RentalListSuccess) {
             final search = state.search;
-            return Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    if (search != null && search.isNotEmpty)
-                      Text(
-                        'Search: ${state.search}',
-                        style: textTheme.labelSmall?.copyWith(
-                          color: ColorName.darkerGreyFont,
-                        ),
-                      ),
-                    const SizedBox(height: 10),
-                    Expanded(
-                      child: ListView.separated(
-                        controller: controller,
-                        itemBuilder: (context, index) {
-                          final item = state.data.results[index];
+            return Column(
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (search != null && search.isNotEmpty)
+                          Text(
+                            'Search: ${state.search}',
+                            style: textTheme.labelSmall?.copyWith(
+                              color: ColorName.darkerGreyFont,
+                            ),
+                          ),
+                        const SizedBox(height: 10),
+                        Expanded(
+                          child: ListView.separated(
+                            controller: controller,
+                            itemBuilder: (context, index) {
+                              final item = state.data.results[index];
 
-                          return RentalCard(
-                            height: 175,
-                            rentalEntity: item,
-                          );
-                        },
-                        separatorBuilder: (context, index) =>
-                            const SizedBox(height: 10),
-                        itemCount: state.data.results.length,
-                      ),
+                              return RentalCard(
+                                height: 175,
+                                rentalEntity: item,
+                              );
+                            },
+                            separatorBuilder: (context, index) =>
+                                const SizedBox(height: 10),
+                            itemCount: state.data.results.length,
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
-              ),
+              ],
             );
           }
 

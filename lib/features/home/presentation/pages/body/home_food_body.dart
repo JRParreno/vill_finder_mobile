@@ -1,4 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:go_router/go_router.dart';
+import 'package:vill_finder/core/common/widgets/view_all_btn.dart';
+import 'package:vill_finder/core/router/index.dart';
 import 'package:vill_finder/features/home/presentation/blocs/cubit/carousel_dots_cubit.dart';
 import 'package:vill_finder/features/home/presentation/blocs/home_food/home_food_bloc.dart';
 import 'package:vill_finder/features/home/presentation/widgets/business/dots_indicator.dart';
@@ -73,13 +76,30 @@ class HomeFoodBody extends StatelessWidget {
                   ),
                   const SizedBox(height: 10),
                   if (state.data.results.length > 1) ...[
-                    BlocBuilder<DotsCubit, DotsState>(
-                      builder: (context, dotState) {
-                        return DotsIndicator(
-                          itemCount: state.data.results.length,
-                          currentIndex: dotState.currentIndex,
-                        );
-                      },
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        BlocBuilder<DotsCubit, DotsState>(
+                          builder: (context, dotState) {
+                            return DotsIndicator(
+                              itemCount: state.data.results.length,
+                              currentIndex: dotState.currentIndex,
+                            );
+                          },
+                        ),
+                        if (state.data.count > 10)
+                          ViewAllBtn(
+                            onPressed: () {
+                              context.pushNamed(
+                                AppRoutes.foodViewAll.name,
+                                extra: {
+                                  "data": state.data,
+                                  "search": '',
+                                },
+                              );
+                            },
+                          ),
+                      ],
                     ),
                   ]
                 ],
