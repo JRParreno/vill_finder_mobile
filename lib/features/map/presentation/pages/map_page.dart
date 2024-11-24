@@ -6,17 +6,21 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:swipe_image_gallery/swipe_image_gallery.dart';
+import 'package:vill_finder/core/common/widgets/loader.dart';
 import 'package:vill_finder/core/enum/review_type.dart';
+import 'package:vill_finder/core/enum/view_status.dart';
 import 'package:vill_finder/core/extension/spacer_widgets.dart';
 import 'package:vill_finder/core/router/app_routes.dart';
 import 'package:vill_finder/features/food/presentation/blocs/food/food_bloc.dart';
 import 'package:vill_finder/features/food/presentation/pages/body/food_body.dart';
 import 'package:vill_finder/features/food/presentation/pages/body/food_loading.dart';
 import 'package:vill_finder/features/home/domain/entities/index.dart';
+import 'package:vill_finder/features/home/presentation/blocs/cubit/cubit/category_cubit.dart';
 import 'package:vill_finder/features/home/presentation/widgets/search_field.dart';
 import 'package:vill_finder/features/map/domain/entities/search_map_response_entity.dart';
 import 'package:vill_finder/features/map/domain/usecase/get_business_map_list.dart';
 import 'package:vill_finder/features/map/presentation/blocs/map_business/map_business_bloc.dart';
+import 'package:vill_finder/features/map/presentation/body/filter_overlay_body.dart';
 import 'package:vill_finder/features/rental/presentation/blocs/rental/rental_bloc.dart';
 import 'package:vill_finder/features/rental/presentation/pages/body/rental_body.dart';
 import 'package:vill_finder/features/rental/presentation/pages/body/rental_loading.dart';
@@ -40,6 +44,12 @@ class _MapPageState extends State<MapPage> {
   final reviewCtrl = TextEditingController();
 
   @override
+  void initState() {
+    context.read<CategoryCubit>().getCategoryList();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -58,6 +68,15 @@ class _MapPageState extends State<MapPage> {
             if (state is MapBusinessSuccess) {
               _setMarker(state.data.results);
               handleOverrideResult(state);
+
+              if (state.viewStatus == ViewStatus.loading) {
+                LoadingScreen.instance().show(context: context);
+              }
+
+              if (state.viewStatus == ViewStatus.successful ||
+                  state.viewStatus == ViewStatus.failed) {
+                LoadingScreen.instance().hide();
+              }
             }
           },
           child: Stack(
@@ -89,27 +108,34 @@ class _MapPageState extends State<MapPage> {
               ),
               Padding(
                 padding: const EdgeInsets.all(15.0),
-                child: SearchField(
-                  onChanged: () {
-                    setState(() {});
-                  },
-                  onClearText: () {
-                    searchCtrl.clear();
-                    setState(() {});
-                    _fetchBusinesses();
-                  },
-                  controller: searchCtrl,
-                  hintText: 'Search',
-                  prefixIcon: const Icon(
-                    Icons.search_outlined,
-                    color: ColorName.darkerGreyFont,
-                  ),
-                  onTap: () {
-                    context.pushNamed(AppRoutes.homeSearch.name);
-                  },
-                  readOnly: true,
+                child: Column(
+                  children: [
+                    SearchField(
+                      onChanged: () {
+                        setState(() {});
+                      },
+                      onClearText: () {
+                        searchCtrl.clear();
+                        setState(() {});
+                        _fetchBusinesses();
+                      },
+                      controller: searchCtrl,
+                      hintText: 'Search',
+                      prefixIcon: const Icon(
+                        Icons.search_outlined,
+                        color: ColorName.darkerGreyFont,
+                      ),
+                      onTap: () {
+                        context.pushNamed(AppRoutes.homeSearch.name);
+                      },
+                      readOnly: true,
+                    ),
+                    FilterOverlayBody(
+                      text: searchCtrl.value.text,
+                    ),
+                  ].withSpaceBetween(height: 10),
                 ),
-              ),
+              )
             ],
           ),
         ),
@@ -150,6 +176,10 @@ class _MapPageState extends State<MapPage> {
   }
 
   void _setMarker(SearchMapResultsEntity mapResults) async {
+    setState(() {
+      _markers.clear();
+    });
+
     final foodDefaultIcon = await BitmapDescriptor.asset(
       const ImageConfiguration(size: Size(30, 30)), // Adjust size as needed
       Assets.images.bitmap.food.keyName,
@@ -425,7 +455,9 @@ class _MapPageState extends State<MapPage> {
           handleOnTapRental(rental);
         }
 
-        context.read<MapBusinessBloc>().add(ResetMapOverrideStatus());
+        if (mounted) {
+          context.read<MapBusinessBloc>().add(ResetMapOverrideStatus());
+        }
       });
     }
   }

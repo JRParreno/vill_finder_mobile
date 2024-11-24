@@ -48,7 +48,8 @@ class BusinessMapRemoteDataSourceImpl implements BusinessMapRemoteDataSource {
     }
 
     try {
-      final response = await apiInstance.get(next ?? previous ?? url);
+      final response =
+          await apiInstance.get(next ?? previous ?? "$url&page_size=100");
       return SearchMapResponseModel.fromJson(response.data);
     } on DioException catch (e) {
       throw ServerException(
