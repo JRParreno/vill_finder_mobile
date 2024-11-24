@@ -31,6 +31,7 @@ final class MapBusinessSuccess extends MapBusinessState {
   final RentalEntity? rental;
   final FoodEstablishmentEntity? food;
   final bool isOverrideMap;
+  final ViewStatus viewStatus;
 
   const MapBusinessSuccess({
     required this.data,
@@ -39,6 +40,7 @@ final class MapBusinessSuccess extends MapBusinessState {
     this.food,
     this.rental,
     this.isOverrideMap = false,
+    this.viewStatus = ViewStatus.none,
   });
 
   MapBusinessSuccess copyWith({
@@ -48,6 +50,7 @@ final class MapBusinessSuccess extends MapBusinessState {
     RentalEntity? rental,
     FoodEstablishmentEntity? food,
     bool? isOverrideMap,
+    ViewStatus? viewStatus,
   }) {
     return MapBusinessSuccess(
       data: data ?? this.data,
@@ -56,18 +59,13 @@ final class MapBusinessSuccess extends MapBusinessState {
       food: food ?? this.food,
       rental: rental ?? this.rental,
       isOverrideMap: isOverrideMap ?? this.isOverrideMap,
+      viewStatus: viewStatus ?? this.viewStatus,
     );
   }
 
   @override
-  List<Object?> get props => [
-        data,
-        isPaginate,
-        params,
-        isOverrideMap,
-        food,
-        rental,
-      ];
+  List<Object?> get props =>
+      [data, isPaginate, params, isOverrideMap, food, rental, viewStatus];
 }
 
 final class MapBusinessFailure extends MapBusinessState {

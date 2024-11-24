@@ -9,8 +9,21 @@ sealed class MapBusinessEvent extends Equatable {
 
 final class GetMapBusinessEvent extends MapBusinessEvent {
   final GetBusinessMapListParams params;
+  final bool isOverrideMap;
 
-  const GetMapBusinessEvent(this.params);
+  const GetMapBusinessEvent(
+    this.params, {
+    this.isOverrideMap = false,
+  });
+
+  @override
+  List<Object?> get props => [params, isOverrideMap];
+}
+
+final class GetFilterMapBusinessEvent extends MapBusinessEvent {
+  final GetBusinessMapListParams params;
+
+  const GetFilterMapBusinessEvent(this.params);
 
   @override
   List<Object?> get props => [params];

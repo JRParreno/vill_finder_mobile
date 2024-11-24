@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vill_finder/core/common/widgets/shimmer_loading.dart';
-import 'package:vill_finder/core/enum/view_status.dart';
 import 'package:vill_finder/core/extension/spacer_widgets.dart';
 import 'package:vill_finder/core/router/index.dart';
 import 'package:vill_finder/features/home/presentation/blocs/cubit/cubit/category_cubit.dart';
@@ -28,11 +27,7 @@ class _HomeSearchPageState extends State<HomeSearchPage> {
   void initState() {
     super.initState();
     context.read<MapBusinessBloc>().add(GetRecentSearches());
-    if (context.read<CategoryCubit>().state.viewStatus == ViewStatus.none) {
-      context.read<CategoryCubit>().getCategoryList();
-    } else {
-      context.read<CategoryCubit>().resetFilters();
-    }
+    context.read<CategoryCubit>().getCategoryList();
   }
 
   @override

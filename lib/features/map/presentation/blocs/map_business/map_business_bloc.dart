@@ -4,6 +4,7 @@ import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vill_finder/core/config/shared_prefences_keys.dart';
+import 'package:vill_finder/core/enum/view_status.dart';
 import 'package:vill_finder/core/notifier/shared_preferences_notifier.dart';
 import 'package:vill_finder/features/home/domain/entities/index.dart';
 import 'package:vill_finder/features/home/presentation/blocs/cubit/cubit/category_cubit.dart';
@@ -27,6 +28,9 @@ class MapBusinessBloc extends Bloc<MapBusinessEvent, MapBusinessState> {
         _categoryCubit = categoryCubit,
         super(MapBusinessInitial()) {
     on<GetMapBusinessEvent>(onGetMapBusinessEvent, transformer: restartable());
+    on<GetFilterMapBusinessEvent>(onGetFilterMapBusinessEvent,
+        transformer: restartable());
+
     on<GetMapBusinessPaginateEvent>(onGetMapBusinessPaginateEvent,
         transformer: restartable());
     on<RefreshMapBusinessEvent>(onRefreshMapBusinessEvent,
@@ -46,6 +50,7 @@ class MapBusinessBloc extends Bloc<MapBusinessEvent, MapBusinessState> {
       emit(
         state.copyWith(
           isOverrideMap: false,
+          viewStatus: ViewStatus.none,
         ),
       );
     }
@@ -88,6 +93,48 @@ class MapBusinessBloc extends Bloc<MapBusinessEvent, MapBusinessState> {
     emit(const MapBusinessRecentLoaded([]));
   }
 
+  FutureOr<void> onGetFilterMapBusinessEvent(
+      GetFilterMapBusinessEvent event, Emitter<MapBusinessState> emit) async {
+    final state = this.state;
+    if (state is MapBusinessSuccess) {
+      emit(state.copyWith(viewStatus: ViewStatus.loading));
+
+      final params = GetBusinessMapListParams(
+          latitude: event.params.latitude,
+          longitude: event.params.longitude,
+          name: event.params.name,
+          next: event.params.next,
+          previous: event.params.previous,
+          categoryIds: _categoryCubit.state.filteredCategories
+              .map(
+                (e) => e.id,
+              )
+              .toList());
+
+      final response = await _getBusinessMapList.call(params);
+
+      response.fold(
+        (l) => emit(state.copyWith(
+          viewStatus: ViewStatus.failed,
+        )),
+        (r) {
+          emit(MapBusinessSuccess(
+            params: event.params,
+            data: r,
+            isOverrideMap: true,
+            viewStatus: ViewStatus.successful,
+          ));
+
+          final keyword = event.params.name;
+
+          if (keyword != null && keyword.isNotEmpty) {
+            saveLocalRecentSearches(keyword);
+          }
+        },
+      );
+    }
+  }
+
   FutureOr<void> onGetMapBusinessEvent(
       GetMapBusinessEvent event, Emitter<MapBusinessState> emit) async {
     emit(MapBusinessLoading());
@@ -111,6 +158,7 @@ class MapBusinessBloc extends Bloc<MapBusinessEvent, MapBusinessState> {
         emit(MapBusinessSuccess(
           params: event.params,
           data: r,
+          isOverrideMap: event.isOverrideMap,
         ));
 
         final keyword = event.params.name;

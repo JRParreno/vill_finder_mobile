@@ -23,7 +23,7 @@ class CategoryCubit extends Cubit<CategoryState> {
         state.copyWith(
           categories: r,
           viewStatus: ViewStatus.successful,
-          filteredCategories: r.results,
+          filteredCategories: state.filteredCategories,
         ),
       ),
     );
