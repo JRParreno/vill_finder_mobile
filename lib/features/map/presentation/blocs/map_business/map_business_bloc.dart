@@ -155,6 +155,11 @@ class MapBusinessBloc extends Bloc<MapBusinessEvent, MapBusinessState> {
     response.fold(
       (l) => emit(MapBusinessFailure(l.message)),
       (r) {
+        if (r.results.foods.isEmpty && r.results.rentals.isEmpty) {
+          emit(MapBusinessEmpty());
+          return;
+        }
+
         emit(MapBusinessSuccess(
           params: event.params,
           data: r,

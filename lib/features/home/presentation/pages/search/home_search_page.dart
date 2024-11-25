@@ -129,7 +129,7 @@ class _HomeSearchPageState extends State<HomeSearchPage> {
                     return const Expanded(
                       child: Center(
                         child: Text(
-                          'Sorry, No result found :(',
+                          'Sorry, No results found :(',
                         ),
                       ),
                     );

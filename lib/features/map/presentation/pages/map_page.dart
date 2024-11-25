@@ -44,6 +44,7 @@ class _MapPageState extends State<MapPage> {
   final Set<Marker> _markers = {};
   final searchCtrl = TextEditingController();
   final reviewCtrl = TextEditingController();
+  LatLng? currentLocation;
 
   @override
   void initState() {
@@ -54,6 +55,20 @@ class _MapPageState extends State<MapPage> {
 
   @override
   Widget build(BuildContext context) {
+    final Circle? placeCircle = currentLocation != null
+        ? Circle(
+            circleId: CircleId(
+                currentLocation!.toString()), // Unique ID for the circle
+            center: LatLng(currentLocation!.latitude,
+                currentLocation!.longitude), // Center of the circle
+            radius: 300, // Radius in meters (500m example)
+            strokeColor: ColorName.primary, // Border color
+            strokeWidth: 2, // Border width
+            fillColor:
+                ColorName.primary.withOpacity(0.3), // Fill color with opacity
+          )
+        : null;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -104,6 +119,7 @@ class _MapPageState extends State<MapPage> {
                   onCameraIdle: () {
                     _fetchBusinesses();
                   },
+                  circles: placeCircle != null ? {placeCircle} : {},
                   markers: _markers,
                   mapToolbarEnabled: false,
                   zoomControlsEnabled: false,
@@ -234,6 +250,16 @@ class _MapPageState extends State<MapPage> {
     setState(() {
       _markers.addAll(tempFoodMarkers);
       _markers.addAll(tempRentalMarkers);
+      _markers.add(
+        Marker(
+          markerId: const MarkerId("Current Location"),
+          position: LatLng(
+            currentLocation?.latitude ?? 0,
+            currentLocation?.longitude ?? 0,
+          ),
+          infoWindow: InfoWindow.noText,
+        ),
+      );
     });
   }
 
@@ -500,7 +526,29 @@ class _MapPageState extends State<MapPage> {
     }
 
     handleNavigateCamera(
-        LatLng(currentPosition.latitude, currentPosition.longitude));
+      LatLng(
+        currentPosition.latitude,
+        currentPosition.longitude,
+      ),
+    );
+
+    _markers.add(
+      Marker(
+        markerId: const MarkerId("Current Location"),
+        position: LatLng(
+          currentPosition.latitude,
+          currentPosition.longitude,
+        ),
+        infoWindow: InfoWindow.noText,
+      ),
+    );
+
+    setState(() {
+      currentLocation = LatLng(
+        currentPosition.latitude,
+        currentPosition.longitude,
+      );
+    });
   }
 
   void handleOnTapCurrentLocation() async {
@@ -515,5 +563,23 @@ class _MapPageState extends State<MapPage> {
 
     handleNavigateCamera(
         LatLng(currentPosition.latitude, currentPosition.longitude));
+
+    _markers.add(
+      Marker(
+        markerId: const MarkerId("Current Location"),
+        position: LatLng(
+          currentPosition.latitude,
+          currentPosition.longitude,
+        ),
+        infoWindow: InfoWindow.noText,
+      ),
+    );
+
+    setState(() {
+      currentLocation = LatLng(
+        currentPosition.latitude,
+        currentPosition.longitude,
+      );
+    });
   }
 }

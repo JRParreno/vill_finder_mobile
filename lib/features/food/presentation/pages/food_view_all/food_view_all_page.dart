@@ -28,7 +28,7 @@ class _FoodViewAllPageState extends State<FoodViewAllPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Food(s)',
+          'Establishment(s)',
           style: textTheme.titleLarge?.copyWith(
             fontSize: 24,
             color: ColorName.blackFont,
