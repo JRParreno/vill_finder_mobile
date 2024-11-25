@@ -46,6 +46,7 @@ class HomeRentalBody extends StatelessWidget {
             return Column(
               children: [
                 rentalCarousel(
+                  total: state.featureRentals.count,
                   rentals: state.featureRentals.results,
                   textTheme: textTheme,
                   title: 'Featured Rentals',
@@ -60,6 +61,7 @@ class HomeRentalBody extends StatelessWidget {
                 ),
                 const SizedBox(height: 15),
                 rentalCarousel(
+                  total: state.nonFeatureRentals.count,
                   rentals: state.nonFeatureRentals.results,
                   textTheme: textTheme,
                   title: state.featureRentals.results.isEmpty
@@ -108,6 +110,7 @@ class HomeRentalBody extends StatelessWidget {
     required List<RentalEntity> rentals,
     required String title,
     required VoidCallback onTapViewAll,
+    required int total,
   }) {
     if (rentals.isEmpty) return const SizedBox.shrink();
     return Column(
@@ -126,7 +129,7 @@ class HomeRentalBody extends StatelessWidget {
                   title,
                   style: textTheme.labelMedium,
                 ),
-                if (rentals.length > 10)
+                if (total > 10)
                   ViewAllBtn(
                     onPressed: onTapViewAll,
                   ),
