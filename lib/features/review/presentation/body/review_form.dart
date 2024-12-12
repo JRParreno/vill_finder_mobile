@@ -33,7 +33,7 @@ Future<void> addFeedbackBottomSheetDialog({
       return BlocBuilder<ReviewStarCubit, double>(
         builder: (context, state) {
           return FractionallySizedBox(
-            heightFactor: 0.5,
+            heightFactor: 0.7,
             child: Padding(
               padding: const EdgeInsets.all(15.0),
               child: Column(
