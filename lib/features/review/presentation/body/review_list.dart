@@ -13,16 +13,16 @@ class ReviewList extends StatelessWidget {
   const ReviewList({
     super.key,
     required this.totalReview,
-    required this.averageReview,
+    required this.sentimentLabel,
   });
 
   final int totalReview;
-  final double averageReview;
+  final String sentimentLabel;
 
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    final saScore = getSaScore(value: averageReview, dimension: 20.0);
+    final saScore = getSaScore(value: sentimentLabel, dimension: 20.0);
 
     return SizedBox(
       width: double.infinity,
@@ -82,7 +82,7 @@ class ReviewList extends StatelessWidget {
                               ?.copyWith(color: ColorName.blackFont),
                         ),
                         Text(
-                          '$averageReview ⭐️ | $totalReview Review(s)',
+                          '$totalReview Review(s)',
                           style: textTheme.labelSmall?.copyWith(
                             color: ColorName.blackFont,
                             fontWeight: FontWeight.bold,

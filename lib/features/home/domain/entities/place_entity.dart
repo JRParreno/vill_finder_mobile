@@ -20,7 +20,7 @@ class PlaceEntity {
   final bool isFavorited;
   final bool userHasReviewed;
   final int totalReview;
-  final double averageReview;
+  final String sentimentLabel;
   final ReviewEntity? reviewEntity;
   final String? contactNumber;
   final String? contactName;
@@ -37,7 +37,7 @@ class PlaceEntity {
     required this.latitude,
     required this.isFoodEstablishment,
     required this.photos,
-    required this.averageReview,
+    required this.sentimentLabel,
     this.totalReview = 0,
     this.bitMapIcon,
     this.isFavorited = false,
@@ -57,7 +57,7 @@ class PlaceEntity {
     String? address,
     double? longitude,
     double? latitude,
-    double? averageReview,
+    String? sentimentLabel,
     bool? isFoodEstablishment,
     List<BusinessPhotoEntity>? photos,
     Uint8List? bitMapIcon,
@@ -87,7 +87,7 @@ class PlaceEntity {
       totalReview: totalReview ?? this.totalReview,
       contactName: contactName ?? this.contactName,
       contactNumber: contactNumber ?? this.contactNumber,
-      averageReview: averageReview ?? this.averageReview,
+      sentimentLabel: sentimentLabel ?? this.sentimentLabel,
     );
   }
 }

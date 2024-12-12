@@ -2,7 +2,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vill_finder/core/enum/review_type.dart';
 import 'package:vill_finder/core/mixins/app_check.dart';
@@ -10,7 +9,6 @@ import 'package:vill_finder/core/router/app_routes.dart';
 
 import 'package:vill_finder/features/home/domain/entities/index.dart';
 import 'package:vill_finder/features/rental/presentation/widgets/index.dart';
-import 'package:vill_finder/features/review/presentation/bloc/cubit/review_star_cubit.dart';
 import 'package:vill_finder/features/review/presentation/body/review_form.dart';
 import 'package:vill_finder/features/review/presentation/body/review_list.dart';
 import 'package:vill_finder/gen/assets.gen.dart';
@@ -175,7 +173,7 @@ class RentalBody extends StatelessWidget with AppCheck {
               const Divider(height: 30, color: ColorName.borderColor),
               ReviewList(
                 totalReview: place.totalReview,
-                averageReview: place.averageReview,
+                sentimentLabel: place.sentimentLabel,
               ),
               const Divider(height: 30, color: ColorName.borderColor),
               Align(
@@ -199,10 +197,6 @@ class RentalBody extends StatelessWidget with AppCheck {
 
                             controller.text =
                                 rental.place.reviewEntity?.comment ?? '';
-                            context.read<ReviewStarCubit>().onChangeStars(
-                                double.parse(rental.place.reviewEntity?.stars
-                                        .toString() ??
-                                    "0"));
                             addFeedbackBottomSheetDialog(
                               id: rental.id,
                               context: context,

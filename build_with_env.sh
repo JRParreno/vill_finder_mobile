@@ -18,4 +18,4 @@ while read -r line || [ -n "$line" ]; do
 done < .env
 
 # Run the flutter build command with the dart-define arguments
-flutter build apk --release $DART_DEFINES
+fvm flutter build apk --release $DART_DEFINES

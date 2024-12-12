@@ -1,1 +1,1 @@
-flutter clean && flutter pub get &&  flutter pub run build_runner build --delete-conflicting-outputs &&  flutter build apk --release --no-tree-shake-icons
+fvm flutter clean && fvm flutter pub get &&  fvm flutter pub run build_runner build --delete-conflicting-outputs &&  fvm flutter build apk --release --no-tree-shake-icons
