@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:vill_finder/core/utils/sa_score.dart';
 import 'package:vill_finder/features/review/domain/entities/index.dart';
 import 'package:vill_finder/gen/colors.gen.dart';
 
@@ -35,6 +36,7 @@ class ReviewCard extends StatelessWidget {
                   color: ColorName.blackFont,
                 ),
               ),
+              getSaScoreImage(value: reviewEntity.sentimentLabel),
             ],
           ),
           const SizedBox(height: 20),

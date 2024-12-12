@@ -49,3 +49,33 @@ SaScore getSaScore({
         title: "Negative");
   }
 }
+
+Image getSaScoreImage({
+  required String value,
+  double? dimension = 25.0,
+}) {
+  final reviewImages = Assets.images.review;
+
+  // Validate input value: must be equal or greater than zero and less than or equal to 5
+  if (value.isEmpty) {
+    return Assets.images.placeholder.imagePlaceholder.image();
+  }
+
+  // Define the ranges and corresponding string values
+  if (value.toLowerCase() == "positive") {
+    return reviewImages.positive.image(
+      height: dimension,
+      width: dimension,
+    );
+  } else if (value.toLowerCase() == "neutral") {
+    return reviewImages.neutral.image(
+      height: dimension,
+      width: dimension,
+    );
+  } else {
+    return reviewImages.negative.image(
+      height: dimension,
+      width: dimension,
+    );
+  }
+}

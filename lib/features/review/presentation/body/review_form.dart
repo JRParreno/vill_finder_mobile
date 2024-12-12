@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_rating_stars/flutter_rating_stars.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vill_finder/core/common/widgets/custom_elevated_btn.dart';
 import 'package:vill_finder/core/common/widgets/custom_text_form_field.dart';
@@ -34,7 +33,7 @@ Future<void> addFeedbackBottomSheetDialog({
       return BlocBuilder<ReviewStarCubit, double>(
         builder: (context, state) {
           return FractionallySizedBox(
-            heightFactor: 0.8,
+            heightFactor: 0.5,
             child: Padding(
               padding: const EdgeInsets.all(15.0),
               child: Column(
@@ -52,28 +51,11 @@ Future<void> addFeedbackBottomSheetDialog({
                     minLines: 5,
                     maxLines: 6,
                     maxLength: 500,
-                  ),
-                  const SizedBox(height: 25),
-                  Center(
-                    child: RatingStars(
-                      value: state,
-                      onValueChanged: (v) {
-                        context.read<ReviewStarCubit>().onChangeStars(v);
-                      },
-                      starBuilder: (index, color) => Icon(
-                        Icons.star,
-                        color: color,
-                        size: 38,
-                      ),
-                      starCount: 5,
-                      starSize: 38,
-                      maxValue: 5,
-                      starSpacing: 10,
-                      maxValueVisibility: false,
-                      valueLabelVisibility: false,
-                      starOffColor: ColorName.darkerGreyFont,
-                      starColor: Colors.yellow,
-                    ),
+                    onChanged: (p0) {
+                      context
+                          .read<ReviewStarCubit>()
+                          .onChangeStars((p0?.isNotEmpty ?? false) ? 1 : 0);
+                    },
                   ),
                   const SizedBox(height: 25),
                   CustomElevatedBtn(

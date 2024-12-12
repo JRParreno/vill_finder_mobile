@@ -18,6 +18,7 @@ class CustomTextFormField extends StatelessWidget {
     this.maxLines = 1,
     this.minLines,
     this.maxLength,
+    this.onChanged,
   });
 
   final TextEditingController controller;
@@ -25,6 +26,8 @@ class CustomTextFormField extends StatelessWidget {
   final Widget? prefixIcon;
   final TextInputType? keyboardType;
   final String? Function(String?)? validator;
+  final Function(String?)? onChanged;
+
   final VoidCallback? onSubmit;
   final bool expands;
   final int? maxLines;
@@ -41,6 +44,7 @@ class CustomTextFormField extends StatelessWidget {
       maxLines: maxLines,
       minLines: minLines,
       maxLength: maxLength,
+      onChanged: onChanged,
       style: GoogleFonts.poppins(
         fontSize: 16.0,
         fontWeight: FontWeight.normal,
